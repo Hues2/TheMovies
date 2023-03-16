@@ -57,9 +57,9 @@ class HomeViewModel : ObservableObject {
     private func getMovieData() {
         // Get all data for the home view
         apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.trending, 1), .trending, .movie)
-        apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.popular, 1), .popular, .movie)
+//        apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.popular, 1), .popular, .movie)
         apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.topRated, 1), .topRated, .movie)
-        apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.upcoming, 1), .upcoming, .movie)
+//        apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.upcoming, 1), .upcoming, .movie)
     }
     
     
@@ -188,7 +188,6 @@ class HomeViewModel : ObservableObject {
         
         // Popular Subscriber
         self.apiInteractor.popularTVPublisher
-            .dropFirst()
             .sink { [weak self] returnedResult in
                 guard let self else { return }
                 switch returnedResult {
@@ -206,7 +205,6 @@ class HomeViewModel : ObservableObject {
         
         // Top Rated Subscriber
         self.apiInteractor.topRatedTVPublisher
-            .dropFirst()
             .sink { [weak self] returnedResult in
                 guard let self else { return }
                 switch returnedResult {
@@ -224,7 +222,6 @@ class HomeViewModel : ObservableObject {
         
         // Upcoming Subscriber
         self.apiInteractor.airingTodayTVPublisher
-            .dropFirst()
             .sink { [weak self] returnedResult in
                 guard let self else { return }
                 switch returnedResult {

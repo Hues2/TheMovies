@@ -18,29 +18,28 @@ struct HomeView: View {
     }
     
     var body: some View {
-
-        VStack {
-            
-            // Type buttons
-            typeButtons
-            
-            // Movie/TV View
-            if homeVM.selectedType == .movie {
-                movieView
-                    .transition(.move(edge: .leading))
-            } else {
-                tvView
-                    .transition(.move(edge: .trailing))
+        ScrollView {
+            VStack {
+                
+                // Type buttons
+                typeButtons
+                
+                // Movie/TV View
+                if homeVM.selectedType == .movie {
+                    movieView
+                        .transition(.move(edge: .leading))
+                } else {
+                    tvView
+                        .transition(.move(edge: .trailing))
+                }
             }
-            Spacer()
         }
         
-        
-            
+     
     }
 }
 
-
+// MARK: Type Buttons
 extension HomeView {
     
     private var typeButtons : some View {
@@ -78,7 +77,7 @@ extension HomeView {
     
 }
 
-
+// MARK: TabView
 extension HomeView {
     
     private var movieView : some View {
@@ -93,9 +92,12 @@ extension HomeView {
         VStack {
             // Trending Movie Cards
             trendingTabView(homeVM.selectedType == .movie ? homeVM.trendingMovies : homeVM.trendingTVSeries)
+                .frame(height: 500)
             
+            categoryList("Top Rated", homeVM.selectedType == .movie ? homeVM.topRatedMovies : homeVM.topRatedTVSeries)
             
         }
+        .padding()
     }
     
     private func trendingTabView(_ motionPictures : [MotionPictureData.MotionPicture]) -> some View {
@@ -125,5 +127,30 @@ extension HomeView {
         .padding(10)
         .frame(maxHeight: 500)
     }
+    
+}
+
+// MARK: Horizontal Scrollview
+extension HomeView {
+    
+    private func categoryList(_ category : String, _ motionPictures : [MotionPictureData.MotionPicture]) -> some View {
+        VStack(alignment: .leading, spacing: 5) {
+            
+            Text("\(category)")
+                .font(.title2)
+                .fontWeight(.semibold)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(motionPictures) { motionPicture in
+                        Text("\(motionPicture.original_title ?? motionPicture.original_name ?? "Unknown")")
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    
     
 }
