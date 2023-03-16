@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  TheMovies
+
+  Created by Greg Ross on 15/03/2023.
+  
+*/
+
+
+// Home tab title
+"home_tab_title" = "Home";
