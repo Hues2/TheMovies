@@ -14,7 +14,7 @@ class Constants {
     
     private init() {}
     
-    let key = "b8670653a1b9591be26fa80174975862"
+    let key = ""
     let baseURL = "https://api.themoviedb.org/3/"
     let baseImageURL = "https://image.tmdb.org/t/p/w500/"    
     
