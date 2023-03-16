@@ -89,14 +89,18 @@ extension HomeView {
     }
     
     private var sharedView : some View {
-        VStack {
+        VStack(spacing: 40) {
             // Trending Movie Cards
             trendingTabView(homeVM.selectedType == .movie ? homeVM.trendingMovies : homeVM.trendingTVSeries)
-                .frame(height: 500)
-            
+                .frame(height: 550)
+                .padding(.bottom, 5)
+
             categoryList("Top Rated", homeVM.selectedType == .movie ? homeVM.topRatedMovies : homeVM.topRatedTVSeries)
             
+            categoryList("Popular", homeVM.selectedType == .movie ? homeVM.popularMovies : homeVM.popularTVSeries)
+            
         }
+        .animation(.none, value: homeVM.selectedType)
         .padding()
     }
     
@@ -117,15 +121,21 @@ extension HomeView {
             AsyncImage(url: motionpicture.imageURL) { image in
                 image.resizable()
                     .scaledToFit()
-                    .shadow(radius: 5)
+                    
             } placeholder: {
-                Color.black
+                ZStack {
+                    Color.black
+                    ProgressView()
+                        .tint(Color.accentColor)
+                }
+                
             }
 
         }
         .cornerRadius(10)
         .padding(10)
-        .frame(maxHeight: 500)
+        .frame(maxHeight: 550)
+        .shadow(radius: 5)
     }
     
 }
@@ -141,9 +151,9 @@ extension HomeView {
                 .fontWeight(.semibold)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack {
+                HStack(spacing: 10) {
                     ForEach(motionPictures) { motionPicture in
-                        Text("\(motionPicture.original_title ?? motionPicture.original_name ?? "Unknown")")
+                        miniMotionPictureCard(motionPicture)
                     }
                 }
             }
@@ -151,6 +161,21 @@ extension HomeView {
     }
     
     
-    
+    private func miniMotionPictureCard(_ motionPicture : MotionPictureData.MotionPicture) -> some View {
+        ZStack {
+            
+            AsyncImage(url: motionPicture.imageURL) { image in
+                image
+                    .resizable()
+                    .scaledToFit()
+            } placeholder: {
+                Color.clear
+            }
+
+        }
+        .cornerRadius(10)
+        .frame(maxHeight: 175)
+        .shadow(radius: 3)
+    }
     
 }

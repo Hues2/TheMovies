@@ -48,18 +48,17 @@ class HomeViewModel : ObservableObject {
         // Add the Combine subscribers
         addSubscribers()
         
-        
         getMovieData()
+        
     }
-    
     
     
     private func getMovieData() {
         // Get all data for the home view
         apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.trending, 1), .trending, .movie)
-//        apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.popular, 1), .popular, .movie)
+        apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.popular, 1), .popular, .movie)
         apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.topRated, 1), .topRated, .movie)
-//        apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.upcoming, 1), .upcoming, .movie)
+        apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.upcoming, 1), .upcoming, .movie)
     }
     
     
@@ -67,24 +66,72 @@ class HomeViewModel : ObservableObject {
     // I don't want to call all api endpoints if not necessary
     private func getTVData(){
         if popularTVSeries.isEmpty {
+            print("Fetching TV Data Again")
             apiInteractor.getMotionPictures(URLBuilder.shared.tvURL(.popular, 1), .popular, .tv)
         }
         
         if topRatedTVSeries.isEmpty {
+            print("Fetching TV Data Again")
             apiInteractor.getMotionPictures(URLBuilder.shared.tvURL(.topRated, 1), .topRated, .tv)
         }
         
         if airingTodayTVSeries.isEmpty {
+            print("Fetching TV Data Again")
             apiInteractor.getMotionPictures(URLBuilder.shared.tvURL(.airingToday, 1), .airingToday, .tv)
         }
         
         if trendingTVSeries.isEmpty {
+            print("Fetching TV Data Again")
             apiInteractor.getMotionPictures(URLBuilder.shared.tvURL(.trending, 1), .trending, .tv)
         }
     }
     
     
+
     
+}
+
+
+
+
+
+
+
+//func getTrendingMovies() {
+//        apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.trending, 1), .trending, .movie)
+//    }
+//
+//    func getTrendingTV() {
+//        apiInteractor.getMotionPictures(URLBuilder.shared.tvURL(.trending, 1), .trending, .movie)
+//    }
+//
+//
+//    func getTopRatedMovies() {
+//        apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.topRated, 1), .topRated, .movie)
+//    }
+//
+//    func getTopRatedTV() {
+//        apiInteractor.getMotionPictures(URLBuilder.shared.tvURL(.topRated, 1), .topRated, .movie)
+//    }
+//
+//    func getPopularMovies() {
+//        apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.popular, 1), .popular, .movie)
+//    }
+//
+//    func getPopularTV() {
+//        apiInteractor.getMotionPictures(URLBuilder.shared.tvURL(.popular, 1), .popular, .movie)
+//    }
+
+
+
+
+
+
+
+
+
+// MARK: Subscribers
+extension HomeViewModel {
     
     private func addSubscribers() {
         addMovieSubscribers()
@@ -251,5 +298,4 @@ class HomeViewModel : ObservableObject {
             }
             .store(in: &CancelStore.shared.cancellables)
     }
-
 }
