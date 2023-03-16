@@ -18,29 +18,28 @@ struct HomeView: View {
     }
     
     var body: some View {
-
-        VStack {
-            
-            // Type buttons
-            typeButtons
-            
-            // Movie/TV View
-            if homeVM.selectedType == .movie {
-                movieView
-                    .transition(.move(edge: .leading))
-            } else {
-                tvView
-                    .transition(.move(edge: .trailing))
+        ScrollView {
+            VStack {
+                
+                // Type buttons
+                typeButtons
+                
+                // Movie/TV View
+                if homeVM.selectedType == .movie {
+                    movieView
+                        .transition(.move(edge: .leading))
+                } else {
+                    tvView
+                        .transition(.move(edge: .trailing))
+                }
             }
-            Spacer()
         }
         
-        
-            
+     
     }
 }
 
-
+// MARK: Type Buttons
 extension HomeView {
     
     private var typeButtons : some View {
@@ -78,7 +77,7 @@ extension HomeView {
     
 }
 
-
+// MARK: TabView
 extension HomeView {
     
     private var movieView : some View {
@@ -90,12 +89,19 @@ extension HomeView {
     }
     
     private var sharedView : some View {
-        VStack {
+        VStack(spacing: 40) {
             // Trending Movie Cards
             trendingTabView(homeVM.selectedType == .movie ? homeVM.trendingMovies : homeVM.trendingTVSeries)
+                .frame(height: 550)
+                .padding(.bottom, 5)
+
+            categoryList("Top Rated", homeVM.selectedType == .movie ? homeVM.topRatedMovies : homeVM.topRatedTVSeries)
             
+            categoryList("Popular", homeVM.selectedType == .movie ? homeVM.popularMovies : homeVM.popularTVSeries)
             
         }
+        .animation(.none, value: homeVM.selectedType)
+        .padding()
     }
     
     private func trendingTabView(_ motionPictures : [MotionPictureData.MotionPicture]) -> some View {
@@ -115,15 +121,61 @@ extension HomeView {
             AsyncImage(url: motionpicture.imageURL) { image in
                 image.resizable()
                     .scaledToFit()
-                    .shadow(radius: 5)
+                    
             } placeholder: {
-                Color.black
+                ZStack {
+                    Color.black
+                    ProgressView()
+                        .tint(Color.accentColor)
+                }
+                
             }
 
         }
         .cornerRadius(10)
         .padding(10)
-        .frame(maxHeight: 500)
+        .frame(maxHeight: 550)
+        .shadow(radius: 5)
+    }
+    
+}
+
+// MARK: Horizontal Scrollview
+extension HomeView {
+    
+    private func categoryList(_ category : String, _ motionPictures : [MotionPictureData.MotionPicture]) -> some View {
+        VStack(alignment: .leading, spacing: 5) {
+            
+            Text("\(category)")
+                .font(.title2)
+                .fontWeight(.semibold)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 10) {
+                    ForEach(motionPictures) { motionPicture in
+                        miniMotionPictureCard(motionPicture)
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    private func miniMotionPictureCard(_ motionPicture : MotionPictureData.MotionPicture) -> some View {
+        ZStack {
+            
+            AsyncImage(url: motionPicture.imageURL) { image in
+                image
+                    .resizable()
+                    .scaledToFit()
+            } placeholder: {
+                Color.clear
+            }
+
+        }
+        .cornerRadius(10)
+        .frame(maxHeight: 175)
+        .shadow(radius: 3)
     }
     
 }
