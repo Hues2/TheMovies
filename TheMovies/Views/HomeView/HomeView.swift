@@ -22,21 +22,29 @@ struct HomeView: View {
     }
     
     var body: some View {
-        ScrollView {
-            VStack {
+        ZStack(alignment: .top) {
+            
+            ScrollView {
                 
-                // Type buttons
-                typeButtons
+                Spacer()
+                    .frame(height: 50)
                 
-                // Movie/TV View
-                if homeVM.selectedType == .movie {
-                    movieView
-                        .transition(.move(edge: .leading))
-                } else {
-                    tvView
-                        .transition(.move(edge: .trailing))
+                VStack {
+                    
+                    // Movie/TV View
+                    if homeVM.selectedType == .movie {
+                        movieView
+                            .transition(.move(edge: .leading))
+                    } else {
+                        tvView
+                            .transition(.move(edge: .trailing))
+                    }
                 }
             }
+            
+            // Type buttons
+            typeButtons
+                .frame(height: 50)
         }
     }
 }
@@ -47,9 +55,20 @@ extension HomeView {
     private var typeButtons : some View {
         HStack {
             typeButton("Movies", .movie)
+                .frame(width: 150)
             
             typeButton("TV Series", .tv)
+                .frame(width: 150)
         }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 5)
+        .background {
+            Color.backgroundColor
+                .cornerRadius(30)
+                .shadow(color: .accentColor, radius: 3, x: 0, y: 0)
+                .shadow(color: .accentColor, radius: 3, x: 0, y: 0)
+        }
+        
     }
     
     private func typeButton(_ text : String, _ type : MotionPictureData.MotionPicture.MotionPictureType ) -> some View {
@@ -68,13 +87,14 @@ extension HomeView {
                 }
             }
             .background {
-                if homeVM.selectedType == type {
-                    Color.accentColor
-                        .cornerRadius(30)
-                        .matchedGeometryEffect(id: "pill", in: namespace)
-                }
+                    if homeVM.selectedType == type {
+                        Color.accentColor
+                            .cornerRadius(30)
+                            .matchedGeometryEffect(id: "pill", in: namespace)
+                            .frame(width: 100)
+                    }
             }
-            .padding(.trailing, 20)
+            .padding(.horizontal, 20)
     }
     
 }

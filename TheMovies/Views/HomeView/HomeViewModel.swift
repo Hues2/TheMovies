@@ -52,8 +52,8 @@ class HomeViewModel : ObservableObject {
     }
     
     
+    // Get all data for the home view
     private func getMovieData() {
-        // Get all data for the home view
         apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.trending, 1), .trending, .movie)
         apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.popular, 1), .popular, .movie)
         apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.topRated, 1), .topRated, .movie)
