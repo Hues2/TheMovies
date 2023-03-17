@@ -96,7 +96,10 @@ extension HomeView {
         VStack(spacing: 40) {
             // Trending Movie Cards
             trendingTabView(homeVM.selectedType == .movie ? homeVM.trendingMovies : homeVM.trendingTVSeries)
-                .frame(height: 600)
+                .frame(height: 550)
+                .cornerRadius(10)
+                .padding(10)
+                .shadow(radius: 5)
             
             categoryList("Top Rated", homeVM.selectedType == .movie ? homeVM.topRatedMovies : homeVM.topRatedTVSeries)
             
@@ -125,11 +128,10 @@ extension HomeView {
             URLImage(url) { image, info in
                 image
                     .resizable()
-                    .scaledToFit()
+                    .scaledToFill()
             }
             .cornerRadius(10)
             .padding(10)
-            .frame(maxHeight: 600)
             .shadow(radius: 5)
         }
     }
