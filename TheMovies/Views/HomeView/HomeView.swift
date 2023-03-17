@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import URLImage
+import URLImageStore
 
 struct HomeView: View {
     
     @StateObject private var homeVM : HomeViewModel
     
     @Namespace private var namespace
+    
+    
     
     init(_ homeNavigationInteractor : HomeNavigationInteractor, _ apiDataInteractor : APIDataInteractor) {
         self._homeVM = StateObject(wrappedValue: HomeViewModel(homeNavigationInteractor, apiDataInteractor))
@@ -35,7 +39,7 @@ struct HomeView: View {
             }
         }
         
-     
+        
     }
 }
 
@@ -94,7 +98,7 @@ extension HomeView {
             trendingTabView(homeVM.selectedType == .movie ? homeVM.trendingMovies : homeVM.trendingTVSeries)
                 .frame(height: 600)
                 .padding(.bottom)
-
+            
             categoryList("Top Rated", homeVM.selectedType == .movie ? homeVM.topRatedMovies : homeVM.topRatedTVSeries)
             
             categoryList("Popular", homeVM.selectedType == .movie ? homeVM.popularMovies : homeVM.popularTVSeries)
@@ -116,29 +120,19 @@ extension HomeView {
         .tabViewStyle(.page(indexDisplayMode: .never))
     }
     
+    @ViewBuilder
     private func tabViewCard(_ motionpicture : MotionPictureData.MotionPicture) -> some View {
-        ZStack {
-            AsyncImage(url: motionpicture.imageURL) { image in
-                image.resizable()
+        if let url = motionpicture.imageURL {
+            URLImage(url) { image, info in
+                image
+                    .resizable()
                     .scaledToFit()
-//                    .overlay {
-//                        LinearGradient(gradient: Gradient(colors: [.black.opacity(0.9), .black.opacity(0)]), startPoint: .bottom, endPoint: .top)
-//                    }
-                    
-            } placeholder: {
-                ZStack {
-                    Color.black
-                    ProgressView()
-                        .tint(Color.accentColor)
-                }
-                
             }
-
+            .cornerRadius(10)
+            .padding(10)
+            .frame(maxHeight: 600)
+            .shadow(radius: 5)
         }
-        .cornerRadius(10)
-        .padding(10)
-        .frame(maxHeight: 600)
-        .shadow(radius: 5)
     }
     
 }
@@ -154,7 +148,7 @@ extension HomeView {
                 .fontWeight(.semibold)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 0) {
+                LazyHStack(spacing: 10) {
                     ForEach(motionPictures) { motionPicture in
                         miniMotionPictureCard(motionPicture)
                     }
@@ -163,20 +157,18 @@ extension HomeView {
         }
     }
     
-    
+    @ViewBuilder
     private func miniMotionPictureCard(_ motionPicture : MotionPictureData.MotionPicture) -> some View {
-        AsyncImage(url: motionPicture.imageURL) { image in
-            image
-                .resizable()
-                .scaledToFill()
-        } placeholder: {
-            Color.clear
-        }
         
-        .frame(width: 130, height: 200)
-        .cornerRadius(10)
-        .shadow(radius: 3)
-        .padding(5)
+        if let url = motionPicture.imageURL {
+            URLImage(url) { image, info in
+                image
+                    .resizable()
+                    .scaledToFill()
+            }
+            .frame(width: 130, height: 200)
+            .cornerRadius(10)
+        }
     }
     
 }

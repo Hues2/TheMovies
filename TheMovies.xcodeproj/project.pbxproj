@@ -22,6 +22,8 @@
 		2E1619F529C224BF00A550DD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1619F429C224BF00A550DD /* Constants.swift */; };
 		2E1619F829C228B000A550DD /* APIDataInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1619F729C228B000A550DD /* APIDataInteractor.swift */; };
 		2E1619FA29C230D200A550DD /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1619F929C230D200A550DD /* CustomError.swift */; };
+		2E1BEE3B29C4864F00E64AD5 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 2E1BEE3A29C4864F00E64AD5 /* URLImage */; };
+		2E1BEE3D29C4864F00E64AD5 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 2E1BEE3C29C4864F00E64AD5 /* URLImageStore */; };
 		2EA7228B29C236DA007BF89E /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7228A29C236DA007BF89E /* HomeViewModel.swift */; };
 		2EA7228D29C23AC3007BF89E /* CancelStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7228C29C23AC3007BF89E /* CancelStore.swift */; };
 		2EA7228F29C2472A007BF89E /* URLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7228E29C2472A007BF89E /* URLBuilder.swift */; };
@@ -58,6 +60,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E1BEE3D29C4864F00E64AD5 /* URLImageStore in Frameworks */,
+				2E1BEE3B29C4864F00E64AD5 /* URLImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +224,10 @@
 			dependencies = (
 			);
 			name = TheMovies;
+			packageProductDependencies = (
+				2E1BEE3A29C4864F00E64AD5 /* URLImage */,
+				2E1BEE3C29C4864F00E64AD5 /* URLImageStore */,
+			);
 			productName = TheMovies;
 			productReference = 2E1619C429C1FD9500A550DD /* TheMovies.app */;
 			productType = "com.apple.product-type.application";
@@ -248,6 +256,9 @@
 				Base,
 			);
 			mainGroup = 2E1619BB29C1FD9500A550DD;
+			packageReferences = (
+				2E1BEE3929C4864F00E64AD5 /* XCRemoteSwiftPackageReference "url-image" */,
+			);
 			productRefGroup = 2E1619C529C1FD9500A550DD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -512,6 +523,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2E1BEE3929C4864F00E64AD5 /* XCRemoteSwiftPackageReference "url-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dmytro-anokhin/url-image";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2E1BEE3A29C4864F00E64AD5 /* URLImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2E1BEE3929C4864F00E64AD5 /* XCRemoteSwiftPackageReference "url-image" */;
+			productName = URLImage;
+		};
+		2E1BEE3C29C4864F00E64AD5 /* URLImageStore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2E1BEE3929C4864F00E64AD5 /* XCRemoteSwiftPackageReference "url-image" */;
+			productName = URLImageStore;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2E1619BC29C1FD9500A550DD /* Project object */;
 }
