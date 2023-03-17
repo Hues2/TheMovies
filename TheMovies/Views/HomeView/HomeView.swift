@@ -68,6 +68,19 @@ extension HomeView {
                 .shadow(color: .accentColor, radius: 3, x: 0, y: 0)
                 .shadow(color: .accentColor, radius: 3, x: 0, y: 0)
         }
+        .gesture(DragGesture()
+                        .onEnded { gesture in
+                            if gesture.translation.width > 0 {
+                                withAnimation {
+                                    homeVM.selectedType = .tv // swipe right
+                                }
+                            } else {
+                                withAnimation {
+                                    homeVM.selectedType = .movie  // swipe left
+                                }
+                            }
+                        }
+                    )
         
     }
     
