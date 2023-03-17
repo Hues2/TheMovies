@@ -16,6 +16,7 @@ struct AppView: View {
     @StateObject private var appVM = AppViewModel()
     @StateObject var apiDataInteractor = APIDataInteractor()
     
+    
     var body: some View {
         
         TabView(selection: $appVM.selectedTab) {
