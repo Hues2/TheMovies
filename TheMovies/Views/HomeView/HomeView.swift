@@ -38,8 +38,6 @@ struct HomeView: View {
                 }
             }
         }
-        
-        
     }
 }
 
@@ -81,7 +79,8 @@ extension HomeView {
     
 }
 
-// MARK: TabView
+
+// MARK: Main View
 extension HomeView {
     
     private var movieView : some View {
@@ -96,19 +95,28 @@ extension HomeView {
         VStack(spacing: 40) {
             // Trending Movie Cards
             trendingTabView(homeVM.selectedType == .movie ? homeVM.trendingMovies : homeVM.trendingTVSeries)
-                .frame(height: 550)
+                .frame(height: UIScreen.screenHeight * 0.6)
                 .cornerRadius(10)
-                .padding(10)
                 .shadow(radius: 5)
+                .padding(10)
             
             categoryList("Top Rated", homeVM.selectedType == .movie ? homeVM.topRatedMovies : homeVM.topRatedTVSeries)
             
             categoryList("Popular", homeVM.selectedType == .movie ? homeVM.popularMovies : homeVM.popularTVSeries)
             
+            categoryList(homeVM.selectedType == .movie ? "Upcoming" : "Airing Today", homeVM.selectedType == .movie ? homeVM.upcomingMovies : homeVM.airingTodayTVSeries)
+            
         }
         .animation(.none, value: homeVM.selectedType)
         .padding()
     }
+    
+}
+
+
+
+// MARK: TabView
+extension HomeView {
     
     private func trendingTabView(_ motionPictures : [MotionPictureData.MotionPicture]) -> some View {
         TabView(selection: homeVM.selectedType == .movie ? $homeVM.currentMovieTabIndex : $homeVM.currentTVTabIndex) {
@@ -131,8 +139,8 @@ extension HomeView {
                     .scaledToFill()
             }
             .cornerRadius(10)
-            .padding(10)
             .shadow(radius: 5)
+            .padding(10)
         }
     }
     
