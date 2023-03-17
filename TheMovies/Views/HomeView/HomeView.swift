@@ -97,7 +97,6 @@ extension HomeView {
             // Trending Movie Cards
             trendingTabView(homeVM.selectedType == .movie ? homeVM.trendingMovies : homeVM.trendingTVSeries)
                 .frame(height: 600)
-                .padding(.bottom)
             
             categoryList("Top Rated", homeVM.selectedType == .movie ? homeVM.topRatedMovies : homeVM.topRatedTVSeries)
             
@@ -150,7 +149,9 @@ extension HomeView {
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 10) {
                     ForEach(motionPictures) { motionPicture in
-                        miniMotionPictureCard(motionPicture)
+                        NavigationLink(value: HomeNavigationInteractor.HomePath.detail(motionPicture)) {
+                            miniMotionPictureCard(motionPicture)
+                        }
                     }
                 }
             }
