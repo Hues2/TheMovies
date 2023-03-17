@@ -24,8 +24,8 @@
 		2E1619FA29C230D200A550DD /* CustomError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1619F929C230D200A550DD /* CustomError.swift */; };
 		2E1BEE3B29C4864F00E64AD5 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 2E1BEE3A29C4864F00E64AD5 /* URLImage */; };
 		2E1BEE3D29C4864F00E64AD5 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 2E1BEE3C29C4864F00E64AD5 /* URLImageStore */; };
+		2E1BEE4229C4E76800E64AD5 /* UIScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1BEE4129C4E76800E64AD5 /* UIScreen.swift */; };
 		2EA7228B29C236DA007BF89E /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7228A29C236DA007BF89E /* HomeViewModel.swift */; };
-		2EA7228D29C23AC3007BF89E /* CancelStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7228C29C23AC3007BF89E /* CancelStore.swift */; };
 		2EA7228F29C2472A007BF89E /* URLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7228E29C2472A007BF89E /* URLBuilder.swift */; };
 		2EA7229129C2549D007BF89E /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7229029C2549D007BF89E /* Color.swift */; };
 /* End PBXBuildFile section */
@@ -49,8 +49,8 @@
 		2E1619F429C224BF00A550DD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		2E1619F729C228B000A550DD /* APIDataInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIDataInteractor.swift; sourceTree = "<group>"; };
 		2E1619F929C230D200A550DD /* CustomError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomError.swift; sourceTree = "<group>"; };
+		2E1BEE4129C4E76800E64AD5 /* UIScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScreen.swift; sourceTree = "<group>"; };
 		2EA7228A29C236DA007BF89E /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
-		2EA7228C29C23AC3007BF89E /* CancelStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelStore.swift; sourceTree = "<group>"; };
 		2EA7228E29C2472A007BF89E /* URLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBuilder.swift; sourceTree = "<group>"; };
 		2EA7229029C2549D007BF89E /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -112,6 +112,7 @@
 		2E1619D829C1FE4100A550DD /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				2E1BEE3E29C4DFF300E64AD5 /* Components */,
 				2E1619D929C1FE4800A550DD /* AppView */,
 				2E1619E029C1FF7C00A550DD /* HomeView */,
 				2E1619E129C1FF8300A550DD /* FavouritesView */,
@@ -134,7 +135,6 @@
 			children = (
 				2E1619F429C224BF00A550DD /* Constants.swift */,
 				2E1619F929C230D200A550DD /* CustomError.swift */,
-				2EA7228C29C23AC3007BF89E /* CancelStore.swift */,
 				2EA7228E29C2472A007BF89E /* URLBuilder.swift */,
 			);
 			path = Utilities;
@@ -144,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				2EA7229029C2549D007BF89E /* Color.swift */,
+				2E1BEE4129C4E76800E64AD5 /* UIScreen.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -206,6 +207,13 @@
 				2E1619F729C228B000A550DD /* APIDataInteractor.swift */,
 			);
 			path = Interactors;
+			sourceTree = "<group>";
+		};
+		2E1BEE3E29C4DFF300E64AD5 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -292,12 +300,12 @@
 				2E1619EB29C204EB00A550DD /* HomeNavigationInteractor.swift in Sources */,
 				2E1619F229C208F100A550DD /* MotionPictureDetailViewModel.swift in Sources */,
 				2EA7229129C2549D007BF89E /* Color.swift in Sources */,
+				2E1BEE4229C4E76800E64AD5 /* UIScreen.swift in Sources */,
 				2EA7228F29C2472A007BF89E /* URLBuilder.swift in Sources */,
 				2E1619FA29C230D200A550DD /* CustomError.swift in Sources */,
 				2E1619F529C224BF00A550DD /* Constants.swift in Sources */,
 				2E1619D729C1FDF700A550DD /* AppView.swift in Sources */,
 				2EA7228B29C236DA007BF89E /* HomeViewModel.swift in Sources */,
-				2EA7228D29C23AC3007BF89E /* CancelStore.swift in Sources */,
 				2E1619E329C1FFA700A550DD /* HomeView.swift in Sources */,
 				2E1619C829C1FD9500A550DD /* TheMoviesApp.swift in Sources */,
 				2E1619DB29C1FE5400A550DD /* AppViewmodel.swift in Sources */,

@@ -39,6 +39,7 @@ class HomeViewModel : ObservableObject {
     let homeNavigationInteractor : HomeNavigationInteractor
     let apiInteractor : APIDataInteractor
     
+    private var cancellables = Set<AnyCancellable>()
     
     // Init
     init(_ homeNavigationInteractor : HomeNavigationInteractor, _ apiInteractor : APIDataInteractor) {
@@ -52,8 +53,8 @@ class HomeViewModel : ObservableObject {
     }
     
     
+    // Get all data for the home view
     private func getMovieData() {
-        // Get all data for the home view
         apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.trending, 1), .trending, .movie)
         apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.popular, 1), .popular, .movie)
         apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.topRated, 1), .topRated, .movie)
@@ -92,43 +93,6 @@ class HomeViewModel : ObservableObject {
 
 
 
-
-
-
-
-//func getTrendingMovies() {
-//        apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.trending, 1), .trending, .movie)
-//    }
-//
-//    func getTrendingTV() {
-//        apiInteractor.getMotionPictures(URLBuilder.shared.tvURL(.trending, 1), .trending, .movie)
-//    }
-//
-//
-//    func getTopRatedMovies() {
-//        apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.topRated, 1), .topRated, .movie)
-//    }
-//
-//    func getTopRatedTV() {
-//        apiInteractor.getMotionPictures(URLBuilder.shared.tvURL(.topRated, 1), .topRated, .movie)
-//    }
-//
-//    func getPopularMovies() {
-//        apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.popular, 1), .popular, .movie)
-//    }
-//
-//    func getPopularTV() {
-//        apiInteractor.getMotionPictures(URLBuilder.shared.tvURL(.popular, 1), .popular, .movie)
-//    }
-
-
-
-
-
-
-
-
-
 // MARK: Subscribers
 extension HomeViewModel {
     
@@ -156,7 +120,7 @@ extension HomeViewModel {
                     print("TRENDING RECEIVED")
                 }
             }
-            .store(in: &CancelStore.shared.cancellables)
+            .store(in: &cancellables)
         
         // Popular Subscriber
         self.apiInteractor.popularMoviesPublisher
@@ -174,7 +138,7 @@ extension HomeViewModel {
                     print("POPULAR RECEIVED")
                 }
             }
-            .store(in: &CancelStore.shared.cancellables)
+            .store(in: &cancellables)
         
         // Top Rated Subscriber
         self.apiInteractor.topRatedMoviesPublisher
@@ -192,7 +156,7 @@ extension HomeViewModel {
                     print("TOP RATED RECEIVED")
                 }
             }
-            .store(in: &CancelStore.shared.cancellables)
+            .store(in: &cancellables)
         
         // Upcoming Subscriber
         self.apiInteractor.upcomingMoviesPublisher
@@ -210,7 +174,7 @@ extension HomeViewModel {
                     print("UPCOMING RECEIVED")
                 }
             }
-            .store(in: &CancelStore.shared.cancellables)
+            .store(in: &cancellables)
     }
     
     // MARK: TV Subscribers
@@ -230,7 +194,7 @@ extension HomeViewModel {
                     print("TRENDING RECEIVED")
                 }
             }
-            .store(in: &CancelStore.shared.cancellables)
+            .store(in: &cancellables)
         
         // Popular Subscriber
         self.apiInteractor.popularTVPublisher
@@ -247,7 +211,7 @@ extension HomeViewModel {
                     print("POPULAR RECEIVED")
                 }
             }
-            .store(in: &CancelStore.shared.cancellables)
+            .store(in: &cancellables)
         
         // Top Rated Subscriber
         self.apiInteractor.topRatedTVPublisher
@@ -264,7 +228,7 @@ extension HomeViewModel {
                     print("TOP RATED RECEIVED")
                 }
             }
-            .store(in: &CancelStore.shared.cancellables)
+            .store(in: &cancellables)
         
         // Upcoming Subscriber
         self.apiInteractor.airingTodayTVPublisher
@@ -281,7 +245,7 @@ extension HomeViewModel {
                     print("UPCOMING RECEIVED")
                 }
             }
-            .store(in: &CancelStore.shared.cancellables)
+            .store(in: &cancellables)
     }
     
     // MARK: Other Subscribers
@@ -295,6 +259,6 @@ extension HomeViewModel {
                     self.getTVData()
                 }
             }
-            .store(in: &CancelStore.shared.cancellables)
+            .store(in: &cancellables)
     }
 }

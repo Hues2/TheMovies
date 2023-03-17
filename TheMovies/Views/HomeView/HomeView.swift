@@ -22,24 +22,30 @@ struct HomeView: View {
     }
     
     var body: some View {
-        ScrollView {
-            VStack {
+        ZStack(alignment: .top) {
+            
+            ScrollView {
                 
-                // Type buttons
-                typeButtons
+                Spacer()
+                    .frame(height: 50)
                 
-                // Movie/TV View
-                if homeVM.selectedType == .movie {
-                    movieView
-                        .transition(.move(edge: .leading))
-                } else {
-                    tvView
-                        .transition(.move(edge: .trailing))
+                VStack {
+                    
+                    // Movie/TV View
+                    if homeVM.selectedType == .movie {
+                        movieView
+                            .transition(.move(edge: .leading))
+                    } else {
+                        tvView
+                            .transition(.move(edge: .trailing))
+                    }
                 }
             }
+            
+            // Type buttons
+            typeButtons
+                .frame(height: 50)
         }
-        
-        
     }
 }
 
@@ -49,9 +55,33 @@ extension HomeView {
     private var typeButtons : some View {
         HStack {
             typeButton("Movies", .movie)
+                .frame(width: 150)
             
             typeButton("TV Series", .tv)
+                .frame(width: 150)
         }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 5)
+        .background {
+            Color.backgroundColor
+                .cornerRadius(30)
+                .shadow(color: .accentColor, radius: 3, x: 0, y: 0)
+                .shadow(color: .accentColor, radius: 3, x: 0, y: 0)
+        }
+        .gesture(DragGesture()
+                        .onEnded { gesture in
+                            if gesture.translation.width > 0 {
+                                withAnimation {
+                                    homeVM.selectedType = .tv // swipe right
+                                }
+                            } else {
+                                withAnimation {
+                                    homeVM.selectedType = .movie  // swipe left
+                                }
+                            }
+                        }
+                    )
+        
     }
     
     private func typeButton(_ text : String, _ type : MotionPictureData.MotionPicture.MotionPictureType ) -> some View {
@@ -70,18 +100,20 @@ extension HomeView {
                 }
             }
             .background {
-                if homeVM.selectedType == type {
-                    Color.accentColor
-                        .cornerRadius(30)
-                        .matchedGeometryEffect(id: "pill", in: namespace)
-                }
+                    if homeVM.selectedType == type {
+                        Color.accentColor
+                            .cornerRadius(30)
+                            .matchedGeometryEffect(id: "pill", in: namespace)
+                            .frame(width: 100)
+                    }
             }
-            .padding(.trailing, 20)
+            .padding(.horizontal, 20)
     }
     
 }
 
-// MARK: TabView
+
+// MARK: Main View
 extension HomeView {
     
     private var movieView : some View {
@@ -96,19 +128,28 @@ extension HomeView {
         VStack(spacing: 40) {
             // Trending Movie Cards
             trendingTabView(homeVM.selectedType == .movie ? homeVM.trendingMovies : homeVM.trendingTVSeries)
-                .frame(height: 550)
+                .frame(height: UIScreen.screenHeight * 0.6)
                 .cornerRadius(10)
-                .padding(10)
                 .shadow(radius: 5)
+                .padding(10)
             
             categoryList("Top Rated", homeVM.selectedType == .movie ? homeVM.topRatedMovies : homeVM.topRatedTVSeries)
             
             categoryList("Popular", homeVM.selectedType == .movie ? homeVM.popularMovies : homeVM.popularTVSeries)
             
+            categoryList(homeVM.selectedType == .movie ? "Upcoming" : "Airing Today", homeVM.selectedType == .movie ? homeVM.upcomingMovies : homeVM.airingTodayTVSeries)
+            
         }
         .animation(.none, value: homeVM.selectedType)
         .padding()
     }
+    
+}
+
+
+
+// MARK: TabView
+extension HomeView {
     
     private func trendingTabView(_ motionPictures : [MotionPictureData.MotionPicture]) -> some View {
         TabView(selection: homeVM.selectedType == .movie ? $homeVM.currentMovieTabIndex : $homeVM.currentTVTabIndex) {
@@ -131,8 +172,8 @@ extension HomeView {
                     .scaledToFill()
             }
             .cornerRadius(10)
-            .padding(10)
             .shadow(radius: 5)
+            .padding(10)
         }
     }
     

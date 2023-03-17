@@ -24,6 +24,8 @@ class APIDataInteractor : ObservableObject {
     var airingTodayTVPublisher = PassthroughSubject<Result<[MotionPictureData.MotionPicture]?, CustomError>, Never>()
     
     
+    private var cancellables = Set<AnyCancellable>()
+    
     
     // This fetches a list of movies from a certain category (depending on the URL)
     func getMotionPictures(_ url : String, _ publisher : MotionPicturePublisher, _ type : MotionPictureData.MotionPicture.MotionPictureType) {
@@ -41,7 +43,7 @@ class APIDataInteractor : ObservableObject {
                 guard let self else { return }
                 self.handleReceivedValue(publisher, type, motionPictureData)
             }
-            .store(in: &CancelStore.shared.cancellables)
+            .store(in: &cancellables)
     }
     
     private func getData(_ url : URL) -> AnyPublisher<Data, URLError>{
@@ -144,36 +146,3 @@ class APIDataInteractor : ObservableObject {
     }
     
 }
-
-
-
-//        URLSession.shared.dataTaskPublisher(for: url)
-//            .subscribe(on: DispatchQueue.global(qos: .userInitiated))
-//            .receive(on: DispatchQueue.main)
-//            .map(\.data)
-//            .decode(type: MotionPictureData.self, decoder: JSONDecoder())
-//            .sink { [weak self] completion in
-//                guard let self else { return }
-//                switch completion {
-//                case .failure(let errorMessage):
-//                    self.popularMoviesPublisher.send(.failure(.dataCouldNotBeDecoded(errorMessage.localizedDescription)))
-//
-//                case .finished:
-//                    break
-//                }
-//            } receiveValue: { [weak self] returnedList in
-//                guard let self else { return }
-//
-//                switch publisher {
-//                case .popular:
-//                    self.popularMoviesPublisher.send(.success(returnedList.results))
-//                case .topRated:
-//                    self.topRatedMoviesPublisher.send(.success(returnedList.results))
-//                case .upcoming:
-//                    self.upcomingMoviesPublisher.send(.success(returnedList.results))
-//                case .trending:
-//                    self.trendingMoviesPublisher.send(.success(returnedList.results))
-//                }
-//
-//            }
-//            .store(in: &CancelStore.shared.cancellables)
