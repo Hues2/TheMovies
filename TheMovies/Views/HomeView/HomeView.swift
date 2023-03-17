@@ -92,8 +92,8 @@ extension HomeView {
         VStack(spacing: 40) {
             // Trending Movie Cards
             trendingTabView(homeVM.selectedType == .movie ? homeVM.trendingMovies : homeVM.trendingTVSeries)
-                .frame(height: 550)
-                .padding(.bottom, 5)
+                .frame(height: 600)
+                .padding(.bottom)
 
             categoryList("Top Rated", homeVM.selectedType == .movie ? homeVM.topRatedMovies : homeVM.topRatedTVSeries)
             
@@ -121,6 +121,9 @@ extension HomeView {
             AsyncImage(url: motionpicture.imageURL) { image in
                 image.resizable()
                     .scaledToFit()
+//                    .overlay {
+//                        LinearGradient(gradient: Gradient(colors: [.black.opacity(0.9), .black.opacity(0)]), startPoint: .bottom, endPoint: .top)
+//                    }
                     
             } placeholder: {
                 ZStack {
@@ -134,7 +137,7 @@ extension HomeView {
         }
         .cornerRadius(10)
         .padding(10)
-        .frame(maxHeight: 550)
+        .frame(maxHeight: 600)
         .shadow(radius: 5)
     }
     
@@ -151,7 +154,7 @@ extension HomeView {
                 .fontWeight(.semibold)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 10) {
+                HStack(spacing: 0) {
                     ForEach(motionPictures) { motionPicture in
                         miniMotionPictureCard(motionPicture)
                     }
@@ -162,20 +165,18 @@ extension HomeView {
     
     
     private func miniMotionPictureCard(_ motionPicture : MotionPictureData.MotionPicture) -> some View {
-        ZStack {
-            
-            AsyncImage(url: motionPicture.imageURL) { image in
-                image
-                    .resizable()
-                    .scaledToFit()
-            } placeholder: {
-                Color.clear
-            }
-
+        AsyncImage(url: motionPicture.imageURL) { image in
+            image
+                .resizable()
+                .scaledToFill()
+        } placeholder: {
+            Color.clear
         }
+        
+        .frame(width: 130, height: 200)
         .cornerRadius(10)
-        .frame(maxHeight: 175)
         .shadow(radius: 3)
+        .padding(5)
     }
     
 }
