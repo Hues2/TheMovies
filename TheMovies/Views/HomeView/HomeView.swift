@@ -126,22 +126,22 @@ extension HomeView {
     
     private var sharedView : some View {
         VStack(spacing: 40) {
-            // Trending Movie Cards
             trendingTabView(homeVM.selectedType == .movie ? homeVM.trendingMovies : homeVM.trendingTVSeries)
-                .frame(height: UIScreen.screenHeight * 0.6)
-                .cornerRadius(10)
-                .shadow(radius: 5)
-                .padding(10)
+                .frame(height: UIScreen.screenHeight * 0.65)
+                .padding(.top)
             
             categoryList("Top Rated", homeVM.selectedType == .movie ? homeVM.topRatedMovies : homeVM.topRatedTVSeries)
+                    .padding()
             
             categoryList("Popular", homeVM.selectedType == .movie ? homeVM.popularMovies : homeVM.popularTVSeries)
+                    .padding()
             
             categoryList(homeVM.selectedType == .movie ? "Upcoming" : "Airing Today", homeVM.selectedType == .movie ? homeVM.upcomingMovies : homeVM.airingTodayTVSeries)
+                    .padding()
             
         }
         .animation(.none, value: homeVM.selectedType)
-        .padding()
+
     }
     
 }
@@ -168,44 +168,44 @@ extension HomeView {
         if let url = motionpicture.imageURL {
             
             URLImage(url) {
-                ZStack {
-                    Color.backgroundColor
-                        .shadow(radius: 5)
-                    ProgressView()
-                }
+                tabViewLoadingCard
             } inProgress: { progress in
-                ZStack {
-                    Color.backgroundColor
-                        .shadow(radius: 5)
-                    ProgressView()
-                }
+                tabViewLoadingCard
             } failure: { error, retry in
-                ZStack {
-                    Color.backgroundColor
-                        .shadow(radius: 5)
-                    ProgressView()
-                }
+                tabViewLoadingCard
             } content: { image in
                 image
                     .resizable()
                     .scaledToFill()
+                    .frame(width: UIScreen.screenWidth * 0.9, height: UIScreen.screenHeight * 0.6)
+                    .clipped()
                     .overlay(alignment: .topTrailing) {
                         ZStack {
                             Color.black
                                 .opacity(0.4)
                                 .cornerRadius(10, corners: [.topRight, .bottomLeft])
-                            
+
                             Image(systemName: "heart.fill")
                                 .foregroundColor(.red)
                                 .font(.title)
                         }
                         .frame(width: 50, height: 50)
                     }
+                    .cornerRadius(10)
+                    .shadow(radius: 5)
             }
-            .cornerRadius(10)
-            .shadow(radius: 5)
-            .padding(10)
         }
+    }
+    
+    
+    private var tabViewLoadingCard : some View {
+        ZStack {
+            Color.backgroundColor
+            ProgressView()
+        }
+        .frame(width: UIScreen.screenWidth * 0.9, height: UIScreen.screenHeight * 0.6)
+        .cornerRadius(10)
+        .shadow(radius: 5)
     }
     
 }
