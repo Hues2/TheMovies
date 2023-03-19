@@ -7,18 +7,18 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 
 class HomeViewModel : ObservableObject {
     
-    // UI Data Publishers
     // Movies
     @Published var trendingMovies = [MotionPictureData.MotionPicture]()
     @Published var popularMovies = [MotionPictureData.MotionPicture]()
     @Published var topRatedMovies = [MotionPictureData.MotionPicture]()
     @Published var upcomingMovies = [MotionPictureData.MotionPicture]()
     
-    
+    // Keeps track of the tabview index for the movies view
     @Published var currentMovieTabIndex : Int = 0
     
     // TV Series
@@ -27,13 +27,13 @@ class HomeViewModel : ObservableObject {
     @Published var topRatedTVSeries = [MotionPictureData.MotionPicture]()
     @Published var airingTodayTVSeries = [MotionPictureData.MotionPicture]()
     
-    
+    // Keeps track of the tabview index for the tv series view
     @Published var currentTVTabIndex : Int = 0
     
     // Sets the view to either display Movies or TV Series
     @Published var selectedType : MotionPictureData.MotionPicture.MotionPictureType = .movie
     
-    @Published private var favouritesChanged : Bool = false
+    @Published var favouritesChanged : Bool = false
     
     
     // Interactor Dependencies
@@ -54,6 +54,34 @@ class HomeViewModel : ObservableObject {
         
         getMovieData()
     }
+    
+    
+}
+
+
+
+
+// MARK: Favourites Functionality
+extension HomeViewModel {
+    
+    // Add motion Picture To Favourites
+    func alterFavourites(_ motionPicture : MotionPictureData.MotionPicture) {
+        favouritesInteractor.alterFavourites(motionPicture.id)
+        favouritesChanged.toggle() // --> This published var makes the image card re-render to display the favourite heart
+    }
+    
+    // Return true if the motion picture is in the list of favourites
+    func isFavourite(_ motionPicture : MotionPictureData.MotionPicture) -> Bool {
+        guard let id = motionPicture.id else { return false }
+        let index = favouritesInteractor.favouriteIDs.firstIndex(of: id)
+        return index == nil ? false : true
+    }
+    
+}
+
+
+// MARK: Get Data
+extension HomeViewModel {
     
     // Get all data for the home view
     private func getMovieData() {
@@ -87,23 +115,9 @@ class HomeViewModel : ObservableObject {
             apiInteractor.getMotionPictures(URLBuilder.shared.tvURL(.trending, 1), .trending, .tv)
         }
     }
-
-    
-    // Add motion Picture To Favourites
-    func alterFavourites(_ motionPicture : MotionPictureData.MotionPicture) {
-        favouritesInteractor.alterFavourites(motionPicture.id)
-        favouritesChanged.toggle() // --> This published var makes the image card re-render to display the favourite heart
-    }
-    
-    // Return true if the motion picture is in the list of favourites
-    func isFavourite(_ motionPicture : MotionPictureData.MotionPicture) -> Bool {
-        guard let id = motionPicture.id else { return false }
-        let index = favouritesInteractor.favouriteIDs.firstIndex(of: id)
-        return index == nil ? false : true
-    }
-    
     
 }
+
 
 
 

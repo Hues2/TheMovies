@@ -183,14 +183,25 @@ extension HomeView {
                                 .opacity(0.4)
                                 .cornerRadius(10, corners: [.topRight, .bottomLeft])
 
-                            Image(systemName: homeVM.isFavourite(motionPicture) ? "heart.fill" : "heart")
-                                .foregroundColor(.red)
-                                .font(.title)
+                            if homeVM.isFavourite(motionPicture) {
+                                Image(systemName: "heart.fill")
+                                    .foregroundColor(.red)
+                                    .font(.title)
+                                    .transition(.asymmetric(insertion: .scale, removal: .opacity))
+                            } else {
+                                Image(systemName: "heart")
+                                    .foregroundColor(.red)
+                                    .font(.title)
+                                    .transition(.asymmetric(insertion: .scale, removal: .opacity))
+                            }
+                            
                         }
                         .frame(width: 50, height: 50)
                         .onTapGesture {
-                            // Add the motion picture id to the favourites list in database
-                            homeVM.alterFavourites(motionPicture)
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.3)) {
+                                // Add the motion picture id to the favourites list in database
+                                homeVM.alterFavourites(motionPicture)
+                            }
                         }
                     }
                     .cornerRadius(10)
@@ -258,15 +269,30 @@ extension HomeView {
                                 .opacity(0.4)
                                 .cornerRadius(10, corners: [.topRight, .bottomLeft])
 
-                            Image(systemName: homeVM.isFavourite(motionPicture) ? "heart.fill" : "heart")
-                                .foregroundColor(.red)
-                                .font(.headline)
-                                .scaledToFit()
+                            
+                            
+                            
+                            if homeVM.isFavourite(motionPicture){
+                                Image(systemName: "heart.fill")
+                                    .foregroundColor(.red)
+                                    .font(.headline)
+                                    .scaledToFit()
+                                    .transition(.asymmetric(insertion: .scale, removal: .opacity))
+                                
+                            } else {
+                                Image(systemName: "heart")
+                                    .foregroundColor(.red)
+                                    .font(.headline)
+                                    .scaledToFit()
+                                    .transition(.asymmetric(insertion: .scale, removal: .opacity))
+                            }
                         }
                         .frame(width: 25, height: 25)
                         .onTapGesture {
-                            // Add the motion picture id to the favourites list in database
-                            homeVM.alterFavourites(motionPicture)
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.3)) {
+                                // Add the motion picture id to the favourites list in database
+                                homeVM.alterFavourites(motionPicture)
+                            }
                         }
                     }
                     .frame(width: 130, height: 200)
