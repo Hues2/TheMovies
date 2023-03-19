@@ -14,8 +14,9 @@ class Constants {
     
     private init() {}
     
-    let key = ""
-    let baseURL = "https://api.themoviedb.org/3/"
-    let baseImageURL = "https://image.tmdb.org/t/p/w500/"    
+    let key : String = ""
+    let baseURL : String = "https://api.themoviedb.org/3/"
+    let baseImageURL : String = "https://image.tmdb.org/t/p/w500/"
+    let autoSwipeSeconds : Double = 7.5
     
 }

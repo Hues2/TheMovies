@@ -12,13 +12,11 @@ import URLImageStore
 struct HomeView: View {
     
     @StateObject private var homeVM : HomeViewModel
-    
     @Namespace private var namespace
     
     
-    
-    init(_ homeNavigationInteractor : HomeNavigationInteractor, _ apiDataInteractor : APIDataInteractor) {
-        self._homeVM = StateObject(wrappedValue: HomeViewModel(homeNavigationInteractor, apiDataInteractor))
+    init(_ homeNavigationInteractor : HomeNavigationInteractor, _ apiDataInteractor : APIDataInteractor, _ favouritesInteractor : FavouritesInteractor) {
+        self._homeVM = StateObject(wrappedValue: HomeViewModel(homeNavigationInteractor, apiDataInteractor, favouritesInteractor))
     }
     
     var body: some View {
@@ -126,22 +124,22 @@ extension HomeView {
     
     private var sharedView : some View {
         VStack(spacing: 40) {
-            // Trending Movie Cards
             trendingTabView(homeVM.selectedType == .movie ? homeVM.trendingMovies : homeVM.trendingTVSeries)
-                .frame(height: UIScreen.screenHeight * 0.6)
-                .cornerRadius(10)
-                .shadow(radius: 5)
-                .padding(10)
+                .frame(height: UIScreen.screenHeight * 0.65)
+                .padding(.top)
             
             categoryList("Top Rated", homeVM.selectedType == .movie ? homeVM.topRatedMovies : homeVM.topRatedTVSeries)
+                    .padding()
             
             categoryList("Popular", homeVM.selectedType == .movie ? homeVM.popularMovies : homeVM.popularTVSeries)
+                    .padding()
             
             categoryList(homeVM.selectedType == .movie ? "Upcoming" : "Airing Today", homeVM.selectedType == .movie ? homeVM.upcomingMovies : homeVM.airingTodayTVSeries)
+                    .padding()
             
         }
         .animation(.none, value: homeVM.selectedType)
-        .padding()
+
     }
     
 }
@@ -164,17 +162,47 @@ extension HomeView {
     }
     
     @ViewBuilder
-    private func tabViewCard(_ motionpicture : MotionPictureData.MotionPicture) -> some View {
-        if let url = motionpicture.imageURL {
-            URLImage(url) { image, info in
+    private func tabViewCard(_ motionPicture : MotionPictureData.MotionPicture) -> some View {
+        if let url = motionPicture.imageURL {
+            
+            URLImage(url) {
+                tabViewLoadingCard
+            } inProgress: { progress in
+                tabViewLoadingCard
+            } failure: { error, retry in
+                tabViewLoadingCard
+            } content: { image in
                 image
                     .resizable()
                     .scaledToFill()
+                    .frame(width: UIScreen.screenWidth * 0.9, height: UIScreen.screenHeight * 0.6)
+                    .clipped()
+                    .overlay(alignment: .topTrailing) {
+                        favouriteHeart(motionPicture, .title)
+                        .frame(width: 50, height: 50)
+                        .onTapGesture {
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.3)) {
+                                // Add the motion picture id to the favourites list in database
+                                homeVM.alterFavourites(motionPicture)
+                            }
+                        }
+                    }
+                    .cornerRadius(10)
+                    .shadow(radius: 5)
             }
-            .cornerRadius(10)
-            .shadow(radius: 5)
-            .padding(10)
         }
+    }
+    
+    
+    private var tabViewLoadingCard : some View {
+        ZStack {
+            Color.backgroundColor
+            ProgressView()
+                .tint(Color.accentColor)
+        }
+        .frame(width: UIScreen.screenWidth * 0.9, height: UIScreen.screenHeight * 0.6)
+        .cornerRadius(10)
+        .shadow(radius: 5)
     }
     
 }
@@ -194,6 +222,9 @@ extension HomeView {
                     ForEach(motionPictures) { motionPicture in
                         NavigationLink(value: HomeNavigationInteractor.HomePath.detail(motionPicture)) {
                             miniMotionPictureCard(motionPicture)
+                                .cornerRadius(10)
+                                .shadow(radius: 3)
+                                .frame(width: 135, height: 210)
                         }
                     }
                 }
@@ -205,14 +236,68 @@ extension HomeView {
     private func miniMotionPictureCard(_ motionPicture : MotionPictureData.MotionPicture) -> some View {
         
         if let url = motionPicture.imageURL {
-            URLImage(url) { image, info in
+            URLImage(url) {
+                miniLoadingCard
+            } inProgress: { progress in
+                miniLoadingCard
+            } failure: { error, retry in
+                miniLoadingCard
+            } content: { image in
                 image
                     .resizable()
                     .scaledToFill()
+                    .overlay(alignment: .topTrailing) {
+                        favouriteHeart(motionPicture, .headline)
+                        .frame(width: 25, height: 25)
+                        .onTapGesture {
+                            withAnimation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.3)) {
+                                // Add the motion picture id to the favourites list in database
+                                homeVM.alterFavourites(motionPicture)
+                            }
+                        }
+                    }
+                    .frame(width: 130, height: 200)
+                    .clipped()
             }
-            .frame(width: 130, height: 200)
-            .cornerRadius(10)
+            
         }
     }
     
+    private var miniLoadingCard : some View {
+        ZStack {
+            Color.backgroundColor
+            ProgressView()
+                .tint(Color.accentColor)
+        }
+        .frame(width: 130, height: 200)
+    }
+    
+}
+
+
+
+extension HomeView {
+    
+    private func favouriteHeart(_ motionPicture : MotionPictureData.MotionPicture, _ font : Font) -> some View {
+        ZStack {
+            Color.black
+                .opacity(0.4)
+                .cornerRadius(10, corners: [.topRight, .bottomLeft])
+
+            if homeVM.isFavourite(motionPicture) {
+                Image(systemName: "heart.fill")
+                    .foregroundColor(.red)
+                    .font(font)
+                    .scaledToFit()
+                    .transition(.asymmetric(insertion: .scale, removal: .opacity))
+            } else {
+                Image(systemName: "heart")
+                    .foregroundColor(.red)
+                    .font(font)
+                    .scaledToFit()
+                    .transition(.asymmetric(insertion: .scale, removal: .opacity))
+            }
+            
+        }
+    }
 }

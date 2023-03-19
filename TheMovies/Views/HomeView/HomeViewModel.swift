@@ -7,18 +7,18 @@
 
 import Foundation
 import Combine
+import SwiftUI
 
 
 class HomeViewModel : ObservableObject {
     
-    // UI Data Publishers
     // Movies
     @Published var trendingMovies = [MotionPictureData.MotionPicture]()
     @Published var popularMovies = [MotionPictureData.MotionPicture]()
     @Published var topRatedMovies = [MotionPictureData.MotionPicture]()
     @Published var upcomingMovies = [MotionPictureData.MotionPicture]()
     
-    
+    // Keeps track of the tabview index for the movies view
     @Published var currentMovieTabIndex : Int = 0
     
     // TV Series
@@ -27,24 +27,32 @@ class HomeViewModel : ObservableObject {
     @Published var topRatedTVSeries = [MotionPictureData.MotionPicture]()
     @Published var airingTodayTVSeries = [MotionPictureData.MotionPicture]()
     
-    
+    // Keeps track of the tabview index for the tv series view
     @Published var currentTVTabIndex : Int = 0
     
     // Sets the view to either display Movies or TV Series
     @Published var selectedType : MotionPictureData.MotionPicture.MotionPictureType = .movie
+    
+    // This publisher makes the cards re-render when the favourite heart is tapped
+    @Published var favouritesChanged : Bool = false
+    
+    
+    @Published var autoSwipe : Bool = true
     
     
     
     // Interactor Dependencies
     let homeNavigationInteractor : HomeNavigationInteractor
     let apiInteractor : APIDataInteractor
+    let favouritesInteractor : FavouritesInteractor
     
     private var cancellables = Set<AnyCancellable>()
     
     // Init
-    init(_ homeNavigationInteractor : HomeNavigationInteractor, _ apiInteractor : APIDataInteractor) {
+    init(_ homeNavigationInteractor : HomeNavigationInteractor, _ apiInteractor : APIDataInteractor, _ favouritesInteractor : FavouritesInteractor) {
         self.homeNavigationInteractor = homeNavigationInteractor
         self.apiInteractor = apiInteractor
+        self.favouritesInteractor = favouritesInteractor
         
         // Add the Combine subscribers
         addSubscribers()
@@ -52,6 +60,33 @@ class HomeViewModel : ObservableObject {
         getMovieData()
     }
     
+    
+}
+
+
+
+
+// MARK: Favourites Functionality
+extension HomeViewModel {
+    
+    // Add motion Picture To Favourites
+    func alterFavourites(_ motionPicture : MotionPictureData.MotionPicture) {
+        favouritesInteractor.alterFavourites(motionPicture.id)
+        favouritesChanged.toggle() // --> This published var makes the image card re-render to display the favourite heart
+    }
+    
+    // Return true if the motion picture is in the list of favourites
+    func isFavourite(_ motionPicture : MotionPictureData.MotionPicture) -> Bool {
+        guard let id = motionPicture.id else { return false }
+        let index = favouritesInteractor.favouriteIDs.firstIndex(of: id)
+        return index == nil ? false : true
+    }
+    
+}
+
+
+// MARK: Get Data
+extension HomeViewModel {
     
     // Get all data for the home view
     private func getMovieData() {
@@ -86,10 +121,8 @@ class HomeViewModel : ObservableObject {
         }
     }
     
-    
-
-    
 }
+
 
 
 
@@ -117,7 +150,6 @@ extension HomeViewModel {
                 case .success(let optionalListOfMotionPictures):
                     guard let motionPictures = optionalListOfMotionPictures else { return }
                     self.trendingMovies = motionPictures.shuffled()
-                    print("TRENDING RECEIVED")
                 }
             }
             .store(in: &cancellables)
@@ -257,6 +289,34 @@ extension HomeViewModel {
                 guard let self else { return }
                 if returnedType == .tv {
                     self.getTVData()
+                }
+            }
+            .store(in: &cancellables)
+        
+        
+        self.$autoSwipe
+            .sink { [weak self] returnedBool in
+                guard let self else { return }
+                DispatchQueue.main.asyncAfter(deadline: .now() + Constants.shared.autoSwipeSeconds) {
+                    if self.selectedType == .movie {
+                        withAnimation {
+                            if self.currentMovieTabIndex == self.trendingMovies.count - 1 {
+                                self.currentMovieTabIndex = 0
+                            } else {
+                                self.currentMovieTabIndex += 1
+                            }
+                            self.autoSwipe = true
+                        }
+                    } else {
+                        withAnimation {
+                            if self.currentTVTabIndex == self.trendingTVSeries.count - 1 {
+                                self.currentTVTabIndex = 0
+                            } else {
+                                self.currentTVTabIndex += 1
+                            }
+                            self.autoSwipe.toggle()
+                        }
+                    }
                 }
             }
             .store(in: &cancellables)

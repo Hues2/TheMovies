@@ -34,5 +34,6 @@ struct MotionPictureData : Codable {
         enum MotionPictureType {
             case movie, tv
         }
+
     }
 }
