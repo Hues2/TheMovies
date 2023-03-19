@@ -225,7 +225,9 @@ extension HomeView {
                     ForEach(motionPictures) { motionPicture in
                         NavigationLink(value: HomeNavigationInteractor.HomePath.detail(motionPicture)) {
                             miniMotionPictureCard(motionPicture)
-                                .shadow(radius: 5)
+                                .cornerRadius(10)
+                                .shadow(radius: 3)
+                                .frame(width: 135, height: 210)
                         }
                     }
                 }
@@ -238,24 +240,11 @@ extension HomeView {
         
         if let url = motionPicture.imageURL {
             URLImage(url) {
-                ZStack {
-                    Color.backgroundColor
-                        .shadow(radius: 5)
-                    ProgressView()
-                }
+                miniLoadingCard
             } inProgress: { progress in
-                ZStack {
-                    Color.backgroundColor
-                        .shadow(radius: 5)
-                    ProgressView()
-                }
+                miniLoadingCard
             } failure: { error, retry in
-                ZStack {
-                    Color.backgroundColor
-                        .border(.black)
-                        .shadow(radius: 5)
-                    ProgressView()
-                }
+                miniLoadingCard
             } content: { image in
                 image
                     .resizable()
@@ -265,20 +254,29 @@ extension HomeView {
                             Color.black
                                 .opacity(0.4)
                                 .cornerRadius(10, corners: [.topRight, .bottomLeft])
-                            
+
                             Image(systemName: "heart.fill")
                                 .foregroundColor(.red)
                                 .font(.headline)
                                 .scaledToFit()
-                            
-                            
+
+
                         }
                         .frame(width: 25, height: 25)
                     }
+                    .frame(width: 130, height: 200)
+                    .clipped()
             }
-            .frame(width: 130, height: 200)
-            .cornerRadius(10)
+            
         }
+    }
+    
+    private var miniLoadingCard : some View {
+        ZStack {
+            Color.backgroundColor
+            ProgressView()
+        }
+        .frame(width: 130, height: 200)
     }
     
 }
