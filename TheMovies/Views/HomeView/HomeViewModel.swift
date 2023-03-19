@@ -297,7 +297,7 @@ extension HomeViewModel {
         self.$autoSwipe
             .sink { [weak self] returnedBool in
                 guard let self else { return }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 7.5) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + Constants.shared.autoSwipeSeconds) {
                     if self.selectedType == .movie {
                         withAnimation {
                             if self.currentMovieTabIndex == self.trendingMovies.count - 1 {
