@@ -189,6 +189,18 @@ extension HomeView {
                 image
                     .resizable()
                     .scaledToFill()
+                    .overlay(alignment: .topTrailing) {
+                        ZStack {
+                            Color.black
+                                .opacity(0.4)
+                                .cornerRadius(10, corners: [.topRight, .bottomLeft])
+                            
+                            Image(systemName: "heart.fill")
+                                .foregroundColor(.red)
+                                .font(.title)
+                        }
+                        .frame(width: 50, height: 50)
+                    }
             }
             .cornerRadius(10)
             .shadow(radius: 5)
@@ -248,6 +260,21 @@ extension HomeView {
                 image
                     .resizable()
                     .scaledToFill()
+                    .overlay(alignment: .topTrailing) {
+                        ZStack {
+                            Color.black
+                                .opacity(0.4)
+                                .cornerRadius(10, corners: [.topRight, .bottomLeft])
+                            
+                            Image(systemName: "heart.fill")
+                                .foregroundColor(.red)
+                                .font(.headline)
+                                .scaledToFit()
+                            
+                            
+                        }
+                        .frame(width: 25, height: 25)
+                    }
             }
             .frame(width: 130, height: 200)
             .cornerRadius(10)
