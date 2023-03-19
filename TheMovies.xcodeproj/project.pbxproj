@@ -29,6 +29,7 @@
 		2EA7228F29C2472A007BF89E /* URLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7228E29C2472A007BF89E /* URLBuilder.swift */; };
 		2EA7229129C2549D007BF89E /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7229029C2549D007BF89E /* Color.swift */; };
 		2EC882A629C74E01005F3F90 /* RoundedCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC882A529C74E01005F3F90 /* RoundedCorner.swift */; };
+		2EC882A829C77537005F3F90 /* FavouritesInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC882A729C77537005F3F90 /* FavouritesInteractor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		2EA7228E29C2472A007BF89E /* URLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBuilder.swift; sourceTree = "<group>"; };
 		2EA7229029C2549D007BF89E /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		2EC882A529C74E01005F3F90 /* RoundedCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedCorner.swift; sourceTree = "<group>"; };
+		2EC882A729C77537005F3F90 /* FavouritesInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesInteractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +209,7 @@
 			isa = PBXGroup;
 			children = (
 				2E1619F729C228B000A550DD /* APIDataInteractor.swift */,
+				2EC882A729C77537005F3F90 /* FavouritesInteractor.swift */,
 			);
 			path = Interactors;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				2E1619FA29C230D200A550DD /* CustomError.swift in Sources */,
 				2E1619F529C224BF00A550DD /* Constants.swift in Sources */,
 				2E1619D729C1FDF700A550DD /* AppView.swift in Sources */,
+				2EC882A829C77537005F3F90 /* FavouritesInteractor.swift in Sources */,
 				2EA7228B29C236DA007BF89E /* HomeViewModel.swift in Sources */,
 				2E1619E329C1FFA700A550DD /* HomeView.swift in Sources */,
 				2E1619C829C1FD9500A550DD /* TheMoviesApp.swift in Sources */,

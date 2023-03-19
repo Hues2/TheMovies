@@ -12,13 +12,11 @@ import URLImageStore
 struct HomeView: View {
     
     @StateObject private var homeVM : HomeViewModel
-    
     @Namespace private var namespace
     
     
-    
-    init(_ homeNavigationInteractor : HomeNavigationInteractor, _ apiDataInteractor : APIDataInteractor) {
-        self._homeVM = StateObject(wrappedValue: HomeViewModel(homeNavigationInteractor, apiDataInteractor))
+    init(_ homeNavigationInteractor : HomeNavigationInteractor, _ apiDataInteractor : APIDataInteractor, _ favouritesInteractor : FavouritesInteractor) {
+        self._homeVM = StateObject(wrappedValue: HomeViewModel(homeNavigationInteractor, apiDataInteractor, favouritesInteractor))
     }
     
     var body: some View {
@@ -164,8 +162,8 @@ extension HomeView {
     }
     
     @ViewBuilder
-    private func tabViewCard(_ motionpicture : MotionPictureData.MotionPicture) -> some View {
-        if let url = motionpicture.imageURL {
+    private func tabViewCard(_ motionPicture : MotionPictureData.MotionPicture) -> some View {
+        if let url = motionPicture.imageURL {
             
             URLImage(url) {
                 tabViewLoadingCard
@@ -185,11 +183,15 @@ extension HomeView {
                                 .opacity(0.4)
                                 .cornerRadius(10, corners: [.topRight, .bottomLeft])
 
-                            Image(systemName: "heart.fill")
+                            Image(systemName: homeVM.isFavourite(motionPicture) ? "heart.fill" : "heart")
                                 .foregroundColor(.red)
                                 .font(.title)
                         }
                         .frame(width: 50, height: 50)
+                        .onTapGesture {
+                            // Add the motion picture id to the favourites list in database
+                            homeVM.alterFavourites(motionPicture)
+                        }
                     }
                     .cornerRadius(10)
                     .shadow(radius: 5)
@@ -202,6 +204,7 @@ extension HomeView {
         ZStack {
             Color.backgroundColor
             ProgressView()
+                .tint(Color.accentColor)
         }
         .frame(width: UIScreen.screenWidth * 0.9, height: UIScreen.screenHeight * 0.6)
         .cornerRadius(10)
@@ -255,14 +258,16 @@ extension HomeView {
                                 .opacity(0.4)
                                 .cornerRadius(10, corners: [.topRight, .bottomLeft])
 
-                            Image(systemName: "heart.fill")
+                            Image(systemName: homeVM.isFavourite(motionPicture) ? "heart.fill" : "heart")
                                 .foregroundColor(.red)
                                 .font(.headline)
                                 .scaledToFit()
-
-
                         }
                         .frame(width: 25, height: 25)
+                        .onTapGesture {
+                            // Add the motion picture id to the favourites list in database
+                            homeVM.alterFavourites(motionPicture)
+                        }
                     }
                     .frame(width: 130, height: 200)
                     .clipped()
@@ -275,6 +280,7 @@ extension HomeView {
         ZStack {
             Color.backgroundColor
             ProgressView()
+                .tint(Color.accentColor)
         }
         .frame(width: 130, height: 200)
     }

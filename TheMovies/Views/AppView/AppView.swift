@@ -15,13 +15,14 @@ struct AppView: View {
     
     @StateObject private var appVM = AppViewModel()
     @StateObject var apiDataInteractor = APIDataInteractor()
+    @StateObject var favouritesInteractor = FavouritesInteractor()
     
     
     var body: some View {
         
         TabView(selection: $appVM.selectedTab) {
             
-            HomeNavigationContainer(apiDataInteractor: apiDataInteractor)
+            HomeNavigationContainer(apiDataInteractor: apiDataInteractor, favouritesInteractor: favouritesInteractor)
                 .tabItem {
                     VStack {
                         Image(systemName: "house")

@@ -33,25 +33,27 @@ class HomeViewModel : ObservableObject {
     // Sets the view to either display Movies or TV Series
     @Published var selectedType : MotionPictureData.MotionPicture.MotionPictureType = .movie
     
+    @Published private var favouritesChanged : Bool = false
     
     
     // Interactor Dependencies
     let homeNavigationInteractor : HomeNavigationInteractor
     let apiInteractor : APIDataInteractor
+    let favouritesInteractor : FavouritesInteractor
     
     private var cancellables = Set<AnyCancellable>()
     
     // Init
-    init(_ homeNavigationInteractor : HomeNavigationInteractor, _ apiInteractor : APIDataInteractor) {
+    init(_ homeNavigationInteractor : HomeNavigationInteractor, _ apiInteractor : APIDataInteractor, _ favouritesInteractor : FavouritesInteractor) {
         self.homeNavigationInteractor = homeNavigationInteractor
         self.apiInteractor = apiInteractor
+        self.favouritesInteractor = favouritesInteractor
         
         // Add the Combine subscribers
         addSubscribers()
         
         getMovieData()
     }
-    
     
     // Get all data for the home view
     private func getMovieData() {
@@ -85,9 +87,21 @@ class HomeViewModel : ObservableObject {
             apiInteractor.getMotionPictures(URLBuilder.shared.tvURL(.trending, 1), .trending, .tv)
         }
     }
-    
-    
 
+    
+    // Add motion Picture To Favourites
+    func alterFavourites(_ motionPicture : MotionPictureData.MotionPicture) {
+        favouritesInteractor.alterFavourites(motionPicture.id)
+        favouritesChanged.toggle() // --> This published var makes the image card re-render to display the favourite heart
+    }
+    
+    // Return true if the motion picture is in the list of favourites
+    func isFavourite(_ motionPicture : MotionPictureData.MotionPicture) -> Bool {
+        guard let id = motionPicture.id else { return false }
+        let index = favouritesInteractor.favouriteIDs.firstIndex(of: id)
+        return index == nil ? false : true
+    }
+    
     
 }
 
@@ -117,7 +131,6 @@ extension HomeViewModel {
                 case .success(let optionalListOfMotionPictures):
                     guard let motionPictures = optionalListOfMotionPictures else { return }
                     self.trendingMovies = motionPictures.shuffled()
-                    print("TRENDING RECEIVED")
                 }
             }
             .store(in: &cancellables)
