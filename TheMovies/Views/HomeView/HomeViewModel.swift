@@ -33,7 +33,12 @@ class HomeViewModel : ObservableObject {
     // Sets the view to either display Movies or TV Series
     @Published var selectedType : MotionPictureData.MotionPicture.MotionPictureType = .movie
     
+    // This publisher makes the cards re-render when the favourite heart is tapped
     @Published var favouritesChanged : Bool = false
+    
+    
+    @Published var autoSwipe : Bool = true
+    
     
     
     // Interactor Dependencies
@@ -284,6 +289,34 @@ extension HomeViewModel {
                 guard let self else { return }
                 if returnedType == .tv {
                     self.getTVData()
+                }
+            }
+            .store(in: &cancellables)
+        
+        
+        self.$autoSwipe
+            .sink { [weak self] returnedBool in
+                guard let self else { return }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 7.5) {
+                    if self.selectedType == .movie {
+                        withAnimation {
+                            if self.currentMovieTabIndex == self.trendingMovies.count - 1 {
+                                self.currentMovieTabIndex = 0
+                            } else {
+                                self.currentMovieTabIndex += 1
+                            }
+                            self.autoSwipe = true
+                        }
+                    } else {
+                        withAnimation {
+                            if self.currentTVTabIndex == self.trendingTVSeries.count - 1 {
+                                self.currentTVTabIndex = 0
+                            } else {
+                                self.currentTVTabIndex += 1
+                            }
+                            self.autoSwipe.toggle()
+                        }
+                    }
                 }
             }
             .store(in: &cancellables)

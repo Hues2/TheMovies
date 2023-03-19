@@ -178,24 +178,7 @@ extension HomeView {
                     .frame(width: UIScreen.screenWidth * 0.9, height: UIScreen.screenHeight * 0.6)
                     .clipped()
                     .overlay(alignment: .topTrailing) {
-                        ZStack {
-                            Color.black
-                                .opacity(0.4)
-                                .cornerRadius(10, corners: [.topRight, .bottomLeft])
-
-                            if homeVM.isFavourite(motionPicture) {
-                                Image(systemName: "heart.fill")
-                                    .foregroundColor(.red)
-                                    .font(.title)
-                                    .transition(.asymmetric(insertion: .scale, removal: .opacity))
-                            } else {
-                                Image(systemName: "heart")
-                                    .foregroundColor(.red)
-                                    .font(.title)
-                                    .transition(.asymmetric(insertion: .scale, removal: .opacity))
-                            }
-                            
-                        }
+                        favouriteHeart(motionPicture, .title)
                         .frame(width: 50, height: 50)
                         .onTapGesture {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.3)) {
@@ -264,29 +247,7 @@ extension HomeView {
                     .resizable()
                     .scaledToFill()
                     .overlay(alignment: .topTrailing) {
-                        ZStack {
-                            Color.black
-                                .opacity(0.4)
-                                .cornerRadius(10, corners: [.topRight, .bottomLeft])
-
-                            
-                            
-                            
-                            if homeVM.isFavourite(motionPicture){
-                                Image(systemName: "heart.fill")
-                                    .foregroundColor(.red)
-                                    .font(.headline)
-                                    .scaledToFit()
-                                    .transition(.asymmetric(insertion: .scale, removal: .opacity))
-                                
-                            } else {
-                                Image(systemName: "heart")
-                                    .foregroundColor(.red)
-                                    .font(.headline)
-                                    .scaledToFit()
-                                    .transition(.asymmetric(insertion: .scale, removal: .opacity))
-                            }
-                        }
+                        favouriteHeart(motionPicture, .headline)
                         .frame(width: 25, height: 25)
                         .onTapGesture {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.3)) {
@@ -311,4 +272,32 @@ extension HomeView {
         .frame(width: 130, height: 200)
     }
     
+}
+
+
+
+extension HomeView {
+    
+    private func favouriteHeart(_ motionPicture : MotionPictureData.MotionPicture, _ font : Font) -> some View {
+        ZStack {
+            Color.black
+                .opacity(0.4)
+                .cornerRadius(10, corners: [.topRight, .bottomLeft])
+
+            if homeVM.isFavourite(motionPicture) {
+                Image(systemName: "heart.fill")
+                    .foregroundColor(.red)
+                    .font(font)
+                    .scaledToFit()
+                    .transition(.asymmetric(insertion: .scale, removal: .opacity))
+            } else {
+                Image(systemName: "heart")
+                    .foregroundColor(.red)
+                    .font(font)
+                    .scaledToFit()
+                    .transition(.asymmetric(insertion: .scale, removal: .opacity))
+            }
+            
+        }
+    }
 }
