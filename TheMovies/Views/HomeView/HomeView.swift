@@ -166,7 +166,26 @@ extension HomeView {
     @ViewBuilder
     private func tabViewCard(_ motionpicture : MotionPictureData.MotionPicture) -> some View {
         if let url = motionpicture.imageURL {
-            URLImage(url) { image, info in
+            
+            URLImage(url) {
+                ZStack {
+                    Color.backgroundColor
+                        .shadow(radius: 5)
+                    ProgressView()
+                }
+            } inProgress: { progress in
+                ZStack {
+                    Color.backgroundColor
+                        .shadow(radius: 5)
+                    ProgressView()
+                }
+            } failure: { error, retry in
+                ZStack {
+                    Color.backgroundColor
+                        .shadow(radius: 5)
+                    ProgressView()
+                }
+            } content: { image in
                 image
                     .resizable()
                     .scaledToFill()
@@ -194,6 +213,7 @@ extension HomeView {
                     ForEach(motionPictures) { motionPicture in
                         NavigationLink(value: HomeNavigationInteractor.HomePath.detail(motionPicture)) {
                             miniMotionPictureCard(motionPicture)
+                                .shadow(radius: 5)
                         }
                     }
                 }
@@ -205,7 +225,26 @@ extension HomeView {
     private func miniMotionPictureCard(_ motionPicture : MotionPictureData.MotionPicture) -> some View {
         
         if let url = motionPicture.imageURL {
-            URLImage(url) { image, info in
+            URLImage(url) {
+                ZStack {
+                    Color.backgroundColor
+                        .shadow(radius: 5)
+                    ProgressView()
+                }
+            } inProgress: { progress in
+                ZStack {
+                    Color.backgroundColor
+                        .shadow(radius: 5)
+                    ProgressView()
+                }
+            } failure: { error, retry in
+                ZStack {
+                    Color.backgroundColor
+                        .border(.black)
+                        .shadow(radius: 5)
+                    ProgressView()
+                }
+            } content: { image in
                 image
                     .resizable()
                     .scaledToFill()
