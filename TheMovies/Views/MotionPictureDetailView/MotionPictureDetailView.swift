@@ -71,14 +71,25 @@ extension MotionPictureDetailView {
     
     private var infoHeader : some View {
         VStack(alignment: .leading, spacing: 15) {
-            Text("\(detailVM.motionPicture.original_name ?? detailVM.motionPicture.original_title ?? "Unknown")")
+            Text("\(detailVM.motionPicture.name ?? detailVM.motionPicture.title ?? "Unknown")")
                 .font(.title)
                 .fontWeight(.semibold)
             
+            HStack {
+                Text("\(detailVM.motionPicture.release_date ?? detailVM.motionPicture.first_air_date ?? "")")
+                    .fontWeight(.thin)
+                Spacer()
+                RatingView(rating: detailVM.motionPicture.vote_average ?? 0.0, frameSize: 30)
+                    .frame(width: 35, height: 35)
+            }
+            
+            
+            Divider()
+            
             Text("\(detailVM.motionPicture.overview ?? "")")
+            
         }
         .padding(.top, 15)
-        
         
     }
 }
