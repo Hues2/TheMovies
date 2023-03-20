@@ -163,7 +163,7 @@ extension HomeView {
     
     @ViewBuilder
     private func tabViewCard(_ motionPicture : MotionPictureData.MotionPicture) -> some View {
-        if let url = motionPicture.imageURL {
+        if let url = motionPicture.posterURL {
             
             URLImage(url) {
                 tabViewLoadingCard
@@ -235,7 +235,7 @@ extension HomeView {
     @ViewBuilder
     private func miniMotionPictureCard(_ motionPicture : MotionPictureData.MotionPicture) -> some View {
         
-        if let url = motionPicture.imageURL {
+        if let url = motionPicture.posterURL {
             URLImage(url) {
                 miniLoadingCard
             } inProgress: { progress in

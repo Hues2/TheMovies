@@ -20,17 +20,24 @@ struct HomeNavigationContainer: View {
             ZStack {
                 Color.backgroundColor
                     .ignoresSafeArea()
-                
                 HomeView(homeNavigationInteractor, apiDataInteractor, favouritesInteractor)
-                    .navigationDestination(for: HomeNavigationInteractor.HomePath.self) { homePath in
-                        switch homePath {
-                        case .home:
-                            HomeView(homeNavigationInteractor, apiDataInteractor, favouritesInteractor)
-                            
-                        case .detail(let motionPicture):
-                            MotionPictureDetailView(motionPicture)
-                        }
+            }
+            .navigationDestination(for: HomeNavigationInteractor.HomePath.self) { homePath in
+                switch homePath {
+                case .home:
+                    ZStack {
+                        Color.backgroundColor
+                            .ignoresSafeArea()
+                        HomeView(homeNavigationInteractor, apiDataInteractor, favouritesInteractor)
                     }
+                    
+                case .detail(let motionPicture):
+                    ZStack {
+                        Color.backgroundColor
+                            .ignoresSafeArea()
+                        MotionPictureDetailView(motionPicture)
+                    }
+                }
             }
         }
         

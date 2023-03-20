@@ -6,16 +6,79 @@
 //
 
 import SwiftUI
+import URLImage
 
 struct MotionPictureDetailView: View {
     
-    @StateObject var motionPictureDetailVM : MotionPictureDetailViewModel
+    @StateObject var detailVM : MotionPictureDetailViewModel
     
     init(_ motionPicture : MotionPictureData.MotionPicture) {
-        self._motionPictureDetailVM = StateObject(wrappedValue: MotionPictureDetailViewModel(motionPicture))
+        self._detailVM = StateObject(wrappedValue: MotionPictureDetailViewModel(motionPicture))
     }
     
     var body: some View {
-        Text("Motion Picture Detail View")
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(alignment: .leading, spacing: 0) {
+                
+                // Image Header
+                imageHeader
+                    .frame(width: UIScreen.screenWidth * 0.95, height: UIScreen.screenHeight * 0.25)
+                    .cornerRadius(10)
+                    .shadow(radius: 5)
+                
+                // Info Header
+                infoHeader
+                
+            }
+            .padding()
+        }
+    }
+}
+
+
+
+extension MotionPictureDetailView {
+    
+    @ViewBuilder
+    private var imageHeader : some View {
+        if let url = detailVM.motionPicture.backdropURL {
+            URLImage(url) {
+                loadingHeaderCard
+                } inProgress: { progress in
+                    loadingHeaderCard
+                } failure: { error, retry in
+                    loadingHeaderCard
+                } content: { image in
+                    image
+                        .resizable()
+                        .scaledToFill()
+                        .clipped()
+                }
+            }
+        }
+    
+    private var loadingHeaderCard : some View {
+        ZStack {
+            Color.backgroundColor
+                .cornerRadius(10)
+                .shadow(radius: 5)
+            
+            ProgressView()
+                .tint(Color.accentColor)
+        }
+        .frame(width: UIScreen.screenWidth * 0.95, height: UIScreen.screenHeight * 0.25)
+    }
+    
+    private var infoHeader : some View {
+        VStack(alignment: .leading, spacing: 15) {
+            Text("\(detailVM.motionPicture.original_name ?? detailVM.motionPicture.original_title ?? "Unknown")")
+                .font(.title)
+                .fontWeight(.semibold)
+            
+            Text("\(detailVM.motionPicture.overview ?? "")")
+        }
+        .padding(.top, 15)
+        
+        
     }
 }
