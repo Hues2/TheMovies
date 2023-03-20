@@ -182,7 +182,6 @@ extension HomeView {
                         .frame(width: 50, height: 50)
                         .onTapGesture {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.3)) {
-                                // Add the motion picture id to the favourites list in database
                                 homeVM.alterFavourites(motionPicture)
                             }
                         }

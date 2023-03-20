@@ -56,6 +56,7 @@ class HomeViewModel : ObservableObject {
         
         // Add the Combine subscribers
         addSubscribers()
+
         
         getMovieData()
     }
@@ -72,14 +73,11 @@ extension HomeViewModel {
     // Add motion Picture To Favourites
     func alterFavourites(_ motionPicture : MotionPictureData.MotionPicture) {
         favouritesInteractor.alterFavourites(motionPicture.id)
-        favouritesChanged.toggle() // --> This published var makes the image card re-render to display the favourite heart
     }
     
     // Return true if the motion picture is in the list of favourites
     func isFavourite(_ motionPicture : MotionPictureData.MotionPicture) -> Bool {
-        guard let id = motionPicture.id else { return false }
-        let index = favouritesInteractor.favouriteIDs.firstIndex(of: id)
-        return index == nil ? false : true
+        favouritesInteractor.isFavourite(motionPicture)
     }
     
 }
@@ -318,6 +316,14 @@ extension HomeViewModel {
                         }
                     }
                 }
+            }
+            .store(in: &cancellables)
+        
+        
+        self.favouritesInteractor.$favouritesToggle
+            .sink { [weak self] _ in
+                guard let self else { return }
+                self.favouritesChanged.toggle()
             }
             .store(in: &cancellables)
     }

@@ -15,6 +15,7 @@ import Foundation
 class FavouritesInteractor : ObservableObject {
     
     @Published var favouriteIDs = [Int]()
+    @Published var favouritesToggle : Bool = false
     
     init() {
         fetchFavourites()
@@ -33,11 +34,20 @@ class FavouritesInteractor : ObservableObject {
         guard let indexOfId else {
             // Add to favourite
             self.favouriteIDs.append(id)
+            self.favouritesToggle.toggle()
             return
         }
         
         // Remove favourite
         self.favouriteIDs.remove(at: indexOfId)
+        self.favouritesToggle.toggle()
     }
     
+    
+    // Return true if the motion picture is in the list of favourites
+    func isFavourite(_ motionPicture : MotionPictureData.MotionPicture) -> Bool {
+        guard let id = motionPicture.id else { return false }
+        let index = favouriteIDs.firstIndex(of: id)
+        return index == nil ? false : true
+    }
 }

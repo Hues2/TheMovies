@@ -12,8 +12,8 @@ struct MotionPictureDetailView: View {
     
     @StateObject var detailVM : MotionPictureDetailViewModel
     
-    init(_ motionPicture : MotionPictureData.MotionPicture) {
-        self._detailVM = StateObject(wrappedValue: MotionPictureDetailViewModel(motionPicture))
+    init(_ motionPicture : MotionPictureData.MotionPicture, _ favouritesInteractor : FavouritesInteractor) {
+        self._detailVM = StateObject(wrappedValue: MotionPictureDetailViewModel(motionPicture, favouritesInteractor))
     }
     
     var body: some View {
@@ -32,12 +32,40 @@ struct MotionPictureDetailView: View {
             }
             .padding()
         }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                favouriteHeart
+                    .onTapGesture {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.3)) {
+                            detailVM.alterFavourites()
+                        }
+                    }
+            }
+        }
     }
 }
 
 
 
 extension MotionPictureDetailView {
+    
+    private var favouriteHeart : some View {
+        VStack{
+            if detailVM.isFavourite() {
+                Image(systemName: "heart.fill")
+                    .foregroundColor(.red)
+                    .font(.title2)
+                    .scaledToFit()
+                    .transition(.asymmetric(insertion: .scale, removal: .opacity))
+            } else {
+                Image(systemName: "heart")
+                    .foregroundColor(.red)
+                    .font(.title2)
+                    .scaledToFit()
+                    .transition(.asymmetric(insertion: .scale, removal: .opacity))
+            }
+        }
+    }
     
     @ViewBuilder
     private var imageHeader : some View {
@@ -82,7 +110,6 @@ extension MotionPictureDetailView {
                 RatingView(rating: detailVM.motionPicture.vote_average ?? 0.0, frameSize: 30)
                     .frame(width: 35, height: 35)
             }
-            
             
             Divider()
             
