@@ -163,7 +163,7 @@ extension HomeView {
     
     @ViewBuilder
     private func tabViewCard(_ motionPicture : MotionPictureData.MotionPicture) -> some View {
-        if let url = motionPicture.imageURL {
+        if let url = motionPicture.posterURL {
             
             URLImage(url) {
                 tabViewLoadingCard
@@ -182,7 +182,6 @@ extension HomeView {
                         .frame(width: 50, height: 50)
                         .onTapGesture {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.3)) {
-                                // Add the motion picture id to the favourites list in database
                                 homeVM.alterFavourites(motionPicture)
                             }
                         }
@@ -235,7 +234,7 @@ extension HomeView {
     @ViewBuilder
     private func miniMotionPictureCard(_ motionPicture : MotionPictureData.MotionPicture) -> some View {
         
-        if let url = motionPicture.imageURL {
+        if let url = motionPicture.posterURL {
             URLImage(url) {
                 miniLoadingCard
             } inProgress: { progress in
