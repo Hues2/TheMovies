@@ -24,7 +24,7 @@ struct RatingView: View {
         }
     }
     
-    @State var percentToAnimate: Double = 1
+    @State var percentToAnimate: Double = 0
     
     var body: some View {
         ZStack{

@@ -12,8 +12,11 @@ struct MotionPictureDetailView: View {
     
     @StateObject var detailVM : MotionPictureDetailViewModel
     
-    init(_ motionPicture : MotionPictureData.MotionPicture, _ favouritesInteractor : FavouritesInteractor) {
-        self._detailVM = StateObject(wrappedValue: MotionPictureDetailViewModel(motionPicture, favouritesInteractor))
+    @Namespace private var namespace
+    @State private var selectedCast : CastData.Cast? = nil
+    
+    init(_ motionPicture : MotionPictureData.MotionPicture, _ favouritesInteractor : FavouritesInteractor, _ apiDataInteractor : APIDataInteractor) {
+        self._detailVM = StateObject(wrappedValue: MotionPictureDetailViewModel(motionPicture, favouritesInteractor, apiDataInteractor))
     }
     
     var body: some View {
@@ -28,17 +31,57 @@ struct MotionPictureDetailView: View {
                 
                 // Info Header
                 infoHeader
+                    .padding(.top, 15)
+                
+                // Cast
+                cast
+                    .padding(.top, 25)
+                
+                
+                // Recommendations
+                if !detailVM.recommendedMotionPictures.isEmpty {
+                    HorizontalScrollView(motionPictures: detailVM.recommendedMotionPictures, favouritesInteractor: detailVM.favouritesInteractor, title: "Recommendations")
+                        .padding(.top, 25)
+                }
                 
             }
             .padding()
         }
+        .onAppear{
+            detailVM.getCast()
+            detailVM.getRecommendations()
+        }
+        .overlay{
+            ZStack {
+                if let selectedCast {
+                Color.backgroundColor
+                    .opacity(0.6)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        withAnimation {
+                            self.selectedCast = nil
+                        }
+                    }
+                
+                    PopupCastView(castMember: selectedCast)
+                        .onTapGesture {
+                            withAnimation {
+                                self.selectedCast = nil
+                            }
+                        }
+                        .matchedGeometryEffect(id: selectedCast.id, in: namespace)
+                        .frame(width: UIScreen.screenWidth * 0.6, height: UIScreen.screenHeight * 0.3)
+                }
+            }
+        }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                favouriteHeart
+                FavouriteHeart(motionPicture: detailVM.motionPicture, favouritesInteractor: detailVM.favouritesInteractor, font: .title2, isInToolBar: true)
                     .onTapGesture {
                         withAnimation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.3)) {
                             detailVM.alterFavourites()
                         }
+                        HapticFeedback.shared.impact(.medium)
                     }
             }
         }
@@ -49,41 +92,23 @@ struct MotionPictureDetailView: View {
 
 extension MotionPictureDetailView {
     
-    private var favouriteHeart : some View {
-        VStack{
-            if detailVM.isFavourite() {
-                Image(systemName: "heart.fill")
-                    .foregroundColor(.red)
-                    .font(.title2)
-                    .scaledToFit()
-                    .transition(.asymmetric(insertion: .scale, removal: .opacity))
-            } else {
-                Image(systemName: "heart")
-                    .foregroundColor(.red)
-                    .font(.title2)
-                    .scaledToFit()
-                    .transition(.asymmetric(insertion: .scale, removal: .opacity))
-            }
-        }
-    }
-    
     @ViewBuilder
     private var imageHeader : some View {
         if let url = detailVM.motionPicture.backdropURL {
             URLImage(url) {
                 loadingHeaderCard
-                } inProgress: { progress in
-                    loadingHeaderCard
-                } failure: { error, retry in
-                    loadingHeaderCard
-                } content: { image in
-                    image
-                        .resizable()
-                        .scaledToFill()
-                        .clipped()
-                }
+            } inProgress: { progress in
+                loadingHeaderCard
+            } failure: { error, retry in
+                loadingHeaderCard
+            } content: { image in
+                image
+                    .resizable()
+                    .scaledToFill()
+                    .clipped()
             }
         }
+    }
     
     private var loadingHeaderCard : some View {
         ZStack {
@@ -116,7 +141,36 @@ extension MotionPictureDetailView {
             Text("\(detailVM.motionPicture.overview ?? "")")
             
         }
-        .padding(.top, 15)
-        
+    }
+    
+    private var cast : some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Text("Cast")
+                .font(.title2)
+                .fontWeight(.semibold)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                LazyHStack(spacing: 0) {
+                    ForEach(detailVM.cast) { castMember in
+                        if selectedCast != castMember {
+                            CastCard(castMember: castMember)
+                                .matchedGeometryEffect(id: castMember.id, in: namespace)
+                                .onTapGesture {
+                                    withAnimation {
+                                        if self.selectedCast != nil {
+                                            self.selectedCast = nil
+                                        } else {
+                                            self.selectedCast = castMember
+                                        }
+                                    }
+                                }
+                                .rotation3DEffect(Angle(degrees: 180), axis: (x: 0, y: 1, z: 0))
+                        }
+                    }
+                }
+            }
+        }
     }
 }
+
+

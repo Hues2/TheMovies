@@ -13,28 +13,40 @@ class URLBuilder {
     
     private init(){}
     
-    func movieURL(_ type : APIDataInteractor.MotionPicturePublisher, _ page : Int) -> String {
-        switch type {
+    func movieURL(_ publisher : APIDataInteractor.MotionPicturePublisher, _ page : Int) -> String {
+        switch publisher {
         case .upcoming, .topRated, .popular:
-            return "\(Constants.shared.baseURL)movie/\(type.rawValue)?api_key=\(Constants.shared.key)&language=en-US&page=\(page)"
-            
+            return "\(Constants.shared.baseURL)movie/\(publisher.rawValue)?api_key=\(Constants.shared.key)&language=en-US&page=\(page)"
+
         case .trending:
-            return "\(Constants.shared.baseURL)\(type.rawValue)/movie/day?api_key=\(Constants.shared.key)"
+            return "\(Constants.shared.baseURL)\(publisher.rawValue)/movie/day?api_key=\(Constants.shared.key)"
             
-        case .airingToday:
+        case .airingToday, .recommendations:
             return ""
         }
     }
     
-    func tvURL(_ type : APIDataInteractor.MotionPicturePublisher, _ page : Int) -> String{
-        switch type {
+    func tvURL(_ publisher : APIDataInteractor.MotionPicturePublisher, _ page : Int) -> String{
+        switch publisher {
         case .popular, .topRated, .airingToday:
-            return "\(Constants.shared.baseURL)tv/\(type.rawValue)?api_key=\(Constants.shared.key)&language=en-US&page=\(page)"
+            return "\(Constants.shared.baseURL)tv/\(publisher.rawValue)?api_key=\(Constants.shared.key)&language=en-US&page=\(page)"
         case .trending:
-            return "\(Constants.shared.baseURL)\(type.rawValue)/tv/day?api_key=\(Constants.shared.key)"
+            return "\(Constants.shared.baseURL)\(publisher.rawValue)/tv/day?api_key=\(Constants.shared.key)"
             
-        case .upcoming:
+        case .upcoming, .recommendations:
             return ""
         }
     }
+    
+    
+    func getRecommendationsURL(_ type : MotionPictureType, _ id : Int?, _ page : Int) -> String {
+        guard let id else { return "" }
+        return "https://api.themoviedb.org/3/\(type)/\(id)/recommendations?api_key=\(Constants.shared.key)&language=en-US&page=\(page))"
+    }
+    
+    func getCreditsURL(_ type : MotionPictureType, _ id : Int?, _ page : Int) -> String {
+        guard let id else { return "" }
+        return "\(Constants.shared.baseURL)\(type)/\(id)/credits?api_key=\(Constants.shared.key)&language=en-US&page=\(page))"
+    }
+    
 }

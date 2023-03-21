@@ -38,9 +38,7 @@ struct MotionPictureData : Codable {
             return url
         }
         
-        enum MotionPictureType {
-            case movie, tv
-        }
+        
 
     }
 }

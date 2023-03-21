@@ -10,7 +10,7 @@ import Combine
 import SwiftUI
 
 
-class HomeViewModel : ObservableObject {
+final class HomeViewModel : ObservableObject {
     
     // Movies
     @Published var trendingMovies = [MotionPictureData.MotionPicture]()
@@ -31,7 +31,7 @@ class HomeViewModel : ObservableObject {
     @Published var currentTVTabIndex : Int = 0
     
     // Sets the view to either display Movies or TV Series
-    @Published var selectedType : MotionPictureData.MotionPicture.MotionPictureType = .movie
+    @Published var selectedType : MotionPictureType = .movie
     
     // This publisher makes the cards re-render when the favourite heart is tapped
     @Published var favouritesChanged : Bool = false
@@ -165,7 +165,6 @@ extension HomeViewModel {
                 case .success(let optionalListOfMotionPictures):
                     guard let motionPictures = optionalListOfMotionPictures else { return }
                     self.popularMovies = motionPictures
-                    print("POPULAR RECEIVED")
                 }
             }
             .store(in: &cancellables)
@@ -183,7 +182,6 @@ extension HomeViewModel {
                 case .success(let optionalListOfMotionPictures):
                     guard let motionPictures = optionalListOfMotionPictures else { return }
                     self.topRatedMovies = motionPictures
-                    print("TOP RATED RECEIVED")
                 }
             }
             .store(in: &cancellables)
@@ -201,7 +199,6 @@ extension HomeViewModel {
                 case .success(let optionalListOfMotionPictures):
                     guard let motionPictures = optionalListOfMotionPictures else { return }
                     self.upcomingMovies = motionPictures
-                    print("UPCOMING RECEIVED")
                 }
             }
             .store(in: &cancellables)
@@ -221,7 +218,6 @@ extension HomeViewModel {
                 case .success(let optionalListOfMotionPictures):
                     guard let motionPictures = optionalListOfMotionPictures else { return }
                     self.trendingTVSeries = motionPictures.shuffled()
-                    print("TRENDING RECEIVED")
                 }
             }
             .store(in: &cancellables)
@@ -238,7 +234,6 @@ extension HomeViewModel {
                 case .success(let optionalListOfMotionPictures):
                     guard let motionPictures = optionalListOfMotionPictures else { return }
                     self.popularTVSeries = motionPictures
-                    print("POPULAR RECEIVED")
                 }
             }
             .store(in: &cancellables)
@@ -255,7 +250,6 @@ extension HomeViewModel {
                 case .success(let optionalListOfMotionPictures):
                     guard let motionPictures = optionalListOfMotionPictures else { return }
                     self.topRatedTVSeries = motionPictures
-                    print("TOP RATED RECEIVED")
                 }
             }
             .store(in: &cancellables)
@@ -272,7 +266,6 @@ extension HomeViewModel {
                 case .success(let optionalListOfMotionPictures):
                     guard let motionPictures = optionalListOfMotionPictures else { return }
                     self.airingTodayTVSeries = motionPictures
-                    print("UPCOMING RECEIVED")
                 }
             }
             .store(in: &cancellables)

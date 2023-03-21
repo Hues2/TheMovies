@@ -23,12 +23,15 @@ class APIDataInteractor : ObservableObject {
     var trendingTVPublisher = PassthroughSubject<Result<[MotionPictureData.MotionPicture]?, CustomError>, Never>()
     var airingTodayTVPublisher = PassthroughSubject<Result<[MotionPictureData.MotionPicture]?, CustomError>, Never>()
     
+    var recommendationsPublisher = PassthroughSubject<Result<[MotionPictureData.MotionPicture]?, CustomError>, Never>()
+    var castPublisher = PassthroughSubject<Result<[CastData.Cast], CustomError>, Never>()
+    
     
     private var cancellables = Set<AnyCancellable>()
     
     
     // This fetches a list of movies from a certain category (depending on the URL)
-    func getMotionPictures(_ url : String, _ publisher : MotionPicturePublisher, _ type : MotionPictureData.MotionPicture.MotionPictureType) {
+    func getMotionPictures(_ url : String, _ publisher : MotionPicturePublisher, _ type : MotionPictureType) {
         guard let url = URL(string: url) else {
             popularMoviesPublisher.send(.failure(.invalidUrl))
             return
@@ -38,14 +41,45 @@ class APIDataInteractor : ObservableObject {
             .decode(type: MotionPictureData.self, decoder: JSONDecoder())
             .sink { [weak self] completion in
                 guard let self else { return }
-                self.handleCompletion(completion: completion, publisher, type)
+                switch completion{
+                case .finished:
+                    break
+                case .failure(let error):
+                    self.handleCompletionFailure(publisher, type, error)
+                }
             } receiveValue: { [weak self] motionPictureData in
                 guard let self else { return }
-                self.handleReceivedValue(publisher, type, motionPictureData)
+                self.handleReceivedValue(publisher, type, motionPictureData, nil)
             }
             .store(in: &cancellables)
     }
     
+    
+    func getCast(_ url : String, _ type : MotionPictureType) {
+        guard let url = URL(string: url) else { return }
+        getData(url)
+            .decode(type: CastData.self, decoder: JSONDecoder())
+            .sink { [weak self] completion in
+                guard let self else { return }
+                switch completion {
+                case .failure(let error):
+                    self.handleCompletionFailure(nil, type, error)
+                case .finished:
+                    break
+                }
+            } receiveValue: { [weak self] castData in
+                guard let self else { return }
+                self.handleReceivedValue(nil, type, nil, castData)
+            }
+            .store(in: &cancellables)
+    }
+    
+    
+}
+
+
+
+extension APIDataInteractor {
     private func getData(_ url : URL) -> AnyPublisher<Data, URLError>{
         URLSession.shared.dataTaskPublisher(for: url)
             .subscribe(on: DispatchQueue.global(qos: .userInitiated))
@@ -54,18 +88,15 @@ class APIDataInteractor : ObservableObject {
             .eraseToAnyPublisher()
     }
     
-    
-    private func handleCompletion(completion : Subscribers.Completion<Error>, _ publisher : MotionPicturePublisher, _ type : MotionPictureData.MotionPicture.MotionPictureType){
-        switch completion{
-        case .finished:
-            break
-        case .failure(let error):
-            handleCompletionFailure(publisher, type, error)
+    private func handleCompletionFailure(_ publisher : MotionPicturePublisher?, _ type : MotionPictureType, _ error : Error){
+        
+        guard let publisher else {
+            // This runs when the Credits have been fetched
+            self.castPublisher.send(.failure(.dataCouldNotBeDecoded(error.localizedDescription)))
+            return
         }
-    }
-    
-    
-    private func handleCompletionFailure(_ publisher : MotionPicturePublisher, _ type : MotionPictureData.MotionPicture.MotionPictureType, _ error : Error){
+        
+        
         switch publisher {
         case .popular:
             if type == .movie {
@@ -97,11 +128,23 @@ class APIDataInteractor : ObservableObject {
             if type == .tv {
                 self.airingTodayTVPublisher.send(.failure(.dataCouldNotBeDecoded(error.localizedDescription)))
             }
+            
+        case .recommendations:
+            self.recommendationsPublisher.send(.failure(.dataCouldNotBeDecoded(error.localizedDescription)))
         }
     }
     
     
-    private func handleReceivedValue(_ publisher : MotionPicturePublisher, _ type : MotionPictureData.MotionPicture.MotionPictureType, _ motionPictureData : MotionPictureData){
+    private func handleReceivedValue(_ publisher : MotionPicturePublisher?, _ type : MotionPictureType, _ motionPictureData : MotionPictureData?, _ castData : CastData?){
+        
+        guard let publisher else {
+            guard let castData else { return }
+            self.castPublisher.send(.success(castData.cast))
+            return
+        }
+        
+        guard let motionPictureData else { return }
+        
         switch publisher {
         case .popular:
             if type == .movie {
@@ -133,6 +176,9 @@ class APIDataInteractor : ObservableObject {
             if type == .tv {
                 self.airingTodayTVPublisher.send(.success(motionPictureData.results))
             }
+            
+        case .recommendations:
+            self.recommendationsPublisher.send(.success(motionPictureData.results))
         }
     }
     
@@ -143,6 +189,6 @@ class APIDataInteractor : ObservableObject {
         case upcoming = "upcoming"
         case trending = "trending"
         case airingToday  = "airing_today"
+        case recommendations = "recommendations"
     }
-    
 }

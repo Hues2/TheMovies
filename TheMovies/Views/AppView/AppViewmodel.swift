@@ -8,7 +8,7 @@
 import Foundation
 
 
-class AppViewModel : ObservableObject {
+final class AppViewModel : ObservableObject {
     
     @Published var selectedTab : Tab = .home
     
