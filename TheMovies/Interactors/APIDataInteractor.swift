@@ -15,6 +15,7 @@ class APIDataInteractor : ObservableObject {
     var topRatedMoviesPublisher = PassthroughSubject<Result<[MotionPictureData.MotionPicture]?, CustomError>, Never>()
     var upcomingMoviesPublisher = PassthroughSubject<Result<[MotionPictureData.MotionPicture]?, CustomError>, Never>()
     var trendingMoviesPublisher = PassthroughSubject<Result<[MotionPictureData.MotionPicture]?, CustomError>, Never>()
+    var recommendedMoviesPublisher = PassthroughSubject<Result<[MotionPictureData.MotionPicture]?, CustomError>, Never>()
     
     
     // TV Series for the home view
@@ -22,6 +23,7 @@ class APIDataInteractor : ObservableObject {
     var topRatedTVPublisher = PassthroughSubject<Result<[MotionPictureData.MotionPicture]?, CustomError>, Never>()
     var trendingTVPublisher = PassthroughSubject<Result<[MotionPictureData.MotionPicture]?, CustomError>, Never>()
     var airingTodayTVPublisher = PassthroughSubject<Result<[MotionPictureData.MotionPicture]?, CustomError>, Never>()
+    var recommendedTVPublisher = PassthroughSubject<Result<[MotionPictureData.MotionPicture]?, CustomError>, Never>()
     
     
     private var cancellables = Set<AnyCancellable>()
@@ -97,6 +99,13 @@ class APIDataInteractor : ObservableObject {
             if type == .tv {
                 self.airingTodayTVPublisher.send(.failure(.dataCouldNotBeDecoded(error.localizedDescription)))
             }
+            
+        case .recommendations:
+            if type == .movie {
+                self.recommendedMoviesPublisher.send(.failure(.dataCouldNotBeDecoded(error.localizedDescription)))
+            } else {
+                self.recommendedTVPublisher.send(.failure(.dataCouldNotBeDecoded(error.localizedDescription)))
+            }
         }
     }
     
@@ -133,6 +142,13 @@ class APIDataInteractor : ObservableObject {
             if type == .tv {
                 self.airingTodayTVPublisher.send(.success(motionPictureData.results))
             }
+            
+        case .recommendations:
+            if type == .movie {
+                self.recommendedMoviesPublisher.send(.success(motionPictureData.results))
+            } else {
+                self.recommendedTVPublisher.send(.success(motionPictureData.results))
+            }
         }
     }
     
@@ -143,6 +159,7 @@ class APIDataInteractor : ObservableObject {
         case upcoming = "upcoming"
         case trending = "trending"
         case airingToday  = "airing_today"
+        case recommendations = "recommendations"
     }
     
 }
