@@ -47,22 +47,30 @@ struct MotionPictureDetailView: View {
             }
             .padding()
         }
-        .onTapGesture {
-            withAnimation {
-                selectedCast = nil
-            }
+        .onAppear{
+            detailVM.getCast()
+            detailVM.getRecommendations()
         }
         .overlay{
             ZStack {
                 if let selectedCast {
-                    PopupView(castMember: selectedCast)
+                Color.backgroundColor
+                    .opacity(0.6)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        withAnimation {
+                            self.selectedCast = nil
+                        }
+                    }
+                
+                    PopupCastView(castMember: selectedCast)
                         .onTapGesture {
                             withAnimation {
                                 self.selectedCast = nil
                             }
                         }
                         .matchedGeometryEffect(id: selectedCast.id, in: namespace)
-                                                    .frame(width: 200, height: 200)
+                        .frame(width: UIScreen.screenWidth * 0.6, height: UIScreen.screenHeight * 0.3)
                 }
             }
         }
@@ -156,49 +164,13 @@ extension MotionPictureDetailView {
                                         }
                                     }
                                 }
+                                .rotation3DEffect(Angle(degrees: 180), axis: (x: 0, y: 1, z: 0))
                         }
                     }
                 }
             }
         }
     }
-    
 }
 
 
-
-struct CastCard : View {
-    
-    let castMember : CastData.Cast
-    
-    var body: some View {
-        VStack {
-            if let imageURL = castMember.imageURL {
-                URLImage(imageURL) { image, info in
-                    image
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 140, height: 150, alignment: .center)
-                        .clipShape(Circle())
-                        .shadow(radius: 3)
-                }
-            }
-        }
-    }
-}
-
-
-struct PopupView: View {
-    
-    let castMember: CastData.Cast
-    
-    var body: some View {
-        VStack {
-            Text(castMember.name ?? "Unkown")
-                .font(.title)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.white)
-        .cornerRadius(20)
-    }
-}

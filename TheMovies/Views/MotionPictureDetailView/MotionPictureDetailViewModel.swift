@@ -32,8 +32,8 @@ final class MotionPictureDetailViewModel : ObservableObject {
         self.apiDataInteractor = apiDataInteractor
         
         addSubscribers()
-        getRecommendations()
-        getCast()
+//        getRecommendations()
+//        getCast()
     }
  
 }
@@ -107,11 +107,11 @@ extension MotionPictureDetailViewModel {
 // MARK: Fetch Extra Data
 extension MotionPictureDetailViewModel {
     
-    private func getRecommendations() {
+    func getRecommendations() {
         apiDataInteractor.getMotionPictures(URLBuilder.shared.getRecommendationsURL(motionPicture.type, motionPicture.id, 1), .recommendations, motionPicture.type)
     }
     
-    private func getCast() {
+    func getCast() {
         apiDataInteractor.getCast(URLBuilder.shared.getCreditsURL(motionPicture.type, motionPicture.id, 1), motionPicture.type)
     }
 }

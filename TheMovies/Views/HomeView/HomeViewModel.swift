@@ -165,7 +165,6 @@ extension HomeViewModel {
                 case .success(let optionalListOfMotionPictures):
                     guard let motionPictures = optionalListOfMotionPictures else { return }
                     self.popularMovies = motionPictures
-                    print("POPULAR RECEIVED")
                 }
             }
             .store(in: &cancellables)
@@ -183,7 +182,6 @@ extension HomeViewModel {
                 case .success(let optionalListOfMotionPictures):
                     guard let motionPictures = optionalListOfMotionPictures else { return }
                     self.topRatedMovies = motionPictures
-                    print("TOP RATED RECEIVED")
                 }
             }
             .store(in: &cancellables)
@@ -201,7 +199,6 @@ extension HomeViewModel {
                 case .success(let optionalListOfMotionPictures):
                     guard let motionPictures = optionalListOfMotionPictures else { return }
                     self.upcomingMovies = motionPictures
-                    print("UPCOMING RECEIVED")
                 }
             }
             .store(in: &cancellables)
@@ -221,7 +218,6 @@ extension HomeViewModel {
                 case .success(let optionalListOfMotionPictures):
                     guard let motionPictures = optionalListOfMotionPictures else { return }
                     self.trendingTVSeries = motionPictures.shuffled()
-                    print("TRENDING RECEIVED")
                 }
             }
             .store(in: &cancellables)
@@ -238,7 +234,6 @@ extension HomeViewModel {
                 case .success(let optionalListOfMotionPictures):
                     guard let motionPictures = optionalListOfMotionPictures else { return }
                     self.popularTVSeries = motionPictures
-                    print("POPULAR RECEIVED")
                 }
             }
             .store(in: &cancellables)
@@ -255,7 +250,6 @@ extension HomeViewModel {
                 case .success(let optionalListOfMotionPictures):
                     guard let motionPictures = optionalListOfMotionPictures else { return }
                     self.topRatedTVSeries = motionPictures
-                    print("TOP RATED RECEIVED")
                 }
             }
             .store(in: &cancellables)
@@ -272,7 +266,6 @@ extension HomeViewModel {
                 case .success(let optionalListOfMotionPictures):
                     guard let motionPictures = optionalListOfMotionPictures else { return }
                     self.airingTodayTVSeries = motionPictures
-                    print("UPCOMING RECEIVED")
                 }
             }
             .store(in: &cancellables)
