@@ -34,6 +34,7 @@ struct MiniMotionPictureCard: View {
                                 // Add the motion picture id to the favourites list in database
                                 favouritesInteractor.alterFavourites(motionPicture.id)
                             }
+                            HapticFeedback.shared.impact(.medium)
                         }
                     }
                     .frame(width: 130, height: 200)

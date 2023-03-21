@@ -183,6 +183,7 @@ extension HomeView {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.3)) {
                                 homeVM.alterFavourites(motionPicture)
                             }
+                            HapticFeedback.shared.impact(.medium)
                         }
                     }
                     .cornerRadius(10)

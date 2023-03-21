@@ -51,6 +51,7 @@ struct MotionPictureDetailView: View {
                         withAnimation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.3)) {
                             detailVM.alterFavourites()
                         }
+                        HapticFeedback.shared.impact(.medium)
                     }
             }
         }
