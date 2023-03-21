@@ -128,20 +128,19 @@ extension HomeView {
                 .frame(height: UIScreen.screenHeight * 0.65)
                 .padding(.top)
             
-            categoryList("Top Rated", homeVM.selectedType == .movie ? homeVM.topRatedMovies : homeVM.topRatedTVSeries)
-                    .padding()
+            HorizontalScrollView(motionPictures: homeVM.selectedType == .movie ? homeVM.topRatedMovies : homeVM.topRatedTVSeries, favouritesInteractor: homeVM.favouritesInteractor, title: "Top Rated")
+                .padding()
+
+            HorizontalScrollView(motionPictures: homeVM.selectedType == .movie ? homeVM.popularMovies : homeVM.popularTVSeries, favouritesInteractor: homeVM.favouritesInteractor, title: "Popular")
+                .padding()
             
-            categoryList("Popular", homeVM.selectedType == .movie ? homeVM.popularMovies : homeVM.popularTVSeries)
-                    .padding()
-            
-            categoryList(homeVM.selectedType == .movie ? "Upcoming" : "Airing Today", homeVM.selectedType == .movie ? homeVM.upcomingMovies : homeVM.airingTodayTVSeries)
-                    .padding()
+            HorizontalScrollView(motionPictures: homeVM.selectedType == .movie ? homeVM.upcomingMovies : homeVM.airingTodayTVSeries, favouritesInteractor: homeVM.favouritesInteractor, title: homeVM.selectedType == .movie ? "Upcoming" : "Airing Today")
+                .padding()
             
         }
         .animation(.none, value: homeVM.selectedType)
 
     }
-    
 }
 
 
@@ -178,7 +177,7 @@ extension HomeView {
                     .frame(width: UIScreen.screenWidth * 0.9, height: UIScreen.screenHeight * 0.6)
                     .clipped()
                     .overlay(alignment: .topTrailing) {
-                        favouriteHeart(motionPicture, .title)
+                        FavouriteHeart(motionPicture: motionPicture, favouritesInteractor: homeVM.favouritesInteractor, font: .title)
                         .frame(width: 50, height: 50)
                         .onTapGesture {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.3)) {
@@ -204,99 +203,4 @@ extension HomeView {
         .shadow(radius: 5)
     }
     
-}
-
-// MARK: Horizontal Scrollview
-extension HomeView {
-    
-    private func categoryList(_ category : String, _ motionPictures : [MotionPictureData.MotionPicture]) -> some View {
-        VStack(alignment: .leading, spacing: 5) {
-            
-            Text("\(category)")
-                .font(.title2)
-                .fontWeight(.semibold)
-            
-            ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: 10) {
-                    ForEach(motionPictures) { motionPicture in
-                        NavigationLink(value: HomeNavigationInteractor.HomePath.detail(motionPicture)) {
-                            miniMotionPictureCard(motionPicture)
-                                .cornerRadius(10)
-                                .shadow(radius: 3)
-                                .frame(width: 135, height: 210)
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    @ViewBuilder
-    private func miniMotionPictureCard(_ motionPicture : MotionPictureData.MotionPicture) -> some View {
-        
-        if let url = motionPicture.posterURL {
-            URLImage(url) {
-                miniLoadingCard
-            } inProgress: { progress in
-                miniLoadingCard
-            } failure: { error, retry in
-                miniLoadingCard
-            } content: { image in
-                image
-                    .resizable()
-                    .scaledToFill()
-                    .overlay(alignment: .topTrailing) {
-                        favouriteHeart(motionPicture, .headline)
-                        .frame(width: 25, height: 25)
-                        .onTapGesture {
-                            withAnimation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.3)) {
-                                // Add the motion picture id to the favourites list in database
-                                homeVM.alterFavourites(motionPicture)
-                            }
-                        }
-                    }
-                    .frame(width: 130, height: 200)
-                    .clipped()
-            }
-            
-        }
-    }
-    
-    private var miniLoadingCard : some View {
-        ZStack {
-            Color.backgroundColor
-            ProgressView()
-                .tint(Color.accentColor)
-        }
-        .frame(width: 130, height: 200)
-    }
-    
-}
-
-
-
-extension HomeView {
-    
-    private func favouriteHeart(_ motionPicture : MotionPictureData.MotionPicture, _ font : Font) -> some View {
-        ZStack {
-            Color.black
-                .opacity(0.4)
-                .cornerRadius(10, corners: [.topRight, .bottomLeft])
-
-            if homeVM.isFavourite(motionPicture) {
-                Image(systemName: "heart.fill")
-                    .foregroundColor(.red)
-                    .font(font)
-                    .scaledToFit()
-                    .transition(.asymmetric(insertion: .scale, removal: .opacity))
-            } else {
-                Image(systemName: "heart")
-                    .foregroundColor(.red)
-                    .font(font)
-                    .scaledToFit()
-                    .transition(.asymmetric(insertion: .scale, removal: .opacity))
-            }
-            
-        }
-    }
 }

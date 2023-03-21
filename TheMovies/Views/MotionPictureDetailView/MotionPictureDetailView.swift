@@ -29,6 +29,13 @@ struct MotionPictureDetailView: View {
                 // Info Header
                 infoHeader
                 
+                // Cast
+                
+                
+                // Recommendations
+                HorizontalScrollView(motionPictures: detailVM.recommendedMotionPictures, favouritesInteractor: detailVM.favouritesInteractor, title: "Recommendations")
+                
+                
             }
             .padding()
         }
