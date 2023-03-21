@@ -82,7 +82,7 @@ extension HomeView {
         
     }
     
-    private func typeButton(_ text : String, _ type : MotionPictureData.MotionPicture.MotionPictureType ) -> some View {
+    private func typeButton(_ text : String, _ type : MotionPictureType ) -> some View {
         Text ("\(text)")
             .font(.callout)
             .foregroundColor(.textColor)
@@ -129,13 +129,13 @@ extension HomeView {
                 .padding(.top)
             
             HorizontalScrollView(motionPictures: homeVM.selectedType == .movie ? homeVM.topRatedMovies : homeVM.topRatedTVSeries, favouritesInteractor: homeVM.favouritesInteractor, title: "Top Rated")
-                .padding()
+                .padding(.horizontal, 7)
 
             HorizontalScrollView(motionPictures: homeVM.selectedType == .movie ? homeVM.popularMovies : homeVM.popularTVSeries, favouritesInteractor: homeVM.favouritesInteractor, title: "Popular")
-                .padding()
+                .padding(.horizontal, 7)
             
             HorizontalScrollView(motionPictures: homeVM.selectedType == .movie ? homeVM.upcomingMovies : homeVM.airingTodayTVSeries, favouritesInteractor: homeVM.favouritesInteractor, title: homeVM.selectedType == .movie ? "Upcoming" : "Airing Today")
-                .padding()
+                .padding(.horizontal, 7)
             
         }
         .animation(.none, value: homeVM.selectedType)
@@ -177,7 +177,7 @@ extension HomeView {
                     .frame(width: UIScreen.screenWidth * 0.9, height: UIScreen.screenHeight * 0.6)
                     .clipped()
                     .overlay(alignment: .topTrailing) {
-                        FavouriteHeart(motionPicture: motionPicture, favouritesInteractor: homeVM.favouritesInteractor, font: .title)
+                        FavouriteHeart(motionPicture: motionPicture, favouritesInteractor: homeVM.favouritesInteractor, font: .title, isInToolBar: false)
                         .frame(width: 50, height: 50)
                         .onTapGesture {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.3)) {

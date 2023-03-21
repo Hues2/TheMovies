@@ -27,7 +27,7 @@ struct MiniMotionPictureCard: View {
                     .resizable()
                     .scaledToFill()
                     .overlay(alignment: .topTrailing) {
-                        FavouriteHeart(motionPicture: motionPicture, favouritesInteractor: favouritesInteractor, font: .headline)
+                        FavouriteHeart(motionPicture: motionPicture, favouritesInteractor: favouritesInteractor, font: .headline, isInToolBar: false)
                         .frame(width: 25, height: 25)
                         .onTapGesture {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.3)) {

@@ -39,8 +39,14 @@ class URLBuilder {
     }
     
     
-    func getRecommendationsURL(_ type : MotionPictureData.MotionPicture.MotionPictureType, _ id : Int, _ page : Int) -> String {
+    func getRecommendationsURL(_ type : MotionPictureType, _ id : Int?, _ page : Int) -> String {
+        guard let id else { return "" }
         return "https://api.themoviedb.org/3/\(type)/\(id)/recommendations?api_key=\(Constants.shared.key)&language=en-US&page=\(page))"
+    }
+    
+    func getCreditsURL(_ type : MotionPictureType, _ id : Int?, _ page : Int) -> String {
+        guard let id else { return "" }
+        return "\(Constants.shared.baseURL)\(type)/\(id)/credits?api_key=\(Constants.shared.key)&language=en-US&page=\(page))"
     }
     
 }

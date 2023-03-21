@@ -12,11 +12,12 @@ struct FavouriteHeart: View {
     let motionPicture : MotionPictureData.MotionPicture
     @ObservedObject var favouritesInteractor : FavouritesInteractor
     let font : Font
+    let isInToolBar : Bool
     
     var body: some View {
         ZStack {
             Color.black
-                .opacity(0.4)
+                .opacity(isInToolBar ? 0 : 0.4)
                 .cornerRadius(10, corners: [.topRight, .bottomLeft])
 
             if favouritesInteractor.isFavourite(motionPicture) {

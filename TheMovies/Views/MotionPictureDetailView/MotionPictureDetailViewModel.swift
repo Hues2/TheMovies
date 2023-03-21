@@ -13,7 +13,7 @@ final class MotionPictureDetailViewModel : ObservableObject {
     
     let motionPicture : MotionPictureData.MotionPicture
     @Published var recommendedMotionPictures = [MotionPictureData.MotionPicture]()
-    
+    @Published var cast = [CastData.Cast]()
     
     // Favourites Toggle
     @Published var favouritesChanged : Bool = false
@@ -33,6 +33,7 @@ final class MotionPictureDetailViewModel : ObservableObject {
         
         addSubscribers()
         getRecommendations()
+        getCast()
     }
  
 }
@@ -45,6 +46,7 @@ extension MotionPictureDetailViewModel {
     private func addSubscribers() {
         addFavouritesSubscribers()
         addRecommendedSubscribers()
+        addCastSubscribers()
     }
     
     
@@ -58,8 +60,7 @@ extension MotionPictureDetailViewModel {
     }
     
     private func addRecommendedSubscribers() {
-        if motionPicture.type == .movie {
-            self.apiDataInteractor.recommendedMoviesPublisher
+            self.apiDataInteractor.recommendationsPublisher
                 .sink { [weak self] result in
                     guard let self else { return }
                     switch result {
@@ -71,20 +72,20 @@ extension MotionPictureDetailViewModel {
                     }
                 }
                 .store(in: &cancellables)
-        } else {
-            self.apiDataInteractor.recommendedTVPublisher
-                .sink { [weak self] result in
-                    guard let self else { return }
-                    switch result {
-                    case .failure(let error):
-                        print("The result returned from the recommended movies publisher is a failure. Custom error message: \(error)")
-                    case .success(let motionPictures):
-                        guard let motionPictures else { return }
-                        self.recommendedMotionPictures = motionPictures
-                    }
+    }
+    
+    private func addCastSubscribers() {
+        self.apiDataInteractor.castPublisher
+            .sink { [weak self] result in
+                guard let self else { return }
+                switch result {
+                case .failure(let error):
+                    print("The result from the cast publisher was a failure. Error message: \(error)")
+                case .success(let cast):
+                    self.cast = cast
                 }
-                .store(in: &cancellables)
-        }
+            }
+            .store(in: &cancellables)
     }
 }
 
@@ -105,7 +106,12 @@ extension MotionPictureDetailViewModel {
 
 // MARK: Fetch Extra Data
 extension MotionPictureDetailViewModel {
+    
     private func getRecommendations() {
-        apiDataInteractor.getMotionPictures(URLBuilder.shared.getRecommendationsURL(motionPicture.type, motionPicture.id ?? 0, 1), .recommendations, motionPicture.type)
+        apiDataInteractor.getMotionPictures(URLBuilder.shared.getRecommendationsURL(motionPicture.type, motionPicture.id, 1), .recommendations, motionPicture.type)
+    }
+    
+    private func getCast() {
+        apiDataInteractor.getCast(URLBuilder.shared.getCreditsURL(motionPicture.type, motionPicture.id, 1), motionPicture.type)
     }
 }

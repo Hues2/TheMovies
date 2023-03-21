@@ -31,7 +31,7 @@ final class HomeViewModel : ObservableObject {
     @Published var currentTVTabIndex : Int = 0
     
     // Sets the view to either display Movies or TV Series
-    @Published var selectedType : MotionPictureData.MotionPicture.MotionPictureType = .movie
+    @Published var selectedType : MotionPictureType = .movie
     
     // This publisher makes the cards re-render when the favourite heart is tapped
     @Published var favouritesChanged : Bool = false
