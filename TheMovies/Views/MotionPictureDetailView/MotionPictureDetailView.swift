@@ -12,6 +12,9 @@ struct MotionPictureDetailView: View {
     
     @StateObject var detailVM : MotionPictureDetailViewModel
     
+    @Namespace private var namespace
+    @State private var selectedCast : CastData.Cast? = nil
+    
     init(_ motionPicture : MotionPictureData.MotionPicture, _ favouritesInteractor : FavouritesInteractor, _ apiDataInteractor : APIDataInteractor) {
         self._detailVM = StateObject(wrappedValue: MotionPictureDetailViewModel(motionPicture, favouritesInteractor, apiDataInteractor))
     }
@@ -33,7 +36,7 @@ struct MotionPictureDetailView: View {
                 // Cast
                 cast
                     .padding(.top, 25)
-
+                
                 
                 // Recommendations
                 if !detailVM.recommendedMotionPictures.isEmpty {
@@ -43,6 +46,25 @@ struct MotionPictureDetailView: View {
                 
             }
             .padding()
+        }
+        .onTapGesture {
+            withAnimation {
+                selectedCast = nil
+            }
+        }
+        .overlay{
+            ZStack {
+                if let selectedCast {
+                    PopupView(castMember: selectedCast)
+                        .onTapGesture {
+                            withAnimation {
+                                self.selectedCast = nil
+                            }
+                        }
+                        .matchedGeometryEffect(id: selectedCast.id, in: namespace)
+                                                    .frame(width: 200, height: 200)
+                }
+            }
         }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -61,24 +83,24 @@ struct MotionPictureDetailView: View {
 
 
 extension MotionPictureDetailView {
-
+    
     @ViewBuilder
     private var imageHeader : some View {
         if let url = detailVM.motionPicture.backdropURL {
             URLImage(url) {
                 loadingHeaderCard
-                } inProgress: { progress in
-                    loadingHeaderCard
-                } failure: { error, retry in
-                    loadingHeaderCard
-                } content: { image in
-                    image
-                        .resizable()
-                        .scaledToFill()
-                        .clipped()
-                }
+            } inProgress: { progress in
+                loadingHeaderCard
+            } failure: { error, retry in
+                loadingHeaderCard
+            } content: { image in
+                image
+                    .resizable()
+                    .scaledToFill()
+                    .clipped()
             }
         }
+    }
     
     private var loadingHeaderCard : some View {
         ZStack {
@@ -120,29 +142,63 @@ extension MotionPictureDetailView {
                 .fontWeight(.semibold)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 0) {
+                LazyHStack(spacing: 0) {
                     ForEach(detailVM.cast) { castMember in
-                        castCard(castMember)
+                        if selectedCast != castMember {
+                            CastCard(castMember: castMember)
+                                .matchedGeometryEffect(id: castMember.id, in: namespace)
+                                .onTapGesture {
+                                    withAnimation {
+                                        if self.selectedCast != nil {
+                                            self.selectedCast = nil
+                                        } else {
+                                            self.selectedCast = castMember
+                                        }
+                                    }
+                                }
+                        }
                     }
                 }
             }
         }
     }
     
-    @ViewBuilder
-    private func castCard(_ castMember : CastData.Cast) -> some View {
-        if let imageURL = castMember.imageURL {
-            URLImage(imageURL) { image, info in
-                image
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 140, height: 150, alignment: .center)
-                    .clipShape(Circle())
-                    .shadow(radius: 3)
+}
+
+
+
+struct CastCard : View {
+    
+    let castMember : CastData.Cast
+    
+    var body: some View {
+        VStack {
+            if let imageURL = castMember.imageURL {
+                URLImage(imageURL) { image, info in
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 140, height: 150, alignment: .center)
+                        .clipShape(Circle())
+                        .shadow(radius: 3)
+                }
             }
         }
     }
+}
+
+
+struct PopupView: View {
     
+    let castMember: CastData.Cast
     
-    
+    var body: some View {
+        VStack {
+            Text(castMember.name ?? "Unkown")
+                .font(.title)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.white)
+        .cornerRadius(20)
+    }
 }

@@ -12,7 +12,7 @@ struct CastData : Identifiable, Codable {
     let id : Int
     let cast : [Cast]
     
-    struct Cast : Identifiable, Codable {
+    struct Cast : Identifiable, Codable, Equatable {
         let id : Int?
         let name : String?
         let profilePath : String?
