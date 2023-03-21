@@ -35,7 +35,7 @@ struct HomeNavigationContainer: View {
                     ZStack {
                         Color.backgroundColor
                             .ignoresSafeArea()
-                        MotionPictureDetailView(motionPicture, favouritesInteractor)
+                        MotionPictureDetailView(motionPicture, favouritesInteractor, apiDataInteractor)
                     }
                 }
             }

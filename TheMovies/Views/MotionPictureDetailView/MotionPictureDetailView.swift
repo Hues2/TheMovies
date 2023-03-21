@@ -12,8 +12,8 @@ struct MotionPictureDetailView: View {
     
     @StateObject var detailVM : MotionPictureDetailViewModel
     
-    init(_ motionPicture : MotionPictureData.MotionPicture, _ favouritesInteractor : FavouritesInteractor) {
-        self._detailVM = StateObject(wrappedValue: MotionPictureDetailViewModel(motionPicture, favouritesInteractor))
+    init(_ motionPicture : MotionPictureData.MotionPicture, _ favouritesInteractor : FavouritesInteractor, _ apiDataInteractor : APIDataInteractor) {
+        self._detailVM = StateObject(wrappedValue: MotionPictureDetailViewModel(motionPicture, favouritesInteractor, apiDataInteractor))
     }
     
     var body: some View {

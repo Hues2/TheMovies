@@ -10,7 +10,7 @@ import Combine
 import SwiftUI
 
 
-class HomeViewModel : ObservableObject {
+final class HomeViewModel : ObservableObject {
     
     // Movies
     @Published var trendingMovies = [MotionPictureData.MotionPicture]()
