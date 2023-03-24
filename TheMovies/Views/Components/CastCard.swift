@@ -15,7 +15,13 @@ struct CastCard : View {
     var body: some View {
         VStack {
             if let imageURL = castMember.imageURL {
-                URLImage(imageURL) { image, info in
+                URLImage(imageURL) {
+                    loadingCastCard
+                } inProgress: { progress in
+                    loadingCastCard
+                } failure: { error, retry in
+                    loadingCastCard
+                } content: { image in
                     image
                         .resizable()
                         .scaledToFit()
@@ -23,7 +29,24 @@ struct CastCard : View {
                         .clipShape(Circle())
                         .shadow(radius: 3)
                 }
+
             }
         }
     }
+}
+
+extension CastCard {
+    
+    private var loadingCastCard : some View {
+        ZStack {
+            Color.backgroundColor
+            ProgressView()
+                .tint(Color.accentColor)
+        }
+        .frame(width: 140, height: 150, alignment: .center)
+        .padding(.horizontal)
+        .clipShape(Circle())
+        .shadow(radius: 3)
+    }
+    
 }

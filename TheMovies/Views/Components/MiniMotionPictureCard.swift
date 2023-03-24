@@ -26,6 +26,7 @@ struct MiniMotionPictureCard: View {
                 image
                     .resizable()
                     .scaledToFill()
+                    .frame(width: 130, height: 200)
                     .overlay(alignment: .topTrailing) {
                         FavouriteHeart(motionPicture: motionPicture, favouritesInteractor: favouritesInteractor, font: .headline, isInToolBar: false)
                         .frame(width: 25, height: 25)
@@ -37,7 +38,6 @@ struct MiniMotionPictureCard: View {
                             HapticFeedback.shared.impact(.medium)
                         }
                     }
-                    .frame(width: 130, height: 200)
                     .clipped()
             }
             
