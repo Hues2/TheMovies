@@ -19,10 +19,10 @@ struct PillHeader: View {
     
     var body: some View {
         HStack {
-            typeButton("\(leftTitle)", .movie, .grid, leftAction)
+            typeButton("\(leftTitle)", .movie, .list, leftAction)
                 .frame(width: 150)
             
-            typeButton("\(rightTitle)", .tv, .list, rightAction)
+            typeButton("\(rightTitle)", .tv, .grid, rightAction)
                 .frame(width: 150)
         }
         .padding(.horizontal, 10)

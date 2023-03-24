@@ -28,21 +28,24 @@ struct FavouritesView: View {
                         .buttonStyle(.plain)
                         .listRowSeparator(.hidden)
                         .listRowBackground(Color.backgroundColor)
-                        .frame(height: 175)
+                        .frame(height: 150)
                         .background(Color.backgroundColor.cornerRadius(10, corners: .allCorners).shadow(radius: 3))
                         .background(NavigationLink(value: FavouritesNavigationInteractor.FavouritesPath.detail(motionPicture), label: {
                             Color.clear
                         }))
+                }
+                .onDelete { indexSet in
+                    favouritesVM.removeFavourite(indexSet)
                 }
             }
             .listStyle(.plain)
             .background(Color.backgroundColor)
             .padding(.top, 60)
             
-            PillHeader(leftTitle: "Grid", rightTitle: "List", selectedType: nil, selectedViewType: favouritesVM.selectedViewType) {
-                favouritesVM.selectedViewType = .grid // Swipe Left
+            PillHeader(leftTitle: "List", rightTitle: "Grid", selectedType: nil, selectedViewType: favouritesVM.selectedViewType) {
+                favouritesVM.selectedViewType = .list // Swipe Left
             } rightAction: {
-                favouritesVM.selectedViewType = .list // Swipe Right
+                favouritesVM.selectedViewType = .grid // Swipe Right
             }
             
         }
@@ -60,18 +63,30 @@ extension FavouritesView {
                         .resizable()
                         .scaledToFill()
                 }
-                
                 .frame(width: 100, height: 130)
                 .cornerRadius(10, corners: .allCorners)
                 .clipped()
             }
     
-            VStack {
+            VStack(alignment: .leading, spacing: 15) {
                 Text("\(motionPicture.title ?? motionPicture.name ?? "Unknown")")
                     .font(.title3)
                     .fontWeight(.semibold)
-                
+                    .lineLimit(2)
+                    
                 Spacer()
+                
+                VStack {
+                    HStack {
+                        Text("\(motionPicture.release_date ?? motionPicture.first_air_date ?? "")")
+                            .fontWeight(.thin)
+                        Spacer()
+                        RatingView(rating: motionPicture.vote_average ?? 0, frameSize: 30)
+                            .frame(width: 35, height: 35)
+                    }
+                    
+                }
+
             }
             .frame(height: 130)
             

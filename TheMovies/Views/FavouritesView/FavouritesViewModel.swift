@@ -13,7 +13,7 @@ class FavouritesViewModel : ObservableObject {
     @Published var favouriteMotionPictures = [MotionPictureData.MotionPicture]()
     
     // Sets the view to display either a grid or a list of favourites
-    @Published var selectedViewType : ViewType = .grid
+    @Published var selectedViewType : ViewType = .list
     
     let favouritesNavigationInteractor : FavouritesNavigationInteractor
     let apiInteractor : APIDataInteractor
@@ -33,6 +33,13 @@ class FavouritesViewModel : ObservableObject {
     
     enum ViewType {
         case grid, list
+    }
+}
+
+// MARK: Favourites Functionality
+extension FavouritesViewModel {
+    func removeFavourite(_ indexSet : IndexSet) {
+        self.favouritesInteractor.removeFavourite(indexSet)
     }
 }
 

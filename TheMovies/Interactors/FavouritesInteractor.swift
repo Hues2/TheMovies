@@ -23,7 +23,9 @@ class FavouritesInteractor : ObservableObject {
     
     
     
-    // I need to fetch the list of favourite ids from firebase and populate the favouriteIDs list
+    // I need to fetch the list of favourite ids from firebase
+    // It will retreive a list of IDs
+    // Then API calls will have to be made to retreive each corresponding motion picture
     private func fetchFavourites() {
         
     }
@@ -46,5 +48,10 @@ class FavouritesInteractor : ObservableObject {
     // Return true if the motion picture is in the list of favourites
     func isFavourite(_ motionPicture : MotionPictureData.MotionPicture) -> Bool {
         return favouriteMotionPictures.contains(motionPicture)
+    }
+    
+    func removeFavourite(_ indexSet : IndexSet) {
+        self.favouriteMotionPictures.remove(atOffsets: indexSet)
+        self.favouritesToggle.toggle()
     }
 }
