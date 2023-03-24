@@ -29,6 +29,16 @@ struct AppView: View {
                         Text("home_tab_title")
                     }
                 }
+                .tag(AppViewModel.Tab.home)
+            
+            FavouritesNavigationContainer(apiDataInteractor: apiDataInteractor, favouritesInteractor: favouritesInteractor)
+                .tabItem {
+                    VStack {
+                        Image(systemName: "heart")
+                        Text("favourites_tab_title")
+                    }
+                }
+                .tag(AppViewModel.Tab.favourites)
             
         }
         

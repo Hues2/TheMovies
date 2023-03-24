@@ -14,7 +14,6 @@ struct HomeView: View {
     @StateObject private var homeVM : HomeViewModel
     @Namespace private var namespace
     
-    
     init(_ homeNavigationInteractor : HomeNavigationInteractor, _ apiDataInteractor : APIDataInteractor, _ favouritesInteractor : FavouritesInteractor) {
         self._homeVM = StateObject(wrappedValue: HomeViewModel(homeNavigationInteractor, apiDataInteractor, favouritesInteractor))
     }

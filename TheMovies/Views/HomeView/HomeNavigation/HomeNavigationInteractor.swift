@@ -7,11 +7,9 @@
 
 import Foundation
 
-
 class HomeNavigationInteractor : ObservableObject {
     
     @Published var homePath = [HomePath]()
-    
     
     enum HomePath : Hashable {
         case home
