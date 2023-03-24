@@ -14,7 +14,6 @@ struct HomeView: View {
     @StateObject private var homeVM : HomeViewModel
     @Namespace private var namespace
     
-    
     init(_ homeNavigationInteractor : HomeNavigationInteractor, _ apiDataInteractor : APIDataInteractor, _ favouritesInteractor : FavouritesInteractor) {
         self._homeVM = StateObject(wrappedValue: HomeViewModel(homeNavigationInteractor, apiDataInteractor, favouritesInteractor))
     }
@@ -40,76 +39,15 @@ struct HomeView: View {
                 }
             }
             
-            // Type buttons
-            typeButtons
-                .frame(height: 50)
+            PillHeader(leftTitle: "Movies", rightTitle: "TV Series", selectedType: homeVM.selectedType, selectedViewType: nil) {
+                homeVM.selectedType = .movie // Swipe Left
+            } rightAction: {
+                homeVM.selectedType = .tv // Swipe Right
+            }
+                
         }
     }
 }
-
-// MARK: Type Buttons
-extension HomeView {
-    
-    private var typeButtons : some View {
-        HStack {
-            typeButton("Movies", .movie)
-                .frame(width: 150)
-            
-            typeButton("TV Series", .tv)
-                .frame(width: 150)
-        }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 5)
-        .background {
-            Color.backgroundColor
-                .cornerRadius(30)
-                .shadow(color: .accentColor, radius: 3, x: 0, y: 0)
-                .shadow(color: .accentColor, radius: 3, x: 0, y: 0)
-        }
-        .gesture(DragGesture()
-                        .onEnded { gesture in
-                            if gesture.translation.width > 0 {
-                                withAnimation {
-                                    homeVM.selectedType = .tv // swipe right
-                                }
-                            } else {
-                                withAnimation {
-                                    homeVM.selectedType = .movie  // swipe left
-                                }
-                            }
-                        }
-                    )
-        
-    }
-    
-    private func typeButton(_ text : String, _ type : MotionPictureType ) -> some View {
-        Text ("\(text)")
-            .font(.callout)
-            .foregroundColor(.textColor)
-            .fontWeight(.semibold)
-            .padding(10)
-            .onTapGesture {
-                withAnimation {
-                    if type == .movie {
-                        homeVM.selectedType = .movie
-                    } else {
-                        homeVM.selectedType = .tv
-                    }
-                }
-            }
-            .background {
-                    if homeVM.selectedType == type {
-                        Color.accentColor
-                            .cornerRadius(30)
-                            .matchedGeometryEffect(id: "pill", in: namespace)
-                            .frame(width: 100)
-                    }
-            }
-            .padding(.horizontal, 20)
-    }
-    
-}
-
 
 // MARK: Main View
 extension HomeView {

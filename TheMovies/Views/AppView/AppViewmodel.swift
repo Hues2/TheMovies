@@ -12,7 +12,6 @@ final class AppViewModel : ObservableObject {
     
     @Published var selectedTab : Tab = .home
     
-    
     enum Tab {
         case home
         case favourites

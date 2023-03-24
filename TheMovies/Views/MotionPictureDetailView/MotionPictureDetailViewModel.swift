@@ -94,7 +94,7 @@ extension MotionPictureDetailViewModel {
 extension MotionPictureDetailViewModel {
     // Add motion Picture To Favourites
     func alterFavourites() {
-        favouritesInteractor.alterFavourites(motionPicture.id)
+        favouritesInteractor.alterFavourites(motionPicture)
     }
     
     // Return true if the motion picture is in the list of favourites

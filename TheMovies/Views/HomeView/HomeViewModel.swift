@@ -33,12 +33,12 @@ final class HomeViewModel : ObservableObject {
     // Sets the view to either display Movies or TV Series
     @Published var selectedType : MotionPictureType = .movie
     
-    // This publisher makes the cards re-render when the favourite heart is tapped
+    // Since none of the lists in this view model change when the favourites list changes,
+    // this boolean "flag" is implemented, so that when a favourite is added or removed,
+    // this view model knows, and then the view will re-render
     @Published var favouritesChanged : Bool = false
     
-    
     @Published var autoSwipe : Bool = true
-    
     
     
     // Interactor Dependencies
@@ -56,23 +56,16 @@ final class HomeViewModel : ObservableObject {
         
         // Add the Combine subscribers
         addSubscribers()
-
-        
         getMovieData()
     }
-    
-    
 }
-
-
-
 
 // MARK: Favourites Functionality
 extension HomeViewModel {
     
     // Add motion Picture To Favourites
     func alterFavourites(_ motionPicture : MotionPictureData.MotionPicture) {
-        favouritesInteractor.alterFavourites(motionPicture.id)
+        favouritesInteractor.alterFavourites(motionPicture)
     }
     
     // Return true if the motion picture is in the list of favourites
@@ -81,7 +74,6 @@ extension HomeViewModel {
     }
     
 }
-
 
 // MARK: Get Data
 extension HomeViewModel {
@@ -94,35 +86,27 @@ extension HomeViewModel {
         apiInteractor.getMotionPictures(URLBuilder.shared.movieURL(.upcoming, 1), .upcoming, .movie)
     }
     
-    
     // Get TV data
     // I don't want to call all api endpoints if not necessary
     private func getTVData(){
         if popularTVSeries.isEmpty {
-            print("Fetching TV Data Again")
             apiInteractor.getMotionPictures(URLBuilder.shared.tvURL(.popular, 1), .popular, .tv)
         }
         
         if topRatedTVSeries.isEmpty {
-            print("Fetching TV Data Again")
             apiInteractor.getMotionPictures(URLBuilder.shared.tvURL(.topRated, 1), .topRated, .tv)
         }
         
         if airingTodayTVSeries.isEmpty {
-            print("Fetching TV Data Again")
             apiInteractor.getMotionPictures(URLBuilder.shared.tvURL(.airingToday, 1), .airingToday, .tv)
         }
         
         if trendingTVSeries.isEmpty {
-            print("Fetching TV Data Again")
             apiInteractor.getMotionPictures(URLBuilder.shared.tvURL(.trending, 1), .trending, .tv)
         }
     }
     
 }
-
-
-
 
 // MARK: Subscribers
 extension HomeViewModel {

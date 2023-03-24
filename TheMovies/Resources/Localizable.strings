@@ -9,3 +9,6 @@
 
 // Home tab title
 "home_tab_title" = "Home";
+
+// Favourites tab title
+"favourites_tab_title" = "Favourites";
