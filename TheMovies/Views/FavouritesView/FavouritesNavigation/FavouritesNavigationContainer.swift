@@ -21,9 +21,9 @@ struct FavouritesNavigationContainer: View {
                     .ignoresSafeArea()
                 FavouritesView(favouritesNavigationInteractor, apiDataInteractor, favouritesInteractor)
             }
-            .navigationDestination(for: HomeNavigationInteractor.HomePath.self) { homePath in
+            .navigationDestination(for: FavouritesNavigationInteractor.FavouritesPath.self) { homePath in
                 switch homePath {
-                case .home:
+                case .favourites:
                     ZStack {
                         Color.backgroundColor
                             .ignoresSafeArea()

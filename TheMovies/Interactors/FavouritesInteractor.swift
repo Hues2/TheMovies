@@ -45,7 +45,6 @@ class FavouritesInteractor : ObservableObject {
     
     // Return true if the motion picture is in the list of favourites
     func isFavourite(_ motionPicture : MotionPictureData.MotionPicture) -> Bool {
-        let index = favouriteMotionPictures.firstIndex(of: motionPicture)
-        return index == nil ? false : true
+        return favouriteMotionPictures.contains(motionPicture)
     }
 }
