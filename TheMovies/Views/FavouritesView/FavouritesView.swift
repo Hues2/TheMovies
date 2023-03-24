@@ -17,6 +17,21 @@ struct FavouritesView: View {
     }
     
     var body: some View {
-        Text("Favourites View")
+        ZStack(alignment: .top) {
+
+            List {
+                ForEach(favouritesVM.favouriteMotionPictures) { motionPicture in
+                    Text("\(motionPicture.name ?? motionPicture.title ?? "Unknown")")
+                }
+            }
+            
+            PillHeader(leftTitle: "Grid", rightTitle: "List", selectedType: nil, selectedViewType: favouritesVM.selectedViewType) {
+                favouritesVM.selectedViewType = .grid // Swipe Left
+            } rightAction: {
+                favouritesVM.selectedViewType = .list // Swipe Right
+            }
+            
+        }
+        .frame(maxWidth: .infinity)
     }
 }

@@ -14,7 +14,7 @@ import Foundation
 
 class FavouritesInteractor : ObservableObject {
     
-    @Published var favouriteIDs = [Int]()
+    @Published var favouriteMotionPictures = [MotionPictureData.MotionPicture]()
     @Published var favouritesToggle : Bool = false
     
     init() {
@@ -28,26 +28,24 @@ class FavouritesInteractor : ObservableObject {
         
     }
     
-    func alterFavourites(_ id : Int?) {
-        guard let id else { return } // Motion Picture could not be added to the favourites list, as the id is nil
-        let indexOfId = self.favouriteIDs.firstIndex(of: id)
-        guard let indexOfId else {
+    func alterFavourites(_ motionPicture : MotionPictureData.MotionPicture) {
+        let indexOfMotionPicture = self.favouriteMotionPictures.firstIndex(of: motionPicture)
+        guard let indexOfMotionPicture else {
             // Add to favourite
-            self.favouriteIDs.append(id)
+            self.favouriteMotionPictures.append(motionPicture)
             self.favouritesToggle.toggle()
             return
         }
         
         // Remove favourite
-        self.favouriteIDs.remove(at: indexOfId)
+        self.favouriteMotionPictures.remove(at: indexOfMotionPicture)
         self.favouritesToggle.toggle()
     }
     
     
     // Return true if the motion picture is in the list of favourites
     func isFavourite(_ motionPicture : MotionPictureData.MotionPicture) -> Bool {
-        guard let id = motionPicture.id else { return false }
-        let index = favouriteIDs.firstIndex(of: id)
+        let index = favouriteMotionPictures.firstIndex(of: motionPicture)
         return index == nil ? false : true
     }
 }

@@ -33,7 +33,9 @@ final class HomeViewModel : ObservableObject {
     // Sets the view to either display Movies or TV Series
     @Published var selectedType : MotionPictureType = .movie
     
-    // This publisher makes the cards re-render when the favourite heart is tapped
+    // Since none of the lists in this view model change when the favourites list changes,
+    // this boolean "flag" is implemented, so that when a favourite is added or removed,
+    // this view model knows, and then the view will re-render
     @Published var favouritesChanged : Bool = false
     
     @Published var autoSwipe : Bool = true
@@ -63,7 +65,7 @@ extension HomeViewModel {
     
     // Add motion Picture To Favourites
     func alterFavourites(_ motionPicture : MotionPictureData.MotionPicture) {
-        favouritesInteractor.alterFavourites(motionPicture.id)
+        favouritesInteractor.alterFavourites(motionPicture)
     }
     
     // Return true if the motion picture is in the list of favourites

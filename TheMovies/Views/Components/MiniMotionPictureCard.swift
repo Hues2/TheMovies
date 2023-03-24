@@ -33,7 +33,7 @@ struct MiniMotionPictureCard: View {
                         .onTapGesture {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.3)) {
                                 // Add the motion picture id to the favourites list in database
-                                favouritesInteractor.alterFavourites(motionPicture.id)
+                                favouritesInteractor.alterFavourites(motionPicture)
                             }
                             HapticFeedback.shared.impact(.medium)
                         }

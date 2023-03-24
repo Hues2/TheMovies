@@ -44,6 +44,7 @@
 		2EFC7AC629CE376100CDCF08 /* FavouritesNavigationInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC7AC529CE376100CDCF08 /* FavouritesNavigationInteractor.swift */; };
 		2EFC7AC829CE37D700CDCF08 /* FavouritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC7AC729CE37D700CDCF08 /* FavouritesView.swift */; };
 		2EFC7ACA29CE37F700CDCF08 /* FavouritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC7AC929CE37F700CDCF08 /* FavouritesViewModel.swift */; };
+		2EFC7ACC29CE3F4D00CDCF08 /* PillHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFC7ACB29CE3F4D00CDCF08 /* PillHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,6 +86,7 @@
 		2EFC7AC529CE376100CDCF08 /* FavouritesNavigationInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesNavigationInteractor.swift; sourceTree = "<group>"; };
 		2EFC7AC729CE37D700CDCF08 /* FavouritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesView.swift; sourceTree = "<group>"; };
 		2EFC7AC929CE37F700CDCF08 /* FavouritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewModel.swift; sourceTree = "<group>"; };
+		2EFC7ACB29CE3F4D00CDCF08 /* PillHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -259,6 +261,7 @@
 				2E16E3A829CA1F91001D97AD /* HorizontalScrollView.swift */,
 				2E4ECE4C29CA58EF00F3A1F8 /* PopUpCastView.swift */,
 				2E4ECE4E29CA591800F3A1F8 /* CastCard.swift */,
+				2EFC7ACB29CE3F4D00CDCF08 /* PillHeader.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				2E1BEE4229C4E76800E64AD5 /* UIScreen.swift in Sources */,
 				2E16E3A729CA1E51001D97AD /* FavouriteHeart.swift in Sources */,
 				2EA7228F29C2472A007BF89E /* URLBuilder.swift in Sources */,
+				2EFC7ACC29CE3F4D00CDCF08 /* PillHeader.swift in Sources */,
 				2EC882A629C74E01005F3F90 /* RoundedCorner.swift in Sources */,
 				2E4ECE4F29CA591800F3A1F8 /* CastCard.swift in Sources */,
 				2E16E3A929CA1F91001D97AD /* HorizontalScrollView.swift in Sources */,

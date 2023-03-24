@@ -10,7 +10,10 @@ import Combine
 
 class FavouritesViewModel : ObservableObject {
     
+    @Published var favouriteMotionPictures = [MotionPictureData.MotionPicture]()
     
+    // Sets the view to display either a grid or a list of favourites
+    @Published var selectedViewType : ViewType = .grid
     
     let favouritesNavigationInteractor : FavouritesNavigationInteractor
     let apiInteractor : APIDataInteractor
@@ -25,8 +28,31 @@ class FavouritesViewModel : ObservableObject {
         self.favouritesInteractor = favouritesInteractor
         
         // Add the Combine subscribers
-
+        addSubscribers()
     }
     
+    enum ViewType {
+        case grid, list
+    }
+}
+
+extension FavouritesViewModel {
+    
+    private func addSubscribers() {
+        addFavouritesSubscribers()
+    }
+    
+}
+
+// MARK: Favourites subscribers
+extension FavouritesViewModel {
+    
+    private func addFavouritesSubscribers() {
+        favouritesInteractor.$favouriteMotionPictures
+            .sink { [weak self] returnedMotionPictures in
+                self?.favouriteMotionPictures = returnedMotionPictures
+            }
+            .store(in: &cancellables)
+    }
     
 }
