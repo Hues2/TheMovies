@@ -25,11 +25,11 @@ struct FavouritesView: View {
     var body: some View {
         ZStack(alignment: .top) {
 
-                if favouritesVM.selectedViewType == .list {
-                    list
+                if favouritesVM.selectedViewType == .grid {
+                    grid
                         .transition(.move(edge: .leading))
                 } else {
-                    grid
+                    list
                         .transition(.move(edge: .trailing))
                 }
             
@@ -53,10 +53,12 @@ extension FavouritesView {
             
             LazyVGrid(columns: columns) {
                 ForEach(favouritesVM.favouriteMotionPictures) { motionPicture in
+                    NavigationLink(value: AppPath.detail(motionPicture)) {
+                        MiniMotionPictureCard(motionPicture: motionPicture, favouritesInteractor: favouritesVM.favouritesInteractor, gridCardSize: CGSize(width: UIScreen.screenWidth / 3.5, height: UIScreen.screenHeight * 0.2))
+                            .cornerRadius(10, corners: .allCorners)
+                            .shadow(radius: 3)
+                    }
                     
-                    MiniMotionPictureCard(motionPicture: motionPicture, favouritesInteractor: favouritesVM.favouritesInteractor, gridCardSize: CGSize(width: UIScreen.screenWidth / 3.5, height: 200))
-                        .cornerRadius(10, corners: .allCorners)
-                        .shadow(radius: 3)
                 }
             }
             .animation(.easeInOut, value: favouritesVM.favouriteMotionPictures)
@@ -72,11 +74,10 @@ extension FavouritesView {
     private var list : some View {
         List {
             Spacer()
-                .frame(height: 60)
                 .buttonStyle(.plain)
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.backgroundColor)
-                .frame(height: 60)
+                .frame(height: 40)
                 .background(Color.backgroundColor.cornerRadius(10, corners: .allCorners).shadow(radius: 3))
             
             ForEach(favouritesVM.favouriteMotionPictures) { motionPicture in
