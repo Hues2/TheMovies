@@ -12,6 +12,11 @@ struct FavouritesView: View {
     
     @StateObject private var favouritesVM : FavouritesViewModel
     @Namespace private var namespace
+    let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
     
     init(_ favouritesNavigationInteractor : FavouritesNavigationInteractor, _ apiDataInteractor : APIDataInteractor, _ favouritesInteractor : FavouritesInteractor) {
         self._favouritesVM = StateObject(wrappedValue: FavouritesViewModel(favouritesNavigationInteractor, apiDataInteractor, favouritesInteractor))
@@ -19,41 +24,79 @@ struct FavouritesView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            Color.backgroundColor
-                .ignoresSafeArea()
-            
-            List {
-                ForEach(favouritesVM.favouriteMotionPictures) { motionPicture in
-                    favouriteCell(motionPicture)
-                        .buttonStyle(.plain)
-                        .listRowSeparator(.hidden)
-                        .listRowBackground(Color.backgroundColor)
-                        .frame(height: 150)
-                        .background(Color.backgroundColor.cornerRadius(10, corners: .allCorners).shadow(radius: 3))
-                        .background(NavigationLink(value: AppPath.detail(motionPicture), label: {
-                            Color.clear
-                        }))
+
+                if favouritesVM.selectedViewType == .list {
+                    list
+                        .transition(.move(edge: .leading))
+                } else {
+                    grid
+                        .transition(.move(edge: .trailing))
                 }
-                .onDelete { indexSet in
-                    favouritesVM.removeFavourite(indexSet)
-                }
-            }
-            .listStyle(.plain)
-            .background(Color.backgroundColor)
-            .padding(.top, 60)
             
-            PillHeader(leftTitle: "List", rightTitle: "Grid", selectedType: nil, selectedViewType: favouritesVM.selectedViewType) {
-                favouritesVM.selectedViewType = .list // Swipe Left
+            PillHeader(leftTitle: "Grid", rightTitle: "List", selectedType: nil, selectedViewType: favouritesVM.selectedViewType) {
+                favouritesVM.selectedViewType = .grid // Swipe Left
             } rightAction: {
-                favouritesVM.selectedViewType = .grid // Swipe Right
+                favouritesVM.selectedViewType = .list // Swipe Right
             }
             
         }
     }
 }
 
-
+// MARK: Grid UI
 extension FavouritesView {
+    
+    private var grid : some View {
+        ScrollView {
+            Spacer()
+                .frame(height: 60)
+            
+            LazyVGrid(columns: columns) {
+                ForEach(favouritesVM.favouriteMotionPictures) { motionPicture in
+                    
+                    MiniMotionPictureCard(motionPicture: motionPicture, favouritesInteractor: favouritesVM.favouritesInteractor, gridCardSize: CGSize(width: UIScreen.screenWidth / 3.5, height: 200))
+                        .cornerRadius(10, corners: .allCorners)
+                        .shadow(radius: 3)
+                }
+            }
+            .animation(.easeInOut, value: favouritesVM.favouriteMotionPictures)
+        }
+        .padding(.horizontal)
+    }
+    
+}
+
+// MARK: List UI
+extension FavouritesView {
+    
+    private var list : some View {
+        List {
+            Spacer()
+                .frame(height: 60)
+                .buttonStyle(.plain)
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.backgroundColor)
+                .frame(height: 60)
+                .background(Color.backgroundColor.cornerRadius(10, corners: .allCorners).shadow(radius: 3))
+            
+            ForEach(favouritesVM.favouriteMotionPictures) { motionPicture in
+                favouriteCell(motionPicture)
+                    .buttonStyle(.plain)
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.backgroundColor)
+                    .frame(height: 150)
+                    .background(Color.backgroundColor.cornerRadius(10, corners: .allCorners).shadow(radius: 3))
+                    .background(NavigationLink(value: AppPath.detail(motionPicture), label: {
+                        Color.clear
+                    }))
+            }
+            .onDelete { indexSet in
+                favouritesVM.removeFavourite(indexSet)
+            }
+        }
+        .listStyle(.plain)
+        .background(Color.backgroundColor)
+    }
     
     private func favouriteCell(_ motionPicture : MotionPictureData.MotionPicture) -> some View {
         HStack(spacing: 20) {

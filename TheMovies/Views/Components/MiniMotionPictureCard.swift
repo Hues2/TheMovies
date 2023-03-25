@@ -12,6 +12,7 @@ struct MiniMotionPictureCard: View {
     
     let motionPicture : MotionPictureData.MotionPicture
     @ObservedObject var favouritesInteractor : FavouritesInteractor
+    var gridCardSize : CGSize? = nil
     
     
     var body: some View {
@@ -26,7 +27,7 @@ struct MiniMotionPictureCard: View {
                 image
                     .resizable()
                     .scaledToFill()
-                    .frame(width: 130, height: 200)
+                    .frame(width: gridCardSize?.width ?? 130, height: gridCardSize?.height ?? 200)
                     .overlay(alignment: .topTrailing) {
                         FavouriteHeart(motionPicture: motionPicture, favouritesInteractor: favouritesInteractor, font: .headline, isInToolBar: false)
                         .frame(width: 25, height: 25)

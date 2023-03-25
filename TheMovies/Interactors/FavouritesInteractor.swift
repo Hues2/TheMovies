@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import SwiftUI
 
 /*
  This class handles the addidng and removing of favourites
@@ -57,8 +57,10 @@ class FavouritesInteractor : ObservableObject {
     }
     
     func removeFavourite(_ indexSet : IndexSet) {
-        self.favouriteMotionPictures.remove(atOffsets: indexSet)
-        self.listOfFavouriteIDs.remove(atOffsets: indexSet)
-        self.favouritesToggle.toggle()
+        withAnimation {
+            self.favouriteMotionPictures.remove(atOffsets: indexSet)
+            self.listOfFavouriteIDs.remove(atOffsets: indexSet)
+            self.favouritesToggle.toggle()
+        }
     }
 }
