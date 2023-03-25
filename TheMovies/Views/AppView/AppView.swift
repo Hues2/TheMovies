@@ -14,16 +14,23 @@ import SwiftUI
 struct AppView: View {
     
     // Initialise all global interactors
-    @StateObject private var appInteractor = AppInteractor()
-    @StateObject private var authInteractor = AuthInteractor()
-    @StateObject private var apiDataInteractor = APIDataInteractor()
-    @StateObject private var favouritesInteractor = FavouritesInteractor()
+    @ObservedObject var appInteractor : AppInteractor
+    @ObservedObject var apiDataInteractor : APIDataInteractor
+    @ObservedObject var authInteractor : AuthInteractor
+    @StateObject var favouritesInteractor : FavouritesInteractor
+
+    init(_ appInteractor : AppInteractor, _ apiDataInteractor : APIDataInteractor, _ authInteractor : AuthInteractor) {
+        self.appInteractor = appInteractor
+        self.apiDataInteractor = apiDataInteractor
+        self.authInteractor = authInteractor
+        self._favouritesInteractor = StateObject(wrappedValue: FavouritesInteractor(appInteractor, authInteractor))
+    }
     
     var body: some View {
         
         TabView(selection: $appInteractor.selectedTab) {
             
-            HomeNavigationContainer(apiDataInteractor: apiDataInteractor, favouritesInteractor: favouritesInteractor, authInteractor: authInteractor)
+            HomeNavigationContainer(apiDataInteractor: apiDataInteractor, favouritesInteractor: favouritesInteractor, authInteractor: authInteractor, showSignIn: $appInteractor.showSignIn)
                 .tabItem {
                     VStack {
                         Image(systemName: "house")
@@ -31,7 +38,7 @@ struct AppView: View {
                     }
                 }
                 .tag(AppInteractor.Tab.home)
-            
+
             FavouritesNavigationContainer(apiDataInteractor: apiDataInteractor, favouritesInteractor: favouritesInteractor, authInteractor: authInteractor)
                 .tabItem {
                     VStack {
@@ -40,7 +47,7 @@ struct AppView: View {
                     }
                 }
                 .tag(AppInteractor.Tab.favourites)
-            
+//
         }
         
     }

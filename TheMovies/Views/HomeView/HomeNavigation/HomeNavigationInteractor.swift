@@ -9,5 +9,4 @@ import Foundation
 
 class HomeNavigationInteractor : ObservableObject {
     @Published var homePath = [AppPath]()
-    @Published var showSignIn : Bool = false
 }

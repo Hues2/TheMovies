@@ -14,6 +14,7 @@ struct HomeNavigationContainer: View {
     @ObservedObject var apiDataInteractor : APIDataInteractor
     @ObservedObject var favouritesInteractor : FavouritesInteractor
     @ObservedObject var authInteractor : AuthInteractor
+    @Binding var showSignIn : Bool
     
     var body: some View {
         
@@ -43,7 +44,7 @@ struct HomeNavigationContainer: View {
                     EmptyView()
                 }
             }
-            .sheet(isPresented: $homeNavigationInteractor.showSignIn) {
+            .sheet(isPresented: $showSignIn) {
                 RegisterView(authInteractor)
                     .presentationDetents([.large])
             }

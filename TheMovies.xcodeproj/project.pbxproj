@@ -172,12 +172,12 @@
 		2E1619D829C1FE4100A550DD /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2E1BEE3E29C4DFF300E64AD5 /* Components */,
 				2E1619D929C1FE4800A550DD /* AppView */,
 				2E2D28E429CF74900000C7FB /* Authorization */,
 				2E1619E029C1FF7C00A550DD /* HomeView */,
 				2E1619E129C1FF8300A550DD /* FavouritesView */,
 				2E1619EC29C2079A00A550DD /* MotionPictureDetailView */,
+				2E1BEE3E29C4DFF300E64AD5 /* Components */,
 			);
 			path = Views;
 			sourceTree = "<group>";

@@ -10,6 +10,7 @@ import Foundation
 
 final class AppInteractor : ObservableObject {
     
+    @Published var showSignIn : Bool = false
     @Published var selectedTab : Tab = .home
     
     enum Tab {

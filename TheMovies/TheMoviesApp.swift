@@ -14,10 +14,13 @@ struct TheMoviesApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     let urlImageService = URLImageService(fileStore: nil, inMemoryStore: URLImageInMemoryStore())
+    @StateObject var appInteractor = AppInteractor()
+    @StateObject var apiDataInteractor = APIDataInteractor()
+    @StateObject var authInteractor = AuthInteractor()
     
     var body: some Scene {
         WindowGroup {
-            AppView()
+            AppView(appInteractor, apiDataInteractor, authInteractor)
                 .environment(\.urlImageService, urlImageService)
         }
     }
