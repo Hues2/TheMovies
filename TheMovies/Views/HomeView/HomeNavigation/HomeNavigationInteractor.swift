@@ -9,11 +9,11 @@ import Foundation
 
 class HomeNavigationInteractor : ObservableObject {
     
-    @Published var homePath = [HomePath]()
+    @Published var homePath = [AppPath]()
     
-    enum HomePath : Hashable {
-        case home
-        case detail(MotionPictureData.MotionPicture)
-    }
+//    enum HomePath : Hashable {
+//        case home
+//        case detail(MotionPictureData.MotionPicture)
+//    }
     
 }

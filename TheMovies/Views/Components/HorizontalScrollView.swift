@@ -23,7 +23,7 @@ struct HorizontalScrollView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 10) {
                     ForEach(motionPictures) { motionPicture in
-                        NavigationLink(value: HomeNavigationInteractor.HomePath.detail(motionPicture)) {
+                        NavigationLink(value: AppPath.detail(motionPicture)) {
                             MiniMotionPictureCard(motionPicture: motionPicture, favouritesInteractor: favouritesInteractor)
                                 .cornerRadius(10)
                                 .shadow(radius: 3)

@@ -28,6 +28,7 @@
 		2E1BEE3B29C4864F00E64AD5 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 2E1BEE3A29C4864F00E64AD5 /* URLImage */; };
 		2E1BEE3D29C4864F00E64AD5 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = 2E1BEE3C29C4864F00E64AD5 /* URLImageStore */; };
 		2E1BEE4229C4E76800E64AD5 /* UIScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1BEE4129C4E76800E64AD5 /* UIScreen.swift */; };
+		2E2D28D829CEFA390000C7FB /* AppPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2D28D729CEFA390000C7FB /* AppPath.swift */; };
 		2E4ECE4729CA2BC100F3A1F8 /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ECE4629CA2BC100F3A1F8 /* Cast.swift */; };
 		2E4ECE4929CA2E0600F3A1F8 /* MotionPictureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ECE4829CA2E0600F3A1F8 /* MotionPictureType.swift */; };
 		2E4ECE4B29CA426900F3A1F8 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ECE4A29CA426900F3A1F8 /* HapticFeedback.swift */; };
@@ -70,6 +71,7 @@
 		2E16E3A629CA1E51001D97AD /* FavouriteHeart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteHeart.swift; sourceTree = "<group>"; };
 		2E16E3A829CA1F91001D97AD /* HorizontalScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalScrollView.swift; sourceTree = "<group>"; };
 		2E1BEE4129C4E76800E64AD5 /* UIScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScreen.swift; sourceTree = "<group>"; };
+		2E2D28D729CEFA390000C7FB /* AppPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPath.swift; sourceTree = "<group>"; };
 		2E4ECE4629CA2BC100F3A1F8 /* Cast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cast.swift; sourceTree = "<group>"; };
 		2E4ECE4829CA2E0600F3A1F8 /* MotionPictureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionPictureType.swift; sourceTree = "<group>"; };
 		2E4ECE4A29CA426900F3A1F8 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				2E1619F929C230D200A550DD /* CustomError.swift */,
 				2EA7228E29C2472A007BF89E /* URLBuilder.swift */,
 				2E4ECE4A29CA426900F3A1F8 /* HapticFeedback.swift */,
+				2E2D28D729CEFA390000C7FB /* AppPath.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -375,6 +378,7 @@
 				2E16E3A929CA1F91001D97AD /* HorizontalScrollView.swift in Sources */,
 				2E1619FA29C230D200A550DD /* CustomError.swift in Sources */,
 				2E1619F529C224BF00A550DD /* Constants.swift in Sources */,
+				2E2D28D829CEFA390000C7FB /* AppPath.swift in Sources */,
 				2E1619D729C1FDF700A550DD /* AppView.swift in Sources */,
 				2EC882A829C77537005F3F90 /* FavouritesInteractor.swift in Sources */,
 				2E4ECE4729CA2BC100F3A1F8 /* Cast.swift in Sources */,

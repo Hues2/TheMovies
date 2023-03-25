@@ -269,32 +269,32 @@ extension HomeViewModel {
             .store(in: &cancellables)
         
         
-        self.$autoSwipe
-            .sink { [weak self] returnedBool in
-                guard let self else { return }
-                DispatchQueue.main.asyncAfter(deadline: .now() + Constants.shared.autoSwipeSeconds) {
-                    if self.selectedType == .movie {
-                        withAnimation {
-                            if self.currentMovieTabIndex == self.trendingMovies.count - 1 {
-                                self.currentMovieTabIndex = 0
-                            } else {
-                                self.currentMovieTabIndex += 1
-                            }
-                            self.autoSwipe = true
-                        }
-                    } else {
-                        withAnimation {
-                            if self.currentTVTabIndex == self.trendingTVSeries.count - 1 {
-                                self.currentTVTabIndex = 0
-                            } else {
-                                self.currentTVTabIndex += 1
-                            }
-                            self.autoSwipe.toggle()
-                        }
-                    }
-                }
-            }
-            .store(in: &cancellables)
+//        self.$autoSwipe
+//            .sink { [weak self] returnedBool in
+//                guard let self else { return }
+//                DispatchQueue.main.asyncAfter(deadline: .now() + Constants.shared.autoSwipeSeconds) {
+//                    if self.selectedType == .movie {
+//                        withAnimation {
+//                            if self.currentMovieTabIndex == self.trendingMovies.count - 1 {
+//                                self.currentMovieTabIndex = 0
+//                            } else {
+//                                self.currentMovieTabIndex += 1
+//                            }
+//                            self.autoSwipe = true
+//                        }
+//                    } else {
+//                        withAnimation {
+//                            if self.currentTVTabIndex == self.trendingTVSeries.count - 1 {
+//                                self.currentTVTabIndex = 0
+//                            } else {
+//                                self.currentTVTabIndex += 1
+//                            }
+//                            self.autoSwipe.toggle()
+//                        }
+//                    }
+//                }
+//            }
+//            .store(in: &cancellables)
         
         
         self.favouritesInteractor.$favouritesToggle

@@ -14,14 +14,16 @@ import Foundation
 
 class FavouritesInteractor : ObservableObject {
     
+    // This is the list that the favourites view uses to display
     @Published var favouriteMotionPictures = [MotionPictureData.MotionPicture]()
+    
+    // This is the list that the "favouirites heart" uses to check if the motion picture is already added as a favourite
+    @Published var listOfFavouriteIDs = [Int]()
     @Published var favouritesToggle : Bool = false
     
     init() {
         fetchFavourites()
     }
-    
-    
     
     // I need to fetch the list of favourite ids from firebase
     // It will retreive a list of IDs
@@ -31,27 +33,32 @@ class FavouritesInteractor : ObservableObject {
     }
     
     func alterFavourites(_ motionPicture : MotionPictureData.MotionPicture) {
-        let indexOfMotionPicture = self.favouriteMotionPictures.firstIndex(of: motionPicture)
-        guard let indexOfMotionPicture else {
-            // Add to favourite
+        guard let id = motionPicture.id else { return }
+        let indexOfMotionPictureID = self.listOfFavouriteIDs.firstIndex(of: id)
+        guard let indexOfMotionPictureID else {
+            // Add to favourite]
             self.favouriteMotionPictures.append(motionPicture)
+            self.listOfFavouriteIDs.append(id)
             self.favouritesToggle.toggle()
             return
         }
         
         // Remove favourite
-        self.favouriteMotionPictures.remove(at: indexOfMotionPicture)
+        self.favouriteMotionPictures.remove(at: indexOfMotionPictureID)
+        self.listOfFavouriteIDs.remove(at: indexOfMotionPictureID)
         self.favouritesToggle.toggle()
     }
     
     
     // Return true if the motion picture is in the list of favourites
     func isFavourite(_ motionPicture : MotionPictureData.MotionPicture) -> Bool {
-        return favouriteMotionPictures.contains(motionPicture)
+        guard let id = motionPicture.id else { return false }
+        return listOfFavouriteIDs.contains(id)
     }
     
     func removeFavourite(_ indexSet : IndexSet) {
         self.favouriteMotionPictures.remove(atOffsets: indexSet)
+        self.listOfFavouriteIDs.remove(atOffsets: indexSet)
         self.favouritesToggle.toggle()
     }
 }

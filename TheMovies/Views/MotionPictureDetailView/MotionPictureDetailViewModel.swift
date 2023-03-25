@@ -32,8 +32,6 @@ final class MotionPictureDetailViewModel : ObservableObject {
         self.apiDataInteractor = apiDataInteractor
         
         addSubscribers()
-//        getRecommendations()
-//        getCast()
     }
  
 }

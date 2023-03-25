@@ -30,7 +30,7 @@ struct FavouritesView: View {
                         .listRowBackground(Color.backgroundColor)
                         .frame(height: 150)
                         .background(Color.backgroundColor.cornerRadius(10, corners: .allCorners).shadow(radius: 3))
-                        .background(NavigationLink(value: FavouritesNavigationInteractor.FavouritesPath.detail(motionPicture), label: {
+                        .background(NavigationLink(value: AppPath.detail(motionPicture), label: {
                             Color.clear
                         }))
                 }
