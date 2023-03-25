@@ -124,7 +124,7 @@ extension FavouritesView {
                         Text("\(motionPicture.release_date ?? motionPicture.first_air_date ?? "")")
                             .fontWeight(.thin)
                         Spacer()
-                        RatingView(rating: motionPicture.vote_average ?? 0, frameSize: 30)
+                        RatingView(rating: motionPicture.vote_average ?? 0, frameSize: 30, isInFavouritesList: true)
                             .frame(width: 35, height: 35)
                     }
                     
