@@ -40,6 +40,8 @@
 		2E2D28EF29CF84F60000C7FB /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2D28EE29CF84F60000C7FB /* String.swift */; };
 		2E2D28F129CF87690000C7FB /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2D28F029CF87690000C7FB /* View.swift */; };
 		2E2D28F329CF8CB20000C7FB /* AppInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2D28F229CF8CB20000C7FB /* AppInteractor.swift */; };
+		2E2D28F929CFA78A0000C7FB /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2D28F829CFA78A0000C7FB /* SignInView.swift */; };
+		2E2D28FB29CFA7AB0000C7FB /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2D28FA29CFA7AB0000C7FB /* SignInViewModel.swift */; };
 		2E4ECE4729CA2BC100F3A1F8 /* Cast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ECE4629CA2BC100F3A1F8 /* Cast.swift */; };
 		2E4ECE4929CA2E0600F3A1F8 /* MotionPictureType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ECE4829CA2E0600F3A1F8 /* MotionPictureType.swift */; };
 		2E4ECE4B29CA426900F3A1F8 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ECE4A29CA426900F3A1F8 /* HapticFeedback.swift */; };
@@ -91,6 +93,8 @@
 		2E2D28EE29CF84F60000C7FB /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		2E2D28F029CF87690000C7FB /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		2E2D28F229CF8CB20000C7FB /* AppInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInteractor.swift; sourceTree = "<group>"; };
+		2E2D28F829CFA78A0000C7FB /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		2E2D28FA29CFA7AB0000C7FB /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		2E4ECE4629CA2BC100F3A1F8 /* Cast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cast.swift; sourceTree = "<group>"; };
 		2E4ECE4829CA2E0600F3A1F8 /* MotionPictureType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionPictureType.swift; sourceTree = "<group>"; };
 		2E4ECE4A29CA426900F3A1F8 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
@@ -301,6 +305,7 @@
 		2E2D28E429CF74900000C7FB /* Authorization */ = {
 			isa = PBXGroup;
 			children = (
+				2E2D28F729CFA77F0000C7FB /* SignIn */,
 				2E2D28E729CF760F0000C7FB /* Register */,
 			);
 			path = Authorization;
@@ -313,6 +318,15 @@
 				2E2D28E829CF76250000C7FB /* RegisterViewModel.swift */,
 			);
 			path = Register;
+			sourceTree = "<group>";
+		};
+		2E2D28F729CFA77F0000C7FB /* SignIn */ = {
+			isa = PBXGroup;
+			children = (
+				2E2D28F829CFA78A0000C7FB /* SignInView.swift */,
+				2E2D28FA29CFA7AB0000C7FB /* SignInViewModel.swift */,
+			);
+			path = SignIn;
 			sourceTree = "<group>";
 		};
 		2EFC7AC229CE36D800CDCF08 /* FavouritesNavigation */ = {
@@ -442,7 +456,9 @@
 				2EC882A829C77537005F3F90 /* FavouritesInteractor.swift in Sources */,
 				2E4ECE4729CA2BC100F3A1F8 /* Cast.swift in Sources */,
 				2EA7228B29C236DA007BF89E /* HomeViewModel.swift in Sources */,
+				2E2D28FB29CFA7AB0000C7FB /* SignInViewModel.swift in Sources */,
 				2E1619E329C1FFA700A550DD /* HomeView.swift in Sources */,
+				2E2D28F929CFA78A0000C7FB /* SignInView.swift in Sources */,
 				2E1619C829C1FD9500A550DD /* TheMoviesApp.swift in Sources */,
 				2EB8A05229C8CC8D007C105B /* RatingView.swift in Sources */,
 				2EB8A05429C8CCD2007C105B /* Double.swift in Sources */,
