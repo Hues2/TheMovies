@@ -10,9 +10,10 @@ import SwiftUI
 struct HomeNavigationContainer: View {
     
     // This is where the home navigation interactor is created
-    @StateObject var homeNavigationInteractor = HomeNavigationInteractor()
+    @StateObject private var homeNavigationInteractor = HomeNavigationInteractor()
     @ObservedObject var apiDataInteractor : APIDataInteractor
     @ObservedObject var favouritesInteractor : FavouritesInteractor
+    @ObservedObject var authInteractor : AuthInteractor
     
     var body: some View {
         
@@ -20,7 +21,7 @@ struct HomeNavigationContainer: View {
             ZStack {
                 Color.backgroundColor
                     .ignoresSafeArea()
-                HomeView(homeNavigationInteractor, apiDataInteractor, favouritesInteractor)
+                HomeView(homeNavigationInteractor, apiDataInteractor, favouritesInteractor, authInteractor)
             }
             .navigationDestination(for: AppPath.self) { homePath in
                 switch homePath {
@@ -28,7 +29,7 @@ struct HomeNavigationContainer: View {
                     ZStack {
                         Color.backgroundColor
                             .ignoresSafeArea()
-                        HomeView(homeNavigationInteractor, apiDataInteractor, favouritesInteractor)
+                        HomeView(homeNavigationInteractor, apiDataInteractor, favouritesInteractor, authInteractor)
                     }
                     
                 case .detail(let motionPicture):
@@ -42,7 +43,10 @@ struct HomeNavigationContainer: View {
                     EmptyView()
                 }
             }
+            .sheet(isPresented: $homeNavigationInteractor.showSignIn) {
+                RegisterView(authInteractor)
+                    .presentationDetents([.large])
+            }
         }
-        
     }
 }

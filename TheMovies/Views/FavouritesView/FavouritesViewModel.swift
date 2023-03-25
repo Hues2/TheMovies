@@ -18,14 +18,16 @@ class FavouritesViewModel : ObservableObject {
     let favouritesNavigationInteractor : FavouritesNavigationInteractor
     let apiInteractor : APIDataInteractor
     let favouritesInteractor : FavouritesInteractor
+    let authInteractor : AuthInteractor
     
     private var cancellables = Set<AnyCancellable>()
     
     // Init
-    init(_ favouritesNavigationInteractor : FavouritesNavigationInteractor, _ apiInteractor : APIDataInteractor, _ favouritesInteractor : FavouritesInteractor) {
+    init(_ favouritesNavigationInteractor : FavouritesNavigationInteractor, _ apiInteractor : APIDataInteractor, _ favouritesInteractor : FavouritesInteractor, _ authInteractor : AuthInteractor) {
         self.favouritesNavigationInteractor = favouritesNavigationInteractor
         self.apiInteractor = apiInteractor
         self.favouritesInteractor = favouritesInteractor
+        self.authInteractor = authInteractor
         
         // Add the Combine subscribers
         addSubscribers()

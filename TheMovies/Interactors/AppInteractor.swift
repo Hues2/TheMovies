@@ -1,14 +1,14 @@
 //
-//  AppViewmodel.swift
+//  AppInteractor.swift
 //  TheMovies
 //
-//  Created by Greg Ross on 15/03/2023.
+//  Created by Greg Ross on 25/03/2023.
 //
 
 import Foundation
 
 
-final class AppViewModel : ObservableObject {
+final class AppInteractor : ObservableObject {
     
     @Published var selectedTab : Tab = .home
     

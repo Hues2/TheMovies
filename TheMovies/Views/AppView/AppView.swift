@@ -13,32 +13,33 @@ import SwiftUI
 
 struct AppView: View {
     
-    @StateObject private var appVM = AppViewModel()
-    @StateObject var apiDataInteractor = APIDataInteractor()
-    @StateObject var favouritesInteractor = FavouritesInteractor()
-    
+    // Initialise all global interactors
+    @StateObject private var appInteractor = AppInteractor()
+    @StateObject private var authInteractor = AuthInteractor()
+    @StateObject private var apiDataInteractor = APIDataInteractor()
+    @StateObject private var favouritesInteractor = FavouritesInteractor()
     
     var body: some View {
         
-        TabView(selection: $appVM.selectedTab) {
+        TabView(selection: $appInteractor.selectedTab) {
             
-            HomeNavigationContainer(apiDataInteractor: apiDataInteractor, favouritesInteractor: favouritesInteractor)
+            HomeNavigationContainer(apiDataInteractor: apiDataInteractor, favouritesInteractor: favouritesInteractor, authInteractor: authInteractor)
                 .tabItem {
                     VStack {
                         Image(systemName: "house")
                         Text("home_tab_title")
                     }
                 }
-                .tag(AppViewModel.Tab.home)
+                .tag(AppInteractor.Tab.home)
             
-            FavouritesNavigationContainer(apiDataInteractor: apiDataInteractor, favouritesInteractor: favouritesInteractor)
+            FavouritesNavigationContainer(apiDataInteractor: apiDataInteractor, favouritesInteractor: favouritesInteractor, authInteractor: authInteractor)
                 .tabItem {
                     VStack {
                         Image(systemName: "heart")
                         Text("favourites_tab_title")
                     }
                 }
-                .tag(AppViewModel.Tab.favourites)
+                .tag(AppInteractor.Tab.favourites)
             
         }
         

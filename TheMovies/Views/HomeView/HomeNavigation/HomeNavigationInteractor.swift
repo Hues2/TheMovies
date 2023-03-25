@@ -8,12 +8,6 @@
 import Foundation
 
 class HomeNavigationInteractor : ObservableObject {
-    
     @Published var homePath = [AppPath]()
-    
-//    enum HomePath : Hashable {
-//        case home
-//        case detail(MotionPictureData.MotionPicture)
-//    }
-    
+    @Published var showSignIn : Bool = false
 }

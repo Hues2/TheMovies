@@ -12,6 +12,7 @@ struct FavouritesNavigationContainer: View {
     @StateObject var favouritesNavigationInteractor = FavouritesNavigationInteractor()
     @ObservedObject var apiDataInteractor : APIDataInteractor
     @ObservedObject var favouritesInteractor : FavouritesInteractor
+    @ObservedObject var authInteractor : AuthInteractor
     
     var body: some View {
         
@@ -19,7 +20,7 @@ struct FavouritesNavigationContainer: View {
             ZStack {
                 Color.backgroundColor
                     .ignoresSafeArea()
-                FavouritesView(favouritesNavigationInteractor, apiDataInteractor, favouritesInteractor)
+                FavouritesView(favouritesNavigationInteractor, apiDataInteractor, favouritesInteractor, authInteractor)
             }
             .navigationDestination(for: AppPath.self) { homePath in
                 switch homePath {
@@ -29,7 +30,7 @@ struct FavouritesNavigationContainer: View {
                     ZStack {
                         Color.backgroundColor
                             .ignoresSafeArea()
-                        FavouritesView(favouritesNavigationInteractor, apiDataInteractor, favouritesInteractor)
+                        FavouritesView(favouritesNavigationInteractor, apiDataInteractor, favouritesInteractor, authInteractor)
                     }
                     
                 case .detail(let motionPicture):
@@ -39,6 +40,10 @@ struct FavouritesNavigationContainer: View {
                         MotionPictureDetailView(motionPicture, favouritesInteractor, apiDataInteractor)
                     }
                 }
+            }
+            .sheet(isPresented: $favouritesNavigationInteractor.showSignIn) {
+                RegisterView(authInteractor)
+                    .presentationDetents([.large])
             }
         }
     }

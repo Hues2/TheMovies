@@ -11,7 +11,10 @@ import URLImageStore
 
 @main
 struct TheMoviesApp: App {
+    
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     let urlImageService = URLImageService(fileStore: nil, inMemoryStore: URLImageInMemoryStore())
+    
     var body: some Scene {
         WindowGroup {
             AppView()
