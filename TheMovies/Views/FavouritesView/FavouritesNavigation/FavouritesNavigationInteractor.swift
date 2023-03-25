@@ -9,11 +9,6 @@ import Foundation
 
 class FavouritesNavigationInteractor : ObservableObject {
     
-    @Published var favouritesPath = [FavouritesPath]()
-    
-    enum FavouritesPath : Hashable {
-        case favourites
-        case detail(MotionPictureData.MotionPicture)
-    }
+    @Published var favouritesPath = [AppPath]()
     
 }

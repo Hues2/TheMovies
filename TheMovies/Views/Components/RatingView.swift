@@ -25,15 +25,21 @@ struct RatingView: View {
     }
     
     @State var percentToAnimate: Double = 0
+    var isInFavouritesList : Bool? = false
     
     var body: some View {
         ZStack{
             
             Circle()
                 .stroke(color.opacity(0.15), lineWidth: 2)
+                .onAppear{
+                    withAnimation(.easeInOut(duration: 1)) {
+                        self.percentToAnimate = rating / 10
+                    }
+                }
             
             Circle()
-                .trim(from: 1 - percentToAnimate, to: 1)
+                .trim(from: 1 - (isInFavouritesList ?? false ? (rating / 10) : percentToAnimate), to: 1)
                 .stroke(color.opacity(0.8), lineWidth: 2)
                 .rotationEffect(Angle(degrees: 90))
                 .rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
@@ -49,11 +55,6 @@ struct RatingView: View {
                 .lineLimit(1)
                 .minimumScaleFactor(0.3)
                 .frame(maxWidth: frameSize, maxHeight: frameSize)
-        }
-        .onAppear{
-            withAnimation(.easeInOut(duration: 1)) {
-                self.percentToAnimate = rating / 10
-            }
         }
     }
 }

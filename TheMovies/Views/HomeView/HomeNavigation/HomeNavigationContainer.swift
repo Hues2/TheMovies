@@ -22,7 +22,7 @@ struct HomeNavigationContainer: View {
                     .ignoresSafeArea()
                 HomeView(homeNavigationInteractor, apiDataInteractor, favouritesInteractor)
             }
-            .navigationDestination(for: HomeNavigationInteractor.HomePath.self) { homePath in
+            .navigationDestination(for: AppPath.self) { homePath in
                 switch homePath {
                 case .home:
                     ZStack {
@@ -37,6 +37,9 @@ struct HomeNavigationContainer: View {
                             .ignoresSafeArea()
                         MotionPictureDetailView(motionPicture, favouritesInteractor, apiDataInteractor)
                     }
+                    
+                case .favourites:
+                    EmptyView()
                 }
             }
         }

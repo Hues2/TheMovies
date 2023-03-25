@@ -13,7 +13,7 @@ class FavouritesViewModel : ObservableObject {
     @Published var favouriteMotionPictures = [MotionPictureData.MotionPicture]()
     
     // Sets the view to display either a grid or a list of favourites
-    @Published var selectedViewType : ViewType = .list
+    @Published var selectedViewType : ViewType = .grid
     
     let favouritesNavigationInteractor : FavouritesNavigationInteractor
     let apiInteractor : APIDataInteractor
@@ -57,7 +57,8 @@ extension FavouritesViewModel {
     private func addFavouritesSubscribers() {
         favouritesInteractor.$favouriteMotionPictures
             .sink { [weak self] returnedMotionPictures in
-                self?.favouriteMotionPictures = returnedMotionPictures
+                guard let self else { return }
+                self.favouriteMotionPictures = returnedMotionPictures
             }
             .store(in: &cancellables)
     }

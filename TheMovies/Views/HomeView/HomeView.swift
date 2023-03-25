@@ -89,7 +89,7 @@ extension HomeView {
     private func trendingTabView(_ motionPictures : [MotionPictureData.MotionPicture]) -> some View {
         TabView(selection: homeVM.selectedType == .movie ? $homeVM.currentMovieTabIndex : $homeVM.currentTVTabIndex) {
             ForEach(Array(zip(motionPictures.indices, motionPictures)), id: \.0) { (index, motionpicture) in
-                NavigationLink(value: HomeNavigationInteractor.HomePath.detail(motionpicture)) {
+                NavigationLink(value: AppPath.detail(motionpicture)) {
                     tabViewCard(motionpicture)
                 }
                 .tag(index)
