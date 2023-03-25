@@ -47,7 +47,6 @@ struct AppView: View {
                     }
                 }
                 .tag(AppInteractor.Tab.favourites)
-//
         }
         
     }
