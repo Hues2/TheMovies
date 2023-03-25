@@ -14,7 +14,6 @@ struct MiniMotionPictureCard: View {
     @ObservedObject var favouritesInteractor : FavouritesInteractor
     var gridCardSize : CGSize? = nil
     
-    
     var body: some View {
         if let url = motionPicture.posterURL {
             URLImage(url) {
@@ -41,7 +40,7 @@ struct MiniMotionPictureCard: View {
                     }
                     .clipped()
             }
-            
+    
         }
     }
 }

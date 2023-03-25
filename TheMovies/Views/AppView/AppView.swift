@@ -13,33 +13,41 @@ import SwiftUI
 
 struct AppView: View {
     
-    @StateObject private var appVM = AppViewModel()
-    @StateObject var apiDataInteractor = APIDataInteractor()
-    @StateObject var favouritesInteractor = FavouritesInteractor()
-    
+    // Initialise all global interactors
+    @ObservedObject var appInteractor : AppInteractor
+    @ObservedObject var apiDataInteractor : APIDataInteractor
+    @ObservedObject var authInteractor : AuthInteractor
+    @StateObject var favouritesInteractor : FavouritesInteractor
+
+    init(_ appInteractor : AppInteractor, _ apiDataInteractor : APIDataInteractor, _ authInteractor : AuthInteractor) {
+        self.appInteractor = appInteractor
+        self.apiDataInteractor = apiDataInteractor
+        self.authInteractor = authInteractor
+        self._favouritesInteractor = StateObject(wrappedValue: FavouritesInteractor(appInteractor, authInteractor))
+    }
     
     var body: some View {
         
-        TabView(selection: $appVM.selectedTab) {
+        TabView(selection: $appInteractor.selectedTab) {
             
-            HomeNavigationContainer(apiDataInteractor: apiDataInteractor, favouritesInteractor: favouritesInteractor)
+            HomeNavigationContainer(apiDataInteractor: apiDataInteractor, favouritesInteractor: favouritesInteractor, authInteractor: authInteractor, showSignIn: $appInteractor.showSignIn)
                 .tabItem {
                     VStack {
                         Image(systemName: "house")
                         Text("home_tab_title")
                     }
                 }
-                .tag(AppViewModel.Tab.home)
-            
-            FavouritesNavigationContainer(apiDataInteractor: apiDataInteractor, favouritesInteractor: favouritesInteractor)
+                .tag(AppInteractor.Tab.home)
+
+            FavouritesNavigationContainer(apiDataInteractor: apiDataInteractor, favouritesInteractor: favouritesInteractor, authInteractor: authInteractor)
                 .tabItem {
                     VStack {
                         Image(systemName: "heart")
                         Text("favourites_tab_title")
                     }
                 }
-                .tag(AppViewModel.Tab.favourites)
-            
+                .tag(AppInteractor.Tab.favourites)
+//
         }
         
     }

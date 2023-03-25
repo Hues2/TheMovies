@@ -29,7 +29,6 @@ struct RatingView: View {
     
     var body: some View {
         ZStack{
-            
             Circle()
                 .stroke(color.opacity(0.15), lineWidth: 2)
                 .onAppear{
@@ -45,7 +44,6 @@ struct RatingView: View {
                 .rotation3DEffect(.degrees(180), axis: (x: 1, y: 0, z: 0))
                 .shadow(color: color.opacity(0.5), radius: 3, x: 0, y: 0)
                 .shadow(color: color.opacity(0.5), radius: 3, x: 0, y: 0)
-            
         }
         .overlay(alignment: .center) {
             Text("\(rating.ratingToPercent())")
