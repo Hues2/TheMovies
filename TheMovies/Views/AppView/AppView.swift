@@ -13,17 +13,21 @@ import SwiftUI
 
 struct AppView: View {
     
-    // Initialise all global interactors
+    @StateObject private var appVM : AppViewModel
+    
+    
+    // All interactors
     @ObservedObject var appInteractor : AppInteractor
     @ObservedObject var apiDataInteractor : APIDataInteractor
     @ObservedObject var authInteractor : AuthInteractor
-    @StateObject var favouritesInteractor : FavouritesInteractor
+    @ObservedObject var favouritesInteractor : FavouritesInteractor
 
-    init(_ appInteractor : AppInteractor, _ apiDataInteractor : APIDataInteractor, _ authInteractor : AuthInteractor) {
+    init(_ appInteractor : AppInteractor, _ apiDataInteractor : APIDataInteractor, _ authInteractor : AuthInteractor, _ favouritesInteractor : FavouritesInteractor) {
         self.appInteractor = appInteractor
         self.apiDataInteractor = apiDataInteractor
         self.authInteractor = authInteractor
-        self._favouritesInteractor = StateObject(wrappedValue: FavouritesInteractor(appInteractor, authInteractor))
+        self.favouritesInteractor = favouritesInteractor
+        self._appVM = StateObject(wrappedValue: AppViewModel(apiDataInteractor, favouritesInteractor, authInteractor, appInteractor))
     }
     
     var body: some View {
@@ -47,6 +51,18 @@ struct AppView: View {
                     }
                 }
                 .tag(AppInteractor.Tab.favourites)
+            
+            AccountView(authInteractor, appInteractor)
+                .tabItem {
+                    VStack {
+                        Image(systemName: "person")
+                        Text("account_tab_title")
+                    }
+                }
+                .sheet(isPresented: $appInteractor.showSignIn, content: {
+                    AuthorizationSheetView(authInteractor, appInteractor)
+                })
+                .tag(AppInteractor.Tab.account)
         }
         
     }

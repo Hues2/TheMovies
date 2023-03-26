@@ -15,8 +15,9 @@ struct MotionPictureDetailView: View {
     @Namespace private var namespace
     @State private var selectedCast : CastData.Cast? = nil
     
-    init(_ motionPicture : MotionPictureData.MotionPicture, _ favouritesInteractor : FavouritesInteractor, _ apiDataInteractor : APIDataInteractor) {
-        self._detailVM = StateObject(wrappedValue: MotionPictureDetailViewModel(motionPicture, favouritesInteractor, apiDataInteractor))
+    init(_ motionPicture : MotionPictureData.MotionPicture, _ favouritesInteractor : FavouritesInteractor, _ apiDataInteractor : APIDataInteractor,
+         _ authInteractor : AuthInteractor, _ appInteractor : AppInteractor) {
+        self._detailVM = StateObject(wrappedValue: MotionPictureDetailViewModel(motionPicture, favouritesInteractor, apiDataInteractor, authInteractor, appInteractor))
     }
     
     var body: some View {
@@ -40,7 +41,7 @@ struct MotionPictureDetailView: View {
                 
                 // Recommendations
                 if !detailVM.recommendedMotionPictures.isEmpty {
-                    HorizontalScrollView(motionPictures: detailVM.recommendedMotionPictures, favouritesInteractor: detailVM.favouritesInteractor, title: "Recommendations")
+                    HorizontalScrollView(motionPictures: detailVM.recommendedMotionPictures, title: "Recommendations", favouritesInteractor: detailVM.favouritesInteractor, authInteractor: detailVM.authInteractor, appInteractor: detailVM.appInteractor)
                         .padding(.top, 25)
                 }
                 

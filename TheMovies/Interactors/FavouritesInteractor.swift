@@ -20,32 +20,23 @@ class FavouritesInteractor : ObservableObject {
     // This is the list that the "favouirites heart" uses to check if the motion picture is already added as a favourite
     @Published var listOfFavouriteIDs = [Int]()
     @Published var favouritesToggle : Bool = false
-    
-    
-    private let appInteractor : AppInteractor
-    private let authInteractor : AuthInteractor
-    
-    
-    init(_ appInteractor : AppInteractor, _ authInteractor : AuthInteractor) {
-        self.appInteractor = appInteractor
-        self.authInteractor = authInteractor
-        fetchFavourites()
-    }
+
+
     
     // I need to fetch the list of favourite ids from firebase
     // It will retreive a list of IDs
     // Then API calls will have to be made to retreive each corresponding motion picture
-    private func fetchFavourites() {
+    func fetchFavourites(_ userID : String) {
         
     }
     
+    func logOut() {
+        self.favouriteMotionPictures = []
+        self.listOfFavouriteIDs = []
+        self.favouritesToggle.toggle()
+    }
+    
     func alterFavourites(_ motionPicture : MotionPictureData.MotionPicture) {
-        
-        guard authInteractor.user != nil else {
-            // Show Sign In
-            appInteractor.showSignIn = true
-            return
-        }
         
         guard let id = motionPicture.id else { return }
         let indexOfMotionPictureID = self.listOfFavouriteIDs.firstIndex(of: id)

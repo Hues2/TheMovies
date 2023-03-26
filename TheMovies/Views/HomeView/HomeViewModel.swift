@@ -46,15 +46,18 @@ final class HomeViewModel : ObservableObject {
     let apiInteractor : APIDataInteractor
     let favouritesInteractor : FavouritesInteractor
     let authInteractor : AuthInteractor
+    let appInteractor : AppInteractor
     
     private var cancellables = Set<AnyCancellable>()
     
     // Init
-    init(_ homeNavigationInteractor : HomeNavigationInteractor, _ apiInteractor : APIDataInteractor, _ favouritesInteractor : FavouritesInteractor, _ authInteractor : AuthInteractor) {
+    init(_ homeNavigationInteractor : HomeNavigationInteractor, _ apiInteractor : APIDataInteractor,
+         _ favouritesInteractor : FavouritesInteractor, _ authInteractor : AuthInteractor, _ appInteractor : AppInteractor) {
         self.homeNavigationInteractor = homeNavigationInteractor
         self.apiInteractor = apiInteractor
         self.favouritesInteractor = favouritesInteractor
         self.authInteractor = authInteractor
+        self.appInteractor = appInteractor
         
         // Add the Combine subscribers
         addSubscribers()
@@ -67,7 +70,12 @@ extension HomeViewModel {
     
     // Add motion Picture To Favourites
     func alterFavourites(_ motionPicture : MotionPictureData.MotionPicture) {
-        favouritesInteractor.alterFavourites(motionPicture)
+        guard authInteractor.user != nil else {
+            // Show Sign In
+            self.appInteractor.showSignIn = true
+            return
+        }
+        self.favouritesInteractor.alterFavourites(motionPicture)
     }
     
     // Return true if the motion picture is in the list of favourites
@@ -269,34 +277,33 @@ extension HomeViewModel {
                 }
             }
             .store(in: &cancellables)
-        
-        
-//        self.$autoSwipe
-//            .sink { [weak self] returnedBool in
-//                guard let self else { return }
-//                DispatchQueue.main.asyncAfter(deadline: .now() + Constants.shared.autoSwipeSeconds) {
-//                    if self.selectedType == .movie {
-//                        withAnimation {
-//                            if self.currentMovieTabIndex == self.trendingMovies.count - 1 {
-//                                self.currentMovieTabIndex = 0
-//                            } else {
-//                                self.currentMovieTabIndex += 1
-//                            }
-//                            self.autoSwipe = true
-//                        }
-//                    } else {
-//                        withAnimation {
-//                            if self.currentTVTabIndex == self.trendingTVSeries.count - 1 {
-//                                self.currentTVTabIndex = 0
-//                            } else {
-//                                self.currentTVTabIndex += 1
-//                            }
-//                            self.autoSwipe.toggle()
-//                        }
-//                    }
-//                }
-//            }
-//            .store(in: &cancellables)
+                
+        self.$autoSwipe
+            .sink { [weak self] returnedBool in
+                guard let self else { return }
+                DispatchQueue.main.asyncAfter(deadline: .now() + Constants.shared.autoSwipeSeconds) {
+                    if self.selectedType == .movie {
+                        withAnimation {
+                            if self.currentMovieTabIndex == self.trendingMovies.count - 1 {
+                                self.currentMovieTabIndex = 0
+                            } else {
+                                self.currentMovieTabIndex += 1
+                            }
+                            self.autoSwipe = true
+                        }
+                    } else {
+                        withAnimation {
+                            if self.currentTVTabIndex == self.trendingTVSeries.count - 1 {
+                                self.currentTVTabIndex = 0
+                            } else {
+                                self.currentTVTabIndex += 1
+                            }
+                            self.autoSwipe.toggle()
+                        }
+                    }
+                }
+            }
+            .store(in: &cancellables)
         
         
         self.favouritesInteractor.$favouritesToggle

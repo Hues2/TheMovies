@@ -22,14 +22,19 @@ final class MotionPictureDetailViewModel : ObservableObject {
     // Interactor Dependencies
     let favouritesInteractor : FavouritesInteractor
     let apiDataInteractor : APIDataInteractor
+    let authInteractor : AuthInteractor
+    let appInteractor : AppInteractor
     
     
     private var cancellables = Set<AnyCancellable>()
     
-    init(_ motionPicture : MotionPictureData.MotionPicture, _ favouritesInteractor : FavouritesInteractor, _ apiDataInteractor : APIDataInteractor) {
+    init(_ motionPicture : MotionPictureData.MotionPicture, _ favouritesInteractor : FavouritesInteractor,
+         _ apiDataInteractor : APIDataInteractor, _ authInteractor : AuthInteractor, _ appInteractor : AppInteractor) {
         self.motionPicture = motionPicture
         self.favouritesInteractor = favouritesInteractor
         self.apiDataInteractor = apiDataInteractor
+        self.authInteractor = authInteractor
+        self.appInteractor = appInteractor
         
         addSubscribers()
     }
@@ -92,7 +97,12 @@ extension MotionPictureDetailViewModel {
 extension MotionPictureDetailViewModel {
     // Add motion Picture To Favourites
     func alterFavourites() {
-        favouritesInteractor.alterFavourites(motionPicture)
+        guard authInteractor.user != nil else {
+            // Show Sign In
+            appInteractor.showSignIn = true
+            return
+        }
+        self.favouritesInteractor.alterFavourites(motionPicture)
     }
     
     // Return true if the motion picture is in the list of favourites

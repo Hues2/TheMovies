@@ -41,4 +41,10 @@ class AuthInteractor : ObservableObject {
             self.user = authDataResult.user
         }
     }
+    
+    func signOut() {
+        // Remove the user
+        // TODO: Remove the token from the keychain
+        self.user = nil
+    }
 }
