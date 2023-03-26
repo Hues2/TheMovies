@@ -43,6 +43,18 @@ extension AppViewModel {
     
     private func addSubscribers() {
         self.authInteractor.$user
+            .dropFirst()
+            .sink { [weak self] returnedUser in
+                guard let self, let returnedUser else {
+                    // User is nil --> So the user has logged out
+                    self?.favouritesInteractor.logOut()
+                    return
+                }
+                // A user has logged in
+                // Fetch all the favourites belonging to this user
+                self.favouritesInteractor.fetchFavourites(returnedUser.uid)
+            }
+            .store(in: &cancellables)
             
     }
     
