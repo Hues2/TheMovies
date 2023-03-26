@@ -22,7 +22,7 @@ struct FavouritesNavigationContainer: View {
             ZStack {
                 Color.backgroundColor
                     .ignoresSafeArea()
-                FavouritesView(favouritesNavigationInteractor, apiDataInteractor, favouritesInteractor, authInteractor)
+                FavouritesView(favouritesNavigationInteractor, apiDataInteractor, favouritesInteractor, authInteractor, appInteractor)
             }
             .navigationDestination(for: AppPath.self) { homePath in
                 switch homePath {
@@ -32,7 +32,7 @@ struct FavouritesNavigationContainer: View {
                     ZStack {
                         Color.backgroundColor
                             .ignoresSafeArea()
-                        FavouritesView(favouritesNavigationInteractor, apiDataInteractor, favouritesInteractor, authInteractor)
+                        FavouritesView(favouritesNavigationInteractor, apiDataInteractor, favouritesInteractor, authInteractor, appInteractor)
                     }
                     
                 case .detail(let motionPicture):

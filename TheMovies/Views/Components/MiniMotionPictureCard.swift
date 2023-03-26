@@ -12,6 +12,8 @@ struct MiniMotionPictureCard: View {
     
     let motionPicture : MotionPictureData.MotionPicture
     @ObservedObject var favouritesInteractor : FavouritesInteractor
+    @ObservedObject var authInteractor : AuthInteractor
+    @ObservedObject var appInteractor : AppInteractor
     var gridCardSize : CGSize? = nil
     
     var body: some View {
@@ -32,6 +34,11 @@ struct MiniMotionPictureCard: View {
                         .frame(width: 25, height: 25)
                         .onTapGesture {
                             withAnimation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.3)) {
+                                guard authInteractor.user != nil else {
+                                    // Show Sign In
+                                    appInteractor.showSignIn = true
+                                    return
+                                }
                                 // Add the motion picture id to the favourites list in database
                                 favouritesInteractor.alterFavourites(motionPicture)
                             }

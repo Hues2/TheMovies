@@ -67,13 +67,13 @@ extension HomeView {
                 .frame(height: UIScreen.screenHeight * 0.65)
                 .padding(.top)
             
-            HorizontalScrollView(motionPictures: homeVM.selectedType == .movie ? homeVM.topRatedMovies : homeVM.topRatedTVSeries, favouritesInteractor: homeVM.favouritesInteractor, title: "Top Rated")
+            HorizontalScrollView(motionPictures: homeVM.selectedType == .movie ? homeVM.topRatedMovies : homeVM.topRatedTVSeries, title: "Top Rated", favouritesInteractor: homeVM.favouritesInteractor, authInteractor: homeVM.authInteractor, appInteractor: homeVM.appInteractor)
                 .padding(.horizontal, 7)
 
-            HorizontalScrollView(motionPictures: homeVM.selectedType == .movie ? homeVM.popularMovies : homeVM.popularTVSeries, favouritesInteractor: homeVM.favouritesInteractor, title: "Popular")
+            HorizontalScrollView(motionPictures: homeVM.selectedType == .movie ? homeVM.popularMovies : homeVM.popularTVSeries, title: "Popular", favouritesInteractor: homeVM.favouritesInteractor, authInteractor: homeVM.authInteractor, appInteractor: homeVM.appInteractor)
                 .padding(.horizontal, 7)
             
-            HorizontalScrollView(motionPictures: homeVM.selectedType == .movie ? homeVM.upcomingMovies : homeVM.airingTodayTVSeries, favouritesInteractor: homeVM.favouritesInteractor, title: homeVM.selectedType == .movie ? "Upcoming" : "Airing Today")
+            HorizontalScrollView(motionPictures: homeVM.selectedType == .movie ? homeVM.upcomingMovies : homeVM.airingTodayTVSeries, title: homeVM.selectedType == .movie ? "Upcoming" : "Airing Today", favouritesInteractor: homeVM.favouritesInteractor, authInteractor: homeVM.authInteractor, appInteractor: homeVM.appInteractor)
                 .padding(.horizontal, 7)
             
         }

@@ -10,8 +10,10 @@ import SwiftUI
 struct HorizontalScrollView: View {
     
     let motionPictures : [MotionPictureData.MotionPicture]
-    @ObservedObject var favouritesInteractor : FavouritesInteractor
     let title : String
+    @ObservedObject var favouritesInteractor : FavouritesInteractor
+    @ObservedObject var authInteractor : AuthInteractor
+    @ObservedObject var appInteractor : AppInteractor
     
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
@@ -24,7 +26,7 @@ struct HorizontalScrollView: View {
                 LazyHStack(spacing: 10) {
                     ForEach(motionPictures) { motionPicture in
                         NavigationLink(value: AppPath.detail(motionPicture)) {
-                            MiniMotionPictureCard(motionPicture: motionPicture, favouritesInteractor: favouritesInteractor)
+                            MiniMotionPictureCard(motionPicture: motionPicture, favouritesInteractor: favouritesInteractor, authInteractor: authInteractor, appInteractor: appInteractor)
                                 .cornerRadius(10)
                                 .shadow(radius: 3)
                                 .frame(width: 135, height: 210)

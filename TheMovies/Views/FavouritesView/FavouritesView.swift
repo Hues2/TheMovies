@@ -18,8 +18,9 @@ struct FavouritesView: View {
         GridItem(.flexible())
     ]
     
-    init(_ favouritesNavigationInteractor : FavouritesNavigationInteractor, _ apiDataInteractor : APIDataInteractor, _ favouritesInteractor : FavouritesInteractor, _ authInteractor : AuthInteractor) {
-        self._favouritesVM = StateObject(wrappedValue: FavouritesViewModel(favouritesNavigationInteractor, apiDataInteractor, favouritesInteractor, authInteractor))
+    init(_ favouritesNavigationInteractor : FavouritesNavigationInteractor, _ apiDataInteractor : APIDataInteractor,
+         _ favouritesInteractor : FavouritesInteractor, _ authInteractor : AuthInteractor, _ appInteractor : AppInteractor) {
+        self._favouritesVM = StateObject(wrappedValue: FavouritesViewModel(favouritesNavigationInteractor, apiDataInteractor, favouritesInteractor, authInteractor, appInteractor))
     }
     
     var body: some View {
@@ -54,7 +55,7 @@ extension FavouritesView {
             LazyVGrid(columns: columns) {
                 ForEach(favouritesVM.favouriteMotionPictures) { motionPicture in
                     NavigationLink(value: AppPath.detail(motionPicture)) {
-                        MiniMotionPictureCard(motionPicture: motionPicture, favouritesInteractor: favouritesVM.favouritesInteractor, gridCardSize: CGSize(width: UIScreen.screenWidth / 3.5, height: UIScreen.screenHeight * 0.2))
+                        MiniMotionPictureCard(motionPicture: motionPicture, favouritesInteractor: favouritesVM.favouritesInteractor, authInteractor: favouritesVM.authInteractor, appInteractor: favouritesVM.appInteractor, gridCardSize: CGSize(width: UIScreen.screenWidth / 3.5, height: UIScreen.screenHeight * 0.2))
                             .cornerRadius(10, corners: .allCorners)
                             .shadow(radius: 3)
                     }

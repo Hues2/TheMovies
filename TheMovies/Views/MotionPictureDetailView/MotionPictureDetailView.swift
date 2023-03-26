@@ -41,7 +41,7 @@ struct MotionPictureDetailView: View {
                 
                 // Recommendations
                 if !detailVM.recommendedMotionPictures.isEmpty {
-                    HorizontalScrollView(motionPictures: detailVM.recommendedMotionPictures, favouritesInteractor: detailVM.favouritesInteractor, title: "Recommendations")
+                    HorizontalScrollView(motionPictures: detailVM.recommendedMotionPictures, title: "Recommendations", favouritesInteractor: detailVM.favouritesInteractor, authInteractor: detailVM.authInteractor, appInteractor: detailVM.appInteractor)
                         .padding(.top, 25)
                 }
                 
