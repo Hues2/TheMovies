@@ -153,6 +153,7 @@
 			children = (
 				2E2D28D929CF719F0000C7FB /* GoogleService-Info.plist */,
 				2E1619C729C1FD9500A550DD /* TheMoviesApp.swift */,
+				2E2D28E229CF73310000C7FB /* AppDelegate.swift */,
 				2E1619F629C2287F00A550DD /* Interactors */,
 				2E1619D829C1FE4100A550DD /* Views */,
 				2E1619DF29C1FEB400A550DD /* Models */,
@@ -162,7 +163,6 @@
 				2E1619F329C209FA00A550DD /* Info.plist */,
 				2E1619CD29C1FD9600A550DD /* TheMovies.entitlements */,
 				2E1619CE29C1FD9600A550DD /* Preview Content */,
-				2E2D28E229CF73310000C7FB /* AppDelegate.swift */,
 			);
 			path = TheMovies;
 			sourceTree = "<group>";

@@ -12,16 +12,20 @@ class AuthInteractor : ObservableObject {
     
     @Published var isSignedIn : Bool = false
     
-    init() {
-        
-    }
+    private var appInteractor : AppInteractor?
     
+
+    
+    func update(_ appInteractor : AppInteractor) {
+        self.appInteractor = appInteractor
+    }
     
     func registerNewUser() {
         
     }
     
     func signIn() {
-        
+        guard let appInteractor else { return }
+        appInteractor.showSignIn = false
     }
 }

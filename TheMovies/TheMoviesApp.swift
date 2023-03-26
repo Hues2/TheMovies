@@ -18,10 +18,14 @@ struct TheMoviesApp: App {
     @StateObject var apiDataInteractor = APIDataInteractor()
     @StateObject var authInteractor = AuthInteractor()
     
+    
     var body: some Scene {
         WindowGroup {
             AppView(appInteractor, apiDataInteractor, authInteractor)
                 .environment(\.urlImageService, urlImageService)
+                .onAppear{
+                    authInteractor.update(appInteractor)
+                }
         }
     }
 }
