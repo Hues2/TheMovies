@@ -18,26 +18,44 @@ struct SignInView: View {
     }
     
     var body: some View {
-        VStack(alignment: .center, spacing: 30) {
+        ZStack {
+            Color.backgroundColor.ignoresSafeArea()
+                .dismissKeyboardOnTap()
             
-            Text("The Movies")
-                .font(.largeTitle)
-                .fontWeight(.black)
-                .foregroundColor(Color.accentColor)
-            
-            
-            textfields
-            
-            registerButton
-
+            VStack(alignment: .center, spacing: 30) {
+                
+                Text("The Movies")
+                    .font(.largeTitle)
+                    .fontWeight(.black)
+                    .foregroundColor(Color.accentColor)
+                
+                errorMessage
+                
+                textfields
+                
+                registerButton
+                
+            }
+            .padding()
         }
-        .padding()
-        .contentShape(Rectangle())
-        .dismissKeyboardOnTap()
     }
 }
 
 extension SignInView {
+    
+    @ViewBuilder
+    private var errorMessage : some View {
+        if let errorMessage = signInVM.errorMessage {
+            Text("\(errorMessage)")
+                .font(.title3)
+                .fontWeight(.medium)
+                .padding()
+                .background(Color.backgroundColor
+                    .frame(maxWidth: .infinity)
+                    .cornerRadius(10, corners: .allCorners)
+                    .shadow(radius: 3))
+        }
+    }
     
     private var textfields : some View {
         VStack(alignment: .center, spacing: 20) {
@@ -54,6 +72,7 @@ extension SignInView {
                     .foregroundColor(Color.accentColor)
                     .font(.caption)
                     .underline()
+                    .padding()
             }
         }
         .padding(.bottom, 15)

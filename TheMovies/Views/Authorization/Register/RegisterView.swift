@@ -18,26 +18,43 @@ struct RegisterView: View {
     }
     
     var body: some View {
-        VStack(alignment: .center, spacing: 30) {
-            
-            Text("The Movies")
-                .font(.largeTitle)
-                .fontWeight(.black)
-                .foregroundColor(Color.accentColor)
-            
-            
-            textfields
-            
-            registerButton
-
+        ZStack {
+            Color.backgroundColor.ignoresSafeArea()
+                .dismissKeyboardOnTap()
+            VStack(alignment: .center, spacing: 30) {
+                
+                Text("The Movies")
+                    .font(.largeTitle)
+                    .fontWeight(.black)
+                    .foregroundColor(Color.accentColor)
+                
+                errorMessage
+                
+                textfields
+                
+                registerButton
+                
+            }
+            .padding()
         }
-        .padding()
-        .contentShape(Rectangle())
-        .dismissKeyboardOnTap()
     }
 }
 
 extension RegisterView {
+    
+    @ViewBuilder
+    private var errorMessage : some View {
+        if let errorMessage = registerVM.errorMessage {
+            Text("\(errorMessage)")
+                .font(.title3)
+                .fontWeight(.medium)
+                .padding()
+                .background(Color.backgroundColor
+                    .frame(maxWidth: .infinity)
+                    .cornerRadius(10, corners: .allCorners)
+                    .shadow(radius: 3))
+        }
+    }
     
     private var textfields : some View {
         VStack(spacing: 20) {
@@ -56,9 +73,10 @@ extension RegisterView {
                     .foregroundColor(Color.accentColor)
                     .font(.caption)
                     .underline()
+                    .padding()
             }
-            .padding(.bottom, 15)
         }
+        .padding(.bottom, 15)
     }
     
     private var registerButton : some View {

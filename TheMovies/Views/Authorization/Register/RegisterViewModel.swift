@@ -17,6 +17,7 @@ final class RegisterViewModel : ObservableObject {
     @Published var password : String = ""
     @Published var confirmedPassword : String = ""
     @Published var isLoading : Bool = false
+    @Published var errorMessage : String? = nil
         
     private let authInteractor : AuthInteractor
     private let appInteractor : AppInteractor
@@ -39,6 +40,15 @@ extension RegisterViewModel {
             .sink { [weak self] _ in
                 guard let self else { return }
                 self.isLoading = false
+                self.errorMessage = nil
+            }
+            .store(in: &cancellables)
+        
+        self.authInteractor.errorPublisher
+            .sink { [weak self] returnedError in
+                guard let self else { return }
+                self.isLoading = false
+                self.errorMessage = returnedError.localizedDescription
             }
             .store(in: &cancellables)
     }

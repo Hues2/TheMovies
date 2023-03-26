@@ -13,6 +13,7 @@ class SignInViewModel : ObservableObject {
     @Published var email : String = ""
     @Published var password : String = ""
     @Published var isLoading : Bool = false
+    @Published var errorMessage : String? = nil
     
     // Interactor Dependencies
     private let authInteractor : AuthInteractor
@@ -36,6 +37,15 @@ extension SignInViewModel {
             .sink { [weak self] _ in
                 guard let self else { return }
                 self.isLoading = false
+                self.errorMessage = nil
+            }
+            .store(in: &cancellables)
+        
+        self.authInteractor.errorPublisher
+            .sink { [weak self] returnedError in
+                guard let self else { return }
+                self.isLoading = false
+                self.errorMessage = returnedError.localizedDescription
             }
             .store(in: &cancellables)
     }

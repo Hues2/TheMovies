@@ -35,7 +35,12 @@ extension AuthorizationSheetViewModel {
             .dropFirst()
             .sink { [weak self] returnedUser in
                 guard let self else { return }
-                guard let _ = returnedUser else { self.isLoading = false; return } // If the registration fails, we still have to remove the progressview
+                guard let _ = returnedUser else {
+                    // If the registration fails, we still have to remove the progressview
+                    print("UNSSUCESSFUL")
+                    self.isLoading = false
+                    return
+                }
                 self.isLoading = false
                 self.appInteractor.showSignIn = false // Dismiss Sign In/Register Sheet
             }
