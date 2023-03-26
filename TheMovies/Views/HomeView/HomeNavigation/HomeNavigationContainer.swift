@@ -11,6 +11,7 @@ struct HomeNavigationContainer: View {
     
     // This is where the home navigation interactor is created
     @StateObject private var homeNavigationInteractor = HomeNavigationInteractor()
+    @ObservedObject var appInteractor : AppInteractor
     @ObservedObject var apiDataInteractor : APIDataInteractor
     @ObservedObject var favouritesInteractor : FavouritesInteractor
     @ObservedObject var authInteractor : AuthInteractor
@@ -45,7 +46,7 @@ struct HomeNavigationContainer: View {
                 }
             }
             .sheet(isPresented: $showSignIn) {
-                AuthorizationSheetView(authInteractor: authInteractor)
+                AuthorizationSheetView(authInteractor, appInteractor)
                     .presentationDetents([.large])
             }
         }

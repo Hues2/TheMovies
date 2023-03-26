@@ -10,6 +10,7 @@ import SwiftUI
 struct FavouritesNavigationContainer: View {
     // This is where the home navigation interactor is created
     @StateObject var favouritesNavigationInteractor = FavouritesNavigationInteractor()
+    @ObservedObject var appInteractor : AppInteractor
     @ObservedObject var apiDataInteractor : APIDataInteractor
     @ObservedObject var favouritesInteractor : FavouritesInteractor
     @ObservedObject var authInteractor : AuthInteractor
@@ -43,7 +44,7 @@ struct FavouritesNavigationContainer: View {
                 }
             }
             .sheet(isPresented: $showSignIn) {
-                AuthorizationSheetView(authInteractor: authInteractor)
+                AuthorizationSheetView(authInteractor, appInteractor)
                     .presentationDetents([.large])
             }
         }

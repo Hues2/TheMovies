@@ -23,9 +23,6 @@ struct TheMoviesApp: App {
         WindowGroup {
             AppView(appInteractor, apiDataInteractor, authInteractor)
                 .environment(\.urlImageService, urlImageService)
-                .onAppear{
-                    authInteractor.update(appInteractor)
-                }
         }
     }
 }

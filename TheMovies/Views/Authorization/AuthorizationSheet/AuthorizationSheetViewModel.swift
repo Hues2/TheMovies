@@ -1,25 +1,22 @@
 //
-//  SignInViewModel.swift
+//  AuthorizationSheetViewModel.swift
 //  TheMovies
 //
-//  Created by Greg Ross on 25/03/2023.
+//  Created by Greg Ross on 26/03/2023.
 //
 
-import SwiftUI
+import Foundation
 import Combine
 
-class SignInViewModel : ObservableObject {
+class AuthorizationSheetViewModel : ObservableObject {
     
-    @Published var email : String = ""
-    @Published var password : String = ""
     @Published var isLoading : Bool = false
     
-    // Interactor Dependencies
     private let authInteractor : AuthInteractor
     private let appInteractor : AppInteractor
     
     private var cancellables = Set<AnyCancellable>()
-        
+    
     init(_ authInteractor : AuthInteractor, _ appInteractor : AppInteractor) {
         self.authInteractor = authInteractor
         self.appInteractor = appInteractor
@@ -28,31 +25,21 @@ class SignInViewModel : ObservableObject {
     
 }
 
+
 // MARK: Subscribers
-extension SignInViewModel {
+extension AuthorizationSheetViewModel {
     
     private func addSubscribers() {
+        // When the user register an account successfully, the auth interactor will publish the User object returned from the registration
         self.authInteractor.$user
-            .sink { [weak self] _ in
+            .dropFirst()
+            .sink { [weak self] returnedUser in
                 guard let self else { return }
+                guard let _ = returnedUser else { self.isLoading = false; return } // If the registration fails, we still have to remove the progressview
                 self.isLoading = false
+                self.appInteractor.showSignIn = false // Dismiss Sign In/Register Sheet
             }
             .store(in: &cancellables)
-    }
-    
-}
-
-// MARK: Sign In
-extension SignInViewModel {
-    
-    func signIn() {
-        guard readyToSignIn() else { return }
-        self.isLoading = true
-        authInteractor.signIn(self.email, self.password)
-    }
-    
-    func readyToSignIn() -> Bool {
-        return !self.email.isEmpty && !self.password.isEmpty
     }
     
 }

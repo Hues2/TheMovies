@@ -12,8 +12,8 @@ struct RegisterView: View {
     @StateObject private var registerVM : RegisterViewModel
     @Binding var showSignIn : Bool
     
-    init(_ authInteractor : AuthInteractor, _ showSignIn : Binding<Bool>) {
-        self._registerVM = StateObject(wrappedValue: RegisterViewModel(authInteractor))
+    init(_ authInteractor : AuthInteractor, _ appInteractor : AppInteractor, _ showSignIn : Binding<Bool>) {
+        self._registerVM = StateObject(wrappedValue: RegisterViewModel(authInteractor, appInteractor))
         self._showSignIn = showSignIn
     }
     
@@ -63,18 +63,32 @@ extension RegisterView {
     
     private var registerButton : some View {
         Button {
-            registerVM.register()
+            if !registerVM.isLoading {
+                registerVM.register()
+            }
         } label: {
-            Text("Register")
-                .font(.headline)
-                .foregroundColor(.white)
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background {
-                    Color.accentColor
-                }
-                .cornerRadius(10, corners: .allCorners)
-                .shadow(radius: 3)
+            if registerVM.isLoading {
+                ProgressView()
+                    .tint(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background {
+                        Color.accentColor
+                    }
+                    .cornerRadius(10, corners: .allCorners)
+                    .shadow(radius: 3)
+            } else {
+                Text("Register")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background {
+                        Color.accentColor
+                    }
+                    .cornerRadius(10, corners: .allCorners)
+                    .shadow(radius: 3)
+            }
         }
         .disabled(!registerVM.readyToRegister())
     }

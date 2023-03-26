@@ -7,6 +7,8 @@
 
 import Foundation
 import FirebaseAuth
+import SwiftUI
+import Combine
 
 
 final class RegisterViewModel : ObservableObject {
@@ -14,22 +16,42 @@ final class RegisterViewModel : ObservableObject {
     @Published var email : String = ""
     @Published var password : String = ""
     @Published var confirmedPassword : String = ""
-    
+    @Published var isLoading : Bool = false
+        
     private let authInteractor : AuthInteractor
+    private let appInteractor : AppInteractor
     
-    init(_ authInteractor : AuthInteractor) {
+    private var cancellables = Set<AnyCancellable>()
+        
+    init(_ authInteractor : AuthInteractor, _ appInteractor : AppInteractor) {
         self.authInteractor = authInteractor
+        self.appInteractor = appInteractor
     }
     
 }
 
+
+// MARK: Subscribers
+extension RegisterViewModel {
+    
+    private func addSubscribers() {
+        self.authInteractor.$user
+            .sink { [weak self] _ in
+                guard let self else { return }
+                self.isLoading = false
+            }
+            .store(in: &cancellables)
+    }
+    
+}
 
 // MARK: Register
 extension RegisterViewModel {
     
     func register() {
         guard readyToRegister() else { return }
-        authInteractor.registerNewUser()
+        self.isLoading = true
+        authInteractor.registerNewUser(self.email, self.password)
     }
     
 }

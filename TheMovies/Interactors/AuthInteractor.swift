@@ -10,22 +10,31 @@ import FirebaseAuth
 
 class AuthInteractor : ObservableObject {
     
-    @Published var isSignedIn : Bool = false
+    @Published var user : User? = nil
     
-    private var appInteractor : AppInteractor?
-    
-
-    
-    func update(_ appInteractor : AppInteractor) {
-        self.appInteractor = appInteractor
+    func registerNewUser(_ email : String, _ password : String) {
+        Auth.auth().createUser(withEmail: email, password: password) { [weak self] (authDataResult, error) in
+            guard let self else { return }
+            guard let authDataResult else {
+                // Registration unsuccessful
+                self.user = nil
+                return
+            }
+            // Registration successful
+            self.user = authDataResult.user
+        }
     }
     
-    func registerNewUser() {
-        
-    }
-    
-    func signIn() {
-        guard let appInteractor else { return }
-        appInteractor.showSignIn = false
+    func signIn(_ email : String, _ password : String) {
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] (authDataResult, error) in
+            guard let self else { return }
+            guard let authDataResult else {
+                // Registration unsuccessful
+                self.user = nil
+                return
+            }
+            // Registration successful
+            self.user = authDataResult.user
+        }
     }
 }

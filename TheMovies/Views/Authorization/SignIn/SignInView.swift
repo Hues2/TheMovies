@@ -12,8 +12,8 @@ struct SignInView: View {
     @StateObject private var signInVM : SignInViewModel
     @Binding var showSignIn : Bool
     
-    init(_ authInteractor : AuthInteractor, _ showSignIn : Binding<Bool>) {
-        self._signInVM = StateObject(wrappedValue: SignInViewModel(authInteractor))
+    init(_ authInteractor : AuthInteractor, _ appInteractor : AppInteractor, _ showSignIn : Binding<Bool>) {
+        self._signInVM = StateObject(wrappedValue: SignInViewModel(authInteractor, appInteractor))
         self._showSignIn = showSignIn
     }
     
@@ -61,18 +61,32 @@ extension SignInView {
     
     private var registerButton : some View {
         Button {
-            signInVM.signIn()
+            if !signInVM.isLoading {
+                signInVM.signIn()
+            }
         } label: {
-            Text("Sign In")
-                .font(.headline)
-                .foregroundColor(.white)
-                .padding()
-                .frame(maxWidth: .infinity)
-                .background {
-                    Color.accentColor
-                }
-                .cornerRadius(10, corners: .allCorners)
-                .shadow(radius: 3)
+            if signInVM.isLoading {
+                ProgressView()
+                    .tint(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background {
+                        Color.accentColor
+                    }
+                    .cornerRadius(10, corners: .allCorners)
+                    .shadow(radius: 3)
+            } else {
+                Text("Sign In")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background {
+                        Color.accentColor
+                    }
+                    .cornerRadius(10, corners: .allCorners)
+                    .shadow(radius: 3)
+            }
         }
         .disabled(!signInVM.readyToSignIn())
     }
