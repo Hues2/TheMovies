@@ -10,9 +10,11 @@ import SwiftUI
 struct RegisterView: View {
     
     @StateObject private var registerVM : RegisterViewModel
+    @Binding var showSignIn : Bool
     
-    init(_ authInteractor : AuthInteractor) {
+    init(_ authInteractor : AuthInteractor, _ showSignIn : Binding<Bool>) {
         self._registerVM = StateObject(wrappedValue: RegisterViewModel(authInteractor))
+        self._showSignIn = showSignIn
     }
     
     var body: some View {
@@ -38,12 +40,24 @@ struct RegisterView: View {
 extension RegisterView {
     
     private var textfields : some View {
-        VStack(spacing: 15) {
+        VStack(spacing: 20) {
             Textfield(text: $registerVM.email, title: "Email", isSecure: false, isValid: registerVM.emailHasRedBorder())
             
             Textfield(text: $registerVM.password, title: "Password", isSecure: true, isValid: registerVM.passwordHasRedBorder())
             
             Textfield(text: $registerVM.confirmedPassword, title: "Confirm Password", isSecure: true, isValid: registerVM.confirmedPasswordHasRedBorder())
+            
+            Button {
+                withAnimation {
+                    showSignIn = true
+                }
+            } label: {
+                Text("Already have an account? Sign in here!")
+                    .foregroundColor(Color.accentColor)
+                    .font(.caption)
+                    .underline()
+            }
+            .padding(.bottom, 15)
         }
     }
     

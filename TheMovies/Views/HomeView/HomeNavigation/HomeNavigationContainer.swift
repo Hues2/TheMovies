@@ -45,7 +45,7 @@ struct HomeNavigationContainer: View {
                 }
             }
             .sheet(isPresented: $showSignIn) {
-                RegisterView(authInteractor)
+                AuthorizationSheetView(authInteractor: authInteractor)
                     .presentationDetents([.large])
             }
         }

@@ -6,13 +6,22 @@
 //
 
 import Foundation
-
+import FirebaseAuth
 
 class AuthInteractor : ObservableObject {
     
     @Published var isSignedIn : Bool = false
     
     init() {
+        
+    }
+    
+    
+    func registerNewUser() {
+        
+    }
+    
+    func signIn() {
         
     }
 }

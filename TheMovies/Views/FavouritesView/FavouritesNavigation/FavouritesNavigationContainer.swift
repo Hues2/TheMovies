@@ -13,6 +13,7 @@ struct FavouritesNavigationContainer: View {
     @ObservedObject var apiDataInteractor : APIDataInteractor
     @ObservedObject var favouritesInteractor : FavouritesInteractor
     @ObservedObject var authInteractor : AuthInteractor
+    @Binding var showSignIn : Bool
     
     var body: some View {
         
@@ -41,8 +42,8 @@ struct FavouritesNavigationContainer: View {
                     }
                 }
             }
-            .sheet(isPresented: $favouritesNavigationInteractor.showSignIn) {
-                RegisterView(authInteractor)
+            .sheet(isPresented: $showSignIn) {
+                AuthorizationSheetView(authInteractor: authInteractor)
                     .presentationDetents([.large])
             }
         }

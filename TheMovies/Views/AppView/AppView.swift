@@ -39,7 +39,7 @@ struct AppView: View {
                 }
                 .tag(AppInteractor.Tab.home)
 
-            FavouritesNavigationContainer(apiDataInteractor: apiDataInteractor, favouritesInteractor: favouritesInteractor, authInteractor: authInteractor)
+            FavouritesNavigationContainer(apiDataInteractor: apiDataInteractor, favouritesInteractor: favouritesInteractor, authInteractor: authInteractor, showSignIn: $appInteractor.showSignIn)
                 .tabItem {
                     VStack {
                         Image(systemName: "heart")

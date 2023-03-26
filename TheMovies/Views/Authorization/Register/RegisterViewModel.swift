@@ -29,7 +29,7 @@ extension RegisterViewModel {
     
     func register() {
         guard readyToRegister() else { return }
-        
+        authInteractor.registerNewUser()
     }
     
 }
