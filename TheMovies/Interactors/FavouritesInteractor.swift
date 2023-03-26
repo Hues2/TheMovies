@@ -41,7 +41,7 @@ class FavouritesInteractor : ObservableObject {
     
     func alterFavourites(_ motionPicture : MotionPictureData.MotionPicture) {
         
-        guard authInteractor.isSignedIn else {
+        guard authInteractor.user != nil else {
             // Show Sign In
             appInteractor.showSignIn = true
             return

@@ -9,5 +9,4 @@ import Foundation
 
 class FavouritesNavigationInteractor : ObservableObject {
     @Published var favouritesPath = [AppPath]()
-    @Published var showSignIn : Bool = false
 }

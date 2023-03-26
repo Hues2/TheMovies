@@ -6,13 +6,39 @@
 //
 
 import Foundation
-
+import FirebaseAuth
+import Combine
 
 class AuthInteractor : ObservableObject {
     
-    @Published var isSignedIn : Bool = false
+    @Published var user : User? = nil
+    let errorPublisher = PassthroughSubject<Error, Never>()
     
-    init() {
-        
+    func registerNewUser(_ email : String, _ password : String) {
+        Auth.auth().createUser(withEmail: email, password: password) { [weak self] (authDataResult, error) in
+            guard let self else { return }
+            guard let authDataResult else {
+                // Registration unsuccessful
+                guard let error else { return }
+                self.errorPublisher.send(error)
+                return
+            }
+            // Registration successful
+            self.user = authDataResult.user
+        }
+    }
+    
+    func signIn(_ email : String, _ password : String) {
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] (authDataResult, error) in
+            guard let self else { return }
+            guard let authDataResult else {
+                // Registration unsuccessful
+                guard let error else { return }                                
+                self.errorPublisher.send(error)
+                return
+            }
+            // Registration successful
+            self.user = authDataResult.user
+        }
     }
 }

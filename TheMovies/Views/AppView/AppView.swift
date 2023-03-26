@@ -30,7 +30,7 @@ struct AppView: View {
         
         TabView(selection: $appInteractor.selectedTab) {
             
-            HomeNavigationContainer(apiDataInteractor: apiDataInteractor, favouritesInteractor: favouritesInteractor, authInteractor: authInteractor, showSignIn: $appInteractor.showSignIn)
+            HomeNavigationContainer(appInteractor: appInteractor, apiDataInteractor: apiDataInteractor, favouritesInteractor: favouritesInteractor, authInteractor: authInteractor, showSignIn: $appInteractor.showSignIn)
                 .tabItem {
                     VStack {
                         Image(systemName: "house")
@@ -39,7 +39,7 @@ struct AppView: View {
                 }
                 .tag(AppInteractor.Tab.home)
 
-            FavouritesNavigationContainer(apiDataInteractor: apiDataInteractor, favouritesInteractor: favouritesInteractor, authInteractor: authInteractor)
+            FavouritesNavigationContainer(appInteractor: appInteractor, apiDataInteractor: apiDataInteractor, favouritesInteractor: favouritesInteractor, authInteractor: authInteractor, showSignIn: $appInteractor.showSignIn)
                 .tabItem {
                     VStack {
                         Image(systemName: "heart")

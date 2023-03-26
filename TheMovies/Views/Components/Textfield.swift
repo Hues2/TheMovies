@@ -18,8 +18,10 @@ struct Textfield: View {
         VStack {
             if !isSecure {
                 TextField(title, text: text)
+                    .keyboardType(.emailAddress)
             } else {
                 SecureField(title, text: text)
+                    .keyboardType(.default)
             }
         }
         .padding()

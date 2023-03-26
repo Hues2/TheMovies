@@ -47,6 +47,8 @@
 		2E4ECE4B29CA426900F3A1F8 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ECE4A29CA426900F3A1F8 /* HapticFeedback.swift */; };
 		2E4ECE4D29CA58EF00F3A1F8 /* PopUpCastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ECE4C29CA58EF00F3A1F8 /* PopUpCastView.swift */; };
 		2E4ECE4F29CA591800F3A1F8 /* CastCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ECE4E29CA591800F3A1F8 /* CastCard.swift */; };
+		2E9784B929D0A2B400CAAB62 /* AuthorizationSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9784B829D0A2B400CAAB62 /* AuthorizationSheetView.swift */; };
+		2E9784BC29D0C47F00CAAB62 /* AuthorizationSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9784BB29D0C47F00CAAB62 /* AuthorizationSheetViewModel.swift */; };
 		2EA7228B29C236DA007BF89E /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7228A29C236DA007BF89E /* HomeViewModel.swift */; };
 		2EA7228F29C2472A007BF89E /* URLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7228E29C2472A007BF89E /* URLBuilder.swift */; };
 		2EA7229129C2549D007BF89E /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7229029C2549D007BF89E /* Color.swift */; };
@@ -100,6 +102,8 @@
 		2E4ECE4A29CA426900F3A1F8 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
 		2E4ECE4C29CA58EF00F3A1F8 /* PopUpCastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpCastView.swift; sourceTree = "<group>"; };
 		2E4ECE4E29CA591800F3A1F8 /* CastCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastCard.swift; sourceTree = "<group>"; };
+		2E9784B829D0A2B400CAAB62 /* AuthorizationSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationSheetView.swift; sourceTree = "<group>"; };
+		2E9784BB29D0C47F00CAAB62 /* AuthorizationSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationSheetViewModel.swift; sourceTree = "<group>"; };
 		2EA7228A29C236DA007BF89E /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		2EA7228E29C2472A007BF89E /* URLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBuilder.swift; sourceTree = "<group>"; };
 		2EA7229029C2549D007BF89E /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -151,6 +155,7 @@
 			children = (
 				2E2D28D929CF719F0000C7FB /* GoogleService-Info.plist */,
 				2E1619C729C1FD9500A550DD /* TheMoviesApp.swift */,
+				2E2D28E229CF73310000C7FB /* AppDelegate.swift */,
 				2E1619F629C2287F00A550DD /* Interactors */,
 				2E1619D829C1FE4100A550DD /* Views */,
 				2E1619DF29C1FEB400A550DD /* Models */,
@@ -160,7 +165,6 @@
 				2E1619F329C209FA00A550DD /* Info.plist */,
 				2E1619CD29C1FD9600A550DD /* TheMovies.entitlements */,
 				2E1619CE29C1FD9600A550DD /* Preview Content */,
-				2E2D28E229CF73310000C7FB /* AppDelegate.swift */,
 			);
 			path = TheMovies;
 			sourceTree = "<group>";
@@ -307,6 +311,7 @@
 			children = (
 				2E2D28F729CFA77F0000C7FB /* SignIn */,
 				2E2D28E729CF760F0000C7FB /* Register */,
+				2E9784BA29D0C46D00CAAB62 /* AuthorizationSheet */,
 			);
 			path = Authorization;
 			sourceTree = "<group>";
@@ -327,6 +332,15 @@
 				2E2D28FA29CFA7AB0000C7FB /* SignInViewModel.swift */,
 			);
 			path = SignIn;
+			sourceTree = "<group>";
+		};
+		2E9784BA29D0C46D00CAAB62 /* AuthorizationSheet */ = {
+			isa = PBXGroup;
+			children = (
+				2E9784B829D0A2B400CAAB62 /* AuthorizationSheetView.swift */,
+				2E9784BB29D0C47F00CAAB62 /* AuthorizationSheetViewModel.swift */,
+			);
+			path = AuthorizationSheet;
 			sourceTree = "<group>";
 		};
 		2EFC7AC229CE36D800CDCF08 /* FavouritesNavigation */ = {
@@ -445,6 +459,7 @@
 				2E2D28ED29CF7A9C0000C7FB /* Textfield.swift in Sources */,
 				2EC882A629C74E01005F3F90 /* RoundedCorner.swift in Sources */,
 				2E2D28E329CF73310000C7FB /* AppDelegate.swift in Sources */,
+				2E9784B929D0A2B400CAAB62 /* AuthorizationSheetView.swift in Sources */,
 				2E2D28EF29CF84F60000C7FB /* String.swift in Sources */,
 				2E4ECE4F29CA591800F3A1F8 /* CastCard.swift in Sources */,
 				2E16E3A929CA1F91001D97AD /* HorizontalScrollView.swift in Sources */,
@@ -463,6 +478,7 @@
 				2EB8A05229C8CC8D007C105B /* RatingView.swift in Sources */,
 				2EB8A05429C8CCD2007C105B /* Double.swift in Sources */,
 				2EFC7AC829CE37D700CDCF08 /* FavouritesView.swift in Sources */,
+				2E9784BC29D0C47F00CAAB62 /* AuthorizationSheetViewModel.swift in Sources */,
 				2E1619F829C228B000A550DD /* APIDataInteractor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
