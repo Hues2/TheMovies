@@ -23,7 +23,7 @@ struct HomeNavigationContainer: View {
             ZStack {
                 Color.backgroundColor
                     .ignoresSafeArea()
-                HomeView(homeNavigationInteractor, apiDataInteractor, favouritesInteractor, authInteractor)
+                HomeView(homeNavigationInteractor, apiDataInteractor, favouritesInteractor, authInteractor, appInteractor)
             }
             .navigationDestination(for: AppPath.self) { homePath in
                 switch homePath {
@@ -31,14 +31,14 @@ struct HomeNavigationContainer: View {
                     ZStack {
                         Color.backgroundColor
                             .ignoresSafeArea()
-                        HomeView(homeNavigationInteractor, apiDataInteractor, favouritesInteractor, authInteractor)
+                        HomeView(homeNavigationInteractor, apiDataInteractor, favouritesInteractor, authInteractor, appInteractor)
                     }
                     
                 case .detail(let motionPicture):
                     ZStack {
                         Color.backgroundColor
                             .ignoresSafeArea()
-                        MotionPictureDetailView(motionPicture, favouritesInteractor, apiDataInteractor)
+                        MotionPictureDetailView(motionPicture, favouritesInteractor, apiDataInteractor, authInteractor, appInteractor)
                     }
                     
                 case .favourites:

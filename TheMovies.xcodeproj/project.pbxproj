@@ -49,6 +49,7 @@
 		2E4ECE4F29CA591800F3A1F8 /* CastCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ECE4E29CA591800F3A1F8 /* CastCard.swift */; };
 		2E9784B929D0A2B400CAAB62 /* AuthorizationSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9784B829D0A2B400CAAB62 /* AuthorizationSheetView.swift */; };
 		2E9784BC29D0C47F00CAAB62 /* AuthorizationSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9784BB29D0C47F00CAAB62 /* AuthorizationSheetViewModel.swift */; };
+		2E9784BE29D0E11200CAAB62 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9784BD29D0E11200CAAB62 /* AppViewModel.swift */; };
 		2EA7228B29C236DA007BF89E /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7228A29C236DA007BF89E /* HomeViewModel.swift */; };
 		2EA7228F29C2472A007BF89E /* URLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7228E29C2472A007BF89E /* URLBuilder.swift */; };
 		2EA7229129C2549D007BF89E /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA7229029C2549D007BF89E /* Color.swift */; };
@@ -104,6 +105,7 @@
 		2E4ECE4E29CA591800F3A1F8 /* CastCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastCard.swift; sourceTree = "<group>"; };
 		2E9784B829D0A2B400CAAB62 /* AuthorizationSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationSheetView.swift; sourceTree = "<group>"; };
 		2E9784BB29D0C47F00CAAB62 /* AuthorizationSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationSheetViewModel.swift; sourceTree = "<group>"; };
+		2E9784BD29D0E11200CAAB62 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		2EA7228A29C236DA007BF89E /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		2EA7228E29C2472A007BF89E /* URLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBuilder.swift; sourceTree = "<group>"; };
 		2EA7229029C2549D007BF89E /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				2E1619D629C1FDF700A550DD /* AppView.swift */,
+				2E9784BD29D0E11200CAAB62 /* AppViewModel.swift */,
 			);
 			path = AppView;
 			sourceTree = "<group>";
@@ -435,6 +438,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E9784BE29D0E11200CAAB62 /* AppViewModel.swift in Sources */,
 				2E1619F029C2083B00A550DD /* MotionPicture.swift in Sources */,
 				2E4ECE4D29CA58EF00F3A1F8 /* PopUpCastView.swift in Sources */,
 				2E4ECE4B29CA426900F3A1F8 /* HapticFeedback.swift in Sources */,

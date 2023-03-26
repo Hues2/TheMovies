@@ -46,15 +46,18 @@ final class HomeViewModel : ObservableObject {
     let apiInteractor : APIDataInteractor
     let favouritesInteractor : FavouritesInteractor
     let authInteractor : AuthInteractor
+    let appInteractor : AppInteractor
     
     private var cancellables = Set<AnyCancellable>()
     
     // Init
-    init(_ homeNavigationInteractor : HomeNavigationInteractor, _ apiInteractor : APIDataInteractor, _ favouritesInteractor : FavouritesInteractor, _ authInteractor : AuthInteractor) {
+    init(_ homeNavigationInteractor : HomeNavigationInteractor, _ apiInteractor : APIDataInteractor,
+         _ favouritesInteractor : FavouritesInteractor, _ authInteractor : AuthInteractor, _ appInteractor : AppInteractor) {
         self.homeNavigationInteractor = homeNavigationInteractor
         self.apiInteractor = apiInteractor
         self.favouritesInteractor = favouritesInteractor
         self.authInteractor = authInteractor
+        self.appInteractor = appInteractor
         
         // Add the Combine subscribers
         addSubscribers()
@@ -67,7 +70,12 @@ extension HomeViewModel {
     
     // Add motion Picture To Favourites
     func alterFavourites(_ motionPicture : MotionPictureData.MotionPicture) {
-        favouritesInteractor.alterFavourites(motionPicture)
+        guard authInteractor.user != nil else {
+            // Show Sign In
+            self.appInteractor.showSignIn = true
+            return
+        }
+        self.favouritesInteractor.alterFavourites(motionPicture)
     }
     
     // Return true if the motion picture is in the list of favourites

@@ -39,7 +39,7 @@ struct FavouritesNavigationContainer: View {
                     ZStack {
                         Color.backgroundColor
                             .ignoresSafeArea()
-                        MotionPictureDetailView(motionPicture, favouritesInteractor, apiDataInteractor)
+                        MotionPictureDetailView(motionPicture, favouritesInteractor, apiDataInteractor, authInteractor, appInteractor)
                     }
                 }
             }

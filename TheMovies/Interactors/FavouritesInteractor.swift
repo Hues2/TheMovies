@@ -21,14 +21,7 @@ class FavouritesInteractor : ObservableObject {
     @Published var listOfFavouriteIDs = [Int]()
     @Published var favouritesToggle : Bool = false
     
-    
-    private let appInteractor : AppInteractor
-    private let authInteractor : AuthInteractor
-    
-    
-    init(_ appInteractor : AppInteractor, _ authInteractor : AuthInteractor) {
-        self.appInteractor = appInteractor
-        self.authInteractor = authInteractor
+    init() {
         fetchFavourites()
     }
     
@@ -40,12 +33,6 @@ class FavouritesInteractor : ObservableObject {
     }
     
     func alterFavourites(_ motionPicture : MotionPictureData.MotionPicture) {
-        
-        guard authInteractor.user != nil else {
-            // Show Sign In
-            appInteractor.showSignIn = true
-            return
-        }
         
         guard let id = motionPicture.id else { return }
         let indexOfMotionPictureID = self.listOfFavouriteIDs.firstIndex(of: id)

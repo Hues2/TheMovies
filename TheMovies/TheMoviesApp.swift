@@ -17,11 +17,11 @@ struct TheMoviesApp: App {
     @StateObject var appInteractor = AppInteractor()
     @StateObject var apiDataInteractor = APIDataInteractor()
     @StateObject var authInteractor = AuthInteractor()
-    
+    @StateObject var favouritesInteractor = FavouritesInteractor()
     
     var body: some Scene {
         WindowGroup {
-            AppView(appInteractor, apiDataInteractor, authInteractor)
+            AppView(appInteractor, apiDataInteractor, authInteractor, favouritesInteractor)
                 .environment(\.urlImageService, urlImageService)
         }
     }

@@ -14,8 +14,9 @@ struct HomeView: View {
     @StateObject private var homeVM : HomeViewModel
     @Namespace private var namespace
     
-    init(_ homeNavigationInteractor : HomeNavigationInteractor, _ apiDataInteractor : APIDataInteractor, _ favouritesInteractor : FavouritesInteractor, _ authInteractor : AuthInteractor) {
-        self._homeVM = StateObject(wrappedValue: HomeViewModel(homeNavigationInteractor, apiDataInteractor, favouritesInteractor, authInteractor))
+    init(_ homeNavigationInteractor : HomeNavigationInteractor, _ apiDataInteractor : APIDataInteractor, _ favouritesInteractor : FavouritesInteractor,
+         _ authInteractor : AuthInteractor, _ appInteractor : AppInteractor) {
+        self._homeVM = StateObject(wrappedValue: HomeViewModel(homeNavigationInteractor, apiDataInteractor, favouritesInteractor, authInteractor, appInteractor))
     }
     
     var body: some View {
