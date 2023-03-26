@@ -12,3 +12,6 @@
 
 // Favourites tab title
 "favourites_tab_title" = "Favourites";
+
+// Account tab title
+"account_tab_title" = "Account";

@@ -16,6 +16,7 @@ final class AppInteractor : ObservableObject {
     enum Tab {
         case home
         case favourites
+        case account
     }
     
 }

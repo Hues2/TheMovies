@@ -47,6 +47,8 @@
 		2E4ECE4B29CA426900F3A1F8 /* HapticFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ECE4A29CA426900F3A1F8 /* HapticFeedback.swift */; };
 		2E4ECE4D29CA58EF00F3A1F8 /* PopUpCastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ECE4C29CA58EF00F3A1F8 /* PopUpCastView.swift */; };
 		2E4ECE4F29CA591800F3A1F8 /* CastCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4ECE4E29CA591800F3A1F8 /* CastCard.swift */; };
+		2E6EB50429D0E89F004032EF /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EB50329D0E89F004032EF /* AccountView.swift */; };
+		2E6EB50629D0E8B0004032EF /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6EB50529D0E8B0004032EF /* AccountViewModel.swift */; };
 		2E9784B929D0A2B400CAAB62 /* AuthorizationSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9784B829D0A2B400CAAB62 /* AuthorizationSheetView.swift */; };
 		2E9784BC29D0C47F00CAAB62 /* AuthorizationSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9784BB29D0C47F00CAAB62 /* AuthorizationSheetViewModel.swift */; };
 		2E9784BE29D0E11200CAAB62 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9784BD29D0E11200CAAB62 /* AppViewModel.swift */; };
@@ -103,6 +105,8 @@
 		2E4ECE4A29CA426900F3A1F8 /* HapticFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticFeedback.swift; sourceTree = "<group>"; };
 		2E4ECE4C29CA58EF00F3A1F8 /* PopUpCastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpCastView.swift; sourceTree = "<group>"; };
 		2E4ECE4E29CA591800F3A1F8 /* CastCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CastCard.swift; sourceTree = "<group>"; };
+		2E6EB50329D0E89F004032EF /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		2E6EB50529D0E8B0004032EF /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		2E9784B829D0A2B400CAAB62 /* AuthorizationSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationSheetView.swift; sourceTree = "<group>"; };
 		2E9784BB29D0C47F00CAAB62 /* AuthorizationSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationSheetViewModel.swift; sourceTree = "<group>"; };
 		2E9784BD29D0E11200CAAB62 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
@@ -183,10 +187,11 @@
 			isa = PBXGroup;
 			children = (
 				2E1619D929C1FE4800A550DD /* AppView */,
-				2E2D28E429CF74900000C7FB /* Authorization */,
 				2E1619E029C1FF7C00A550DD /* HomeView */,
 				2E1619E129C1FF8300A550DD /* FavouritesView */,
 				2E1619EC29C2079A00A550DD /* MotionPictureDetailView */,
+				2E2D28E429CF74900000C7FB /* Authorization */,
+				2E6EB50229D0E893004032EF /* Account */,
 				2E1BEE3E29C4DFF300E64AD5 /* Components */,
 			);
 			path = Views;
@@ -337,6 +342,15 @@
 			path = SignIn;
 			sourceTree = "<group>";
 		};
+		2E6EB50229D0E893004032EF /* Account */ = {
+			isa = PBXGroup;
+			children = (
+				2E6EB50329D0E89F004032EF /* AccountView.swift */,
+				2E6EB50529D0E8B0004032EF /* AccountViewModel.swift */,
+			);
+			path = Account;
+			sourceTree = "<group>";
+		};
 		2E9784BA29D0C46D00CAAB62 /* AuthorizationSheet */ = {
 			isa = PBXGroup;
 			children = (
@@ -448,6 +462,7 @@
 				2E1619EB29C204EB00A550DD /* HomeNavigationInteractor.swift in Sources */,
 				2E1619F229C208F100A550DD /* MotionPictureDetailViewModel.swift in Sources */,
 				2EFC7AC429CE36F700CDCF08 /* FavouritesNavigationContainer.swift in Sources */,
+				2E6EB50629D0E8B0004032EF /* AccountViewModel.swift in Sources */,
 				2EFC7ACA29CE37F700CDCF08 /* FavouritesViewModel.swift in Sources */,
 				2E2D28F329CF8CB20000C7FB /* AppInteractor.swift in Sources */,
 				2E2D28E629CF75170000C7FB /* RegisterView.swift in Sources */,
@@ -459,6 +474,7 @@
 				2E16E3A729CA1E51001D97AD /* FavouriteHeart.swift in Sources */,
 				2EA7228F29C2472A007BF89E /* URLBuilder.swift in Sources */,
 				2EFC7ACC29CE3F4D00CDCF08 /* PillHeader.swift in Sources */,
+				2E6EB50429D0E89F004032EF /* AccountView.swift in Sources */,
 				2E2D28F129CF87690000C7FB /* View.swift in Sources */,
 				2E2D28ED29CF7A9C0000C7FB /* Textfield.swift in Sources */,
 				2EC882A629C74E01005F3F90 /* RoundedCorner.swift in Sources */,

@@ -11,9 +11,7 @@ import Combine
 
 class AppViewModel : ObservableObject {
     
-    
     // Interactor Dependencies
-    let homeNavigationInteractor : HomeNavigationInteractor
     let apiInteractor : APIDataInteractor
     let favouritesInteractor : FavouritesInteractor
     let authInteractor : AuthInteractor
@@ -22,9 +20,8 @@ class AppViewModel : ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     // Init
-    init(_ homeNavigationInteractor : HomeNavigationInteractor, _ apiInteractor : APIDataInteractor,
-         _ favouritesInteractor : FavouritesInteractor, _ authInteractor : AuthInteractor, _ appInteractor : AppInteractor) {
-        self.homeNavigationInteractor = homeNavigationInteractor
+    init(_ apiInteractor : APIDataInteractor,_ favouritesInteractor : FavouritesInteractor,
+         _ authInteractor : AuthInteractor, _ appInteractor : AppInteractor) {
         self.apiInteractor = apiInteractor
         self.favouritesInteractor = favouritesInteractor
         self.authInteractor = authInteractor
@@ -45,6 +42,7 @@ extension AppViewModel {
         self.authInteractor.$user
             .dropFirst()
             .sink { [weak self] returnedUser in
+                print("APP VIEW MODEL RECEIVED CHANGE FROM USER")
                 guard let self, let returnedUser else {
                     // User is nil --> So the user has logged out
                     self?.favouritesInteractor.logOut()
